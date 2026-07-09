@@ -5,6 +5,20 @@ const ISO_DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
 function str(v) { return typeof v === 'string' ? v.trim() : ''; }
 function obj(v) { return v && typeof v === 'object' && !Array.isArray(v) ? v : {}; }
 
+function normAddressMeta(v) {
+  const m = obj(v);
+  const lat = Number(m.lat), lon = Number(m.lon);
+  return {
+    postnummer: str(m.postnummer) || null,
+    poststed: str(m.poststed) || null,
+    kommunenummer: str(m.kommunenummer) || null,
+    kommunenavn: str(m.kommunenavn) || null,
+    lat: Number.isFinite(lat) ? lat : null,
+    lon: Number.isFinite(lon) ? lon : null,
+    verified: m.verified === true
+  };
+}
+
 export function validateOrder(input) {
   const b = input && typeof input === 'object' ? input : {};
 
@@ -21,6 +35,9 @@ export function validateOrder(input) {
   if (!phone) return { ok: false, error: 'telefon påkrevd' };
   if (!email || !EMAIL_RE.test(email)) return { ok: false, error: 'gyldig e-post påkrevd' };
 
+  const address = str(b.address);
+  if (!address) return { ok: false, error: 'adresse påkrevd' };
+
   const pd = str(b.preferred_date);
   const preferred_date = ISO_DATE_RE.test(pd) ? pd : null;
 
@@ -35,7 +52,8 @@ export function validateOrder(input) {
       config: obj(b.config),
       preferred_date,
       name, phone, email,
-      address: str(b.address),
+      address,
+      address_meta: normAddressMeta(b.address_meta),
       price_nok,
       utm: obj(b.utm)
     }

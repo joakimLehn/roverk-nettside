@@ -44,10 +44,38 @@ test('tomt/ugyldig preferred_date blir null', () => {
 });
 
 test('manglende valgfrie felt får trygge standardverdier', () => {
-  const r = validateOrder({ site: 'ved', name: 'Kari', phone: '123', email: 'k@x.no' });
+  const r = validateOrder({ site: 'ved', name: 'Kari', phone: '123', email: 'k@x.no', address: 'Storgata 1' });
   assert.equal(r.ok, true);
   assert.deepEqual(r.data.config, {});
   assert.deepEqual(r.data.utm, {});
-  assert.equal(r.data.address, '');
   assert.equal(r.data.price_nok, null);
+  assert.deepEqual(r.data.address_meta, { postnummer: null, poststed: null, kommunenummer: null, kommunenavn: null, lat: null, lon: null, verified: false });
+});
+
+test('tom adresse avvises', () => {
+  const base = { site: 'skjul', name: 'Ola', phone: '1', email: 'o@x.no' };
+  assert.equal(validateOrder({ ...base }).ok, false);
+  assert.equal(validateOrder({ ...base, address: '   ' }).ok, false);
+  assert.equal(validateOrder({ ...base, address: 'Storgata 1' }).ok, true);
+});
+
+test('address_meta normaliseres og whitelistes', () => {
+  const r = validateOrder({
+    site: 'skjul', name: 'Ola', phone: '1', email: 'o@x.no', address: 'Auntrøa 5',
+    address_meta: { postnummer: '7560', poststed: 'VIKHAMMER', kommunenummer: '5031', kommunenavn: 'MALVIK', lat: 63.43, lon: 10.6, verified: true, evilExtra: 'x' }
+  });
+  assert.equal(r.ok, true);
+  assert.equal(r.data.address_meta.postnummer, '7560');
+  assert.equal(r.data.address_meta.poststed, 'VIKHAMMER');
+  assert.equal(r.data.address_meta.verified, true);
+  assert.equal(r.data.address_meta.lat, 63.43);
+  assert.equal(r.data.address_meta.evilExtra, undefined);
+});
+
+test('address_meta.verified tvinges til boolean', () => {
+  const r = validateOrder({
+    site: 'skjul', name: 'Ola', phone: '1', email: 'o@x.no', address: 'Auntrøa 5',
+    address_meta: { verified: 'ja' }
+  });
+  assert.equal(r.data.address_meta.verified, false);
 });
