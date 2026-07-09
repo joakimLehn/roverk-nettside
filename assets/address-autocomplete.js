@@ -31,6 +31,13 @@
 
     function close() { box.style.display = 'none'; box.innerHTML = ''; items = []; active = -1; }
 
+    // Statusmelding (søker / ingen treff / utilgjengelig) i samme boks som forslagene.
+    function showStatus(text) {
+      items = []; active = -1;
+      box.innerHTML = '<div style="padding:10px 12px;font-size:13px;color:#888">' + text + '</div>';
+      box.style.display = 'block';
+    }
+
     function render() {
       if (!items.length) { close(); return; }
       box.innerHTML = '';
@@ -53,13 +60,26 @@
 
     function search(q) {
       var url = ENDPOINT + '?sok=' + encodeURIComponent(q) + '&treffPerSide=8&asciiKompatibel=true';
-      fetch(url).then(function (r) { return r.ok ? r.json() : { adresser: [] }; })
+      showStatus('Søker adresse …');
+      // Timeout så et tregt/nede Kartverket ikke henger uten tilbakemelding.
+      var ctrl = window.AbortController ? new AbortController() : null;
+      var timedOut = false;
+      var to = setTimeout(function () { timedOut = true; if (ctrl) ctrl.abort(); }, 5000);
+      fetch(url, ctrl ? { signal: ctrl.signal } : undefined)
+        .then(function (r) { return r.ok ? r.json() : { adresser: [] }; })
         .then(function (data) {
+          clearTimeout(to);
           if (input.value.trim() !== q) return;         // ignorer utdaterte svar
           items = (data.adresser || []).map(mapItem);
-          active = -1; render();
+          active = -1;
+          if (items.length) render();
+          else showStatus('Fant ingen treff — skriv inn adressen manuelt');
         })
-        .catch(function () { /* stille: fritekst-fallback dekker */ });
+        .catch(function () {
+          clearTimeout(to);
+          if (input.value.trim() !== q) return;         // nyere søk overtok
+          showStatus('Adressesøk utilgjengelig akkurat nå — skriv inn adressen manuelt');
+        });
     }
 
     input.addEventListener('input', function () {
@@ -73,7 +93,7 @@
     });
 
     input.addEventListener('keydown', function (e) {
-      if (box.style.display === 'none') return;
+      if (box.style.display === 'none' || !items.length) return;
       if (e.key === 'ArrowDown') { e.preventDefault(); active = Math.min(active + 1, items.length - 1); render(); }
       else if (e.key === 'ArrowUp') { e.preventDefault(); active = Math.max(active - 1, 0); render(); }
       else if (e.key === 'Enter') { if (active >= 0) { e.preventDefault(); choose(active); } }
