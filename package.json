@@ -1,0 +1,13 @@
+{
+  "name": "roverk-nettside",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test"
+  },
+  "dependencies": {
+    "@neondatabase/serverless": "^1.0.2",
+    "resend": "^4.0.1"
+  }
+}
