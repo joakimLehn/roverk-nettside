@@ -41,3 +41,33 @@ test('slackMessage viser advarsel når e-post feilet', () => {
   assert.match(s.text, /⚠️/);
   assert.match(s.text, /kunde/i);
 });
+
+const orderMeta = {
+  ...order,
+  address_meta: { postnummer: '7560', poststed: 'VIKHAMMER', kommunenummer: '5031', kommunenavn: 'MALVIK', lat: 63.43, lon: 10.6, verified: true }
+};
+
+test('ownerEmail viser postnr og poststed når tilgjengelig', () => {
+  const m = ownerEmail(orderMeta);
+  assert.match(m.html, /7560/);
+  assert.match(m.html, /VIKHAMMER/);
+});
+
+test('ownerEmail viser advarsel ved uverifisert adresse', () => {
+  const m = ownerEmail({ ...order, address_meta: { verified: false } });
+  assert.match(m.html, /uverifisert/i);
+});
+
+test('ownerEmail uten advarsel når verifisert', () => {
+  const m = ownerEmail(orderMeta);
+  assert.doesNotMatch(m.html, /uverifisert/i);
+});
+
+test('slackMessage viser postnr/poststed og uverifisert-markør', () => {
+  const okMsg = slackMessage(orderMeta, { email_owner: 'ok', email_customer: 'ok' });
+  assert.match(okMsg.text, /7560/);
+  assert.match(okMsg.text, /VIKHAMMER/);
+  assert.doesNotMatch(okMsg.text, /uverifisert/i);
+  const unv = slackMessage({ ...order, address_meta: { verified: false } }, { email_owner: 'ok', email_customer: 'ok' });
+  assert.match(unv.text, /uverifisert/i);
+});

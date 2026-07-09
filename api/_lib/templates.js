@@ -4,6 +4,19 @@ function esc(v) {
     .replaceAll('"', '&quot;').replaceAll("'", '&#39;');
 }
 
+function addrLine(order) {
+  const m = order.address_meta || {};
+  const post = [m.postnummer, m.poststed].filter(Boolean).join(' ');
+  return (order.address || '—') + (post ? ', ' + post : '');
+}
+function addrUnverified(order) {
+  const m = order.address_meta;
+  // Uverifisert kun når adresse finnes og address_meta ble satt (lookup forsøkt),
+  // men adressen ikke ble valgt fra Kartverket. Mangler address_meta helt
+  // (eldre ordre uten lookup) gir ingen advarsel.
+  return !!(order.address && m && m.verified !== true);
+}
+
 const SITE_NAVN = { 'orden': 'Orden', 'orden-v2': 'Orden', 'skjul': 'Skjul', 'ved': 'Ved' };
 
 function rows(order) {
@@ -12,7 +25,7 @@ function rows(order) {
     ['Navn', order.name],
     ['Telefon', order.phone],
     ['E-post', order.email],
-    ['Adresse', order.address || '—'],
+    ['Adresse', addrLine(order) + (addrUnverified(order) ? '  ⚠️ uverifisert' : '')],
     ['Ønsket dato', order.preferred_date || '—'],
     ['Pris', order.price_nok != null ? order.price_nok + ' kr' : '—']
   ];
@@ -54,7 +67,7 @@ export function slackMessage(order, notify) {
     `:package: *Ny ordre — Roverk ${navn}* (${order.site})`,
     `*Produkt:* ${order.product || '—'}`,
     `*Kunde:* ${order.name} · ${order.phone} · ${order.email}`,
-    `*Adresse:* ${order.address || '—'}`,
+    `*Adresse:* ${addrLine(order)}${addrUnverified(order) ? '  ⚠️ uverifisert' : ''}`,
     `*Ønsket dato:* ${order.preferred_date || '—'}`,
     `*Pris:* ${order.price_nok != null ? order.price_nok + ' kr' : '—'}`
   ];
