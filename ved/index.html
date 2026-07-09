@@ -100,6 +100,7 @@ window.fbq = window.fbq || function(){ (window.fbq.q=window.fbq.q||[]).push(argu
     <button class="hamburger" id="hamburger" aria-label="Åpne meny" aria-expanded="false">☰</button>
     <nav class="mainnav" id="mainnav" style="display:flex;gap:22px;align-items:center">
       <a href="#storrelser" class="lnk">Størrelser</a>
+      <a href="#galleri" class="lnk">Se vedskjulet</a>
       <a href="#slik" class="lnk">Slik funker det</a>
       <a href="#faq" class="lnk">Spørsmål</a>
       <a href="#storrelser" class="hover-dim" data-order style="background:var(--green);color:#fff;padding:10px 18px;border-radius:999px;text-decoration:none;font-size:14px;font-weight:600">Bestill vedskjul</a>
@@ -123,8 +124,28 @@ window.fbq = window.fbq || function(){ (window.fbq.q=window.fbq.q||[]).push(argu
         <span>✓ Ikke søknadspliktig</span><span>✓ Ferdig montert og levert</span><span>✓ Betal etter montering</span>
       </div>
     </div>
-    <div data-r="hero-art" class="hero-in d3" id="hero-art"></div>
+    <div data-r="hero-art" class="hero-in d3" id="hero-art"><video src="/ved/assets/hero-loop.mp4" poster="/ved/assets/hero-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-label="Roverk Ved – vedskjul i tre" style="width:100%;height:auto;border-radius:18px;display:block;box-shadow:0 24px 60px rgba(0,0,0,.35)"></video></div>
   </div>
+</section>
+
+<!-- ===== GALLERI ===== -->
+<section id="galleri" style="scroll-margin-top:76px;max-width:1160px;margin:0 auto;padding:60px 22px 6px">
+  <div data-reveal style="text-align:center;max-width:640px;margin:0 auto 30px">
+    <div style="display:inline-flex;align-items:center;gap:8px;font-size:12.5px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--amber);margin-bottom:12px">Se vedskjulet</div>
+    <h2 style="font-size:clamp(26px,3.8vw,40px);font-weight:900;letter-spacing:-.02em;margin-bottom:10px">Roverk Ved i norske hjem</h2>
+    <p style="color:var(--muted);font-size:17px;margin:0">Håndbygd i ekte tre, med åpne gavler og luftet kledning som holder veden tørr. Se det i bruk — og mot ulike hus.</p>
+  </div>
+  <div data-reveal style="max-width:520px;margin:0 auto 30px">
+    <video src="/ved/assets/reklame-1x1.mp4" poster="/ved/assets/reklame-poster.jpg" controls muted loop playsinline preload="none" style="width:100%;border-radius:18px;display:block;box-shadow:0 18px 44px rgba(0,0,0,.18)"></video>
+    <p style="text-align:center;color:var(--muted);font-size:12.5px;margin:8px 0 0">Trykk play — og på 🔊 for lyd</p>
+  </div>
+  <div data-reveal-group style="display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px">
+    <img src="/ved/assets/galleri-1.jpg" loading="lazy" alt="Roverk Ved ved moderne bolig med mørkbeiset panel" style="width:100%;aspect-ratio:2/3;object-fit:cover;border-radius:14px;display:block">
+    <img src="/ved/assets/galleri-2.jpg" loading="lazy" alt="Roverk Ved i høsthage ved klassisk norsk trehus" style="width:100%;aspect-ratio:2/3;object-fit:cover;border-radius:14px;display:block">
+    <img src="/ved/assets/galleri-3.jpg" loading="lazy" alt="Roverk Ved ved hytte i vinterlandskap" style="width:100%;aspect-ratio:2/3;object-fit:cover;border-radius:14px;display:block">
+    <img src="/ved/assets/galleri-4.jpg" loading="lazy" alt="Nærbilde av Roverk Ved – kledning og stablet bjørkeved" style="width:100%;aspect-ratio:2/3;object-fit:cover;border-radius:14px;display:block">
+  </div>
+  <p style="text-align:center;color:var(--muted);font-size:12px;margin-top:14px;opacity:.7">Illustrasjoner</p>
 </section>
 
 <!-- ===== BADGES ===== -->
@@ -443,7 +464,6 @@ function submitOrder(){
 
 /* ---------- init ---------- */
 try{
-  document.getElementById('hero-art').innerHTML=heroArt();
   renderSizes();renderFAQ();initReveal();initHeader();initNav();
   document.querySelectorAll('[data-order]').forEach(function(a){a.addEventListener('click',function(e){/* lar ankeret scrolle til #storrelser; ingen auto-modal */});});
   document.addEventListener('keydown',function(e){if(e.key==='Escape'&&document.getElementById('mback'))closeOrder();});
