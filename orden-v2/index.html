@@ -325,10 +325,10 @@ window.addEventListener('DOMContentLoaded',function(){
     <div data-reveal style="max-width:680px;margin:0 auto 40px;text-align:center">
       <div style="display:inline-flex;align-items:center;gap:8px;font-size:12.5px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--amber);margin-bottom:14px"><span style="width:7px;height:7px;border-radius:50%;background:var(--amber)"></span>Sammenlignet med IKEA</div>
       <h2 style="font-size:clamp(28px,3.8vw,42px);font-weight:900;letter-spacing:-.02em;margin-bottom:12px">Skal du kjøpe hyller til kassene? Regn på det først.</h2>
-      <p style="color:var(--muted);font-size:17px;margin:0">Samme lagringsvolum — <strong>960 liter (16 kasser)</strong>. Slik står Roverk mot en tilsvarende løsning i ekte tre fra IKEA (IVAR + SAMLA), som du kjøper og bygger selv.</p>
+      <p id="cmp-intro" style="color:var(--muted);font-size:17px;margin:0">Samme lagringsvolum — <strong>960 liter (16 kasser)</strong>. Slik står Roverk mot en tilsvarende løsning i ekte tre fra IKEA (IVAR + SAMLA), som du kjøper og bygger selv.</p>
     </div>
 
-    <div data-reveal style="display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:20px;align-items:stretch">
+    <div id="cmp-cards" data-reveal style="display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:20px;align-items:stretch">
 
       <!-- IKEA -->
       <div style="background:var(--bg);border:1px solid var(--line);border-radius:20px;padding:28px 26px;display:flex;flex-direction:column">
@@ -361,7 +361,7 @@ window.addEventListener('DOMContentLoaded',function(){
 
     </div>
 
-    <p style="max-width:820px;margin:22px auto 0;text-align:center;font-size:12px;color:var(--muted);line-height:1.6">* Prisanslag hentet juli 2026: dyp IVAR 89×50×179 cm à 1 590 kr × 4, SAMLA 65 l à 149 kr × 15, SAMLA-lokk à 40 kr × 15 = ~9 200 kr i deler. Frakt og montering kommer i tillegg og varierer. IKEA-priser kan endres — vi har tatt utgangspunkt i ordinær nettpris.</p>
+    <p id="cmp-note" style="max-width:820px;margin:22px auto 0;text-align:center;font-size:12px;color:var(--muted);line-height:1.6">* Prisanslag hentet juli 2026: dyp IVAR 89×50×179 cm à 1 590 kr × 4, SAMLA 65 l à 149 kr × 15, SAMLA-lokk à 40 kr × 15 = ~9 200 kr i deler. Frakt og montering kommer i tillegg og varierer. IKEA-priser kan endres — vi har tatt utgangspunkt i ordinær nettpris.</p>
 
     <div data-reveal style="text-align:center;margin-top:28px">
       <a href="#konfigurator" class="hover-dim-amber" style="display:inline-block;background:var(--amber);color:var(--heroBg);padding:15px 28px;border-radius:999px;text-decoration:none;font-size:16px;font-weight:700">Se hva ditt rack koster <span class="arw">→</span></a>
@@ -822,7 +822,7 @@ function bindConfig(){
       node.addEventListener('input', function(){ state[act]=node.value; updateReadoutOnly(); });
       return;
     }
-    if(act==='bt'){ node.addEventListener('click', function(){ state.bt=node.getAttribute('data-val'); renderConfig(); renderModels(); }); return; }
+    if(act==='bt'){ node.addEventListener('click', function(){ state.bt=node.getAttribute('data-val'); renderConfig(); renderModels(); renderCompare(); }); return; }
     if(act==='w'){ node.addEventListener('click', function(){ state.w=parseInt(node.getAttribute('data-val'),10); renderConfig(); }); return; }
     if(act==='dec'){ node.addEventListener('click', function(){ stepH(-1); }); return; }
     if(act==='inc'){ node.addEventListener('click', function(){ stepH(1); }); return; }
@@ -873,6 +873,55 @@ function pick(W,H){
   state.mode='standard'; state.w=W; state.h=H;
   renderConfig();
   try{ location.hash='#konfigurator'; }catch(e){}
+}
+
+// ---------- sammenlign mot IKEA (følger valgt kassestørrelse) ----------
+var COMPARE = {
+  '60L':  { vol:960,  model:'60L 4×4',
+            roverk:{ pris:'8 390 kr', vegg:'1,95 m' },
+            ikea:{ deler:'~9 200 kr', allin:'~11 800 kr', vegg:'3,56 m', bokser:'15 SAMLA 65 l + 15 lokk', seksjoner:'4 dype IVAR-seksjoner' },
+            note:'* Prisanslag hentet juli 2026: dyp IVAR 89×50×179 cm à 1 590 kr × 4, SAMLA 65 l à 149 kr × 15, SAMLA-lokk à 40 kr × 15 = ~9 200 kr i deler. Frakt og montering kommer i tillegg og varierer. IKEA-priser kan endres — vi har tatt utgangspunkt i ordinær nettpris.' },
+  '100L': { vol:1600, model:'100L 4×4',
+            roverk:{ pris:'8 590 kr', vegg:'2,29 m' },
+            ikea:{ deler:'~15 900 kr', allin:'~18 500 kr', vegg:'6,2 m', bokser:'25 SAMLA 65 l + 25 lokk', seksjoner:'7 dype IVAR-seksjoner' },
+            note:'* Prisanslag hentet juli 2026: dyp IVAR 89×50×179 cm à 1 590 kr × 7, SAMLA 65 l à 149 kr × 25, SAMLA-lokk à 40 kr × 25 = ~15 900 kr i deler. Store 130 l-bokser får ikke plass i IVAR (57 cm dype > 50 cm), så det finnes ingen god IKEA-hylle for store kasser. Frakt/montering i tillegg; priser kan endres.' }
+};
+function cmpLi(mark,color,txt){ return '<li style="display:flex;gap:11px"><span style="color:'+color+';font-weight:800;flex:none">'+mark+'</span><span>'+txt+'</span></li>'; }
+function cmpCards(bt){
+  var d = COMPARE[bt];
+  var ikea = '<div style="background:'+C.bg+';border:1px solid '+C.line+';border-radius:20px;padding:28px 26px;display:flex;flex-direction:column">'+
+    '<div style="font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:'+C.muted+';margin-bottom:6px">IKEA IVAR + SAMLA</div>'+
+    '<div style="font-size:14px;color:'+C.muted+';margin-bottom:16px">Gjør-det-selv</div>'+
+    '<div style="font-family:\'Archivo\';font-weight:900;font-size:38px;letter-spacing:-.02em;color:'+C.text+'">'+d.ikea.allin+'</div>'+
+    '<div style="font-size:13px;color:'+C.muted+';margin:4px 0 20px">'+d.ikea.deler+' bare i deler, + frakt + montering*</div>'+
+    '<ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:13px;font-size:14.5px">'+
+      cmpLi('✕',C.muted,'<strong>'+d.ikea.vegg+'</strong> vegg — hvert 83 cm-plan tar bare én boks, så det blir mye tomrom i bredden')+
+      cmpLi('✕',C.muted,'<strong>'+d.ikea.seksjoner+'</strong> du må hente som flatpakke og bygge selv')+
+      cmpLi('✕',C.muted,'Kasser og lokk kjøpes separat ('+d.ikea.bokser+')')+
+      cmpLi('✕',C.muted,'Ingen frakt eller montering — det ordner du selv')+
+    '</ul></div>';
+  var roverk = '<div style="background:'+C.heroBg+';color:#fff;border:2px solid '+C.amber+';border-radius:20px;padding:28px 26px;display:flex;flex-direction:column;position:relative;overflow:hidden">'+
+    '<div style="position:absolute;top:16px;right:-34px;transform:rotate(45deg);background:'+C.amber+';color:'+C.heroBg+';font-size:11px;font-weight:800;letter-spacing:.06em;padding:5px 40px">BEST</div>'+
+    '<div style="font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:'+C.amber+';margin-bottom:6px">Roverk Orden</div>'+
+    '<div style="font-size:14px;color:rgba(255,255,255,.7);margin-bottom:16px">Levert + ferdig montert</div>'+
+    '<div style="font-family:\'Archivo\';font-weight:900;font-size:38px;letter-spacing:-.02em;color:#fff">'+d.roverk.pris+'</div>'+
+    '<div style="font-size:13px;color:rgba(255,255,255,.7);margin:4px 0 20px">Alt inkludert — rack, 16 kasser, levering og montering</div>'+
+    '<ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:13px;font-size:14.5px">'+
+      cmpLi('✓',C.amber,'<strong>'+d.roverk.vegg+'</strong> vegg for samme '+d.vol+' liter — langt mindre plass')+
+      cmpLi('✓',C.amber,'Vi kjører hjem til deg og <strong>monterer ferdig</strong> — ingen helg med skrujern')+
+      cmpLi('✓',C.amber,'<strong>16 kasser inkludert</strong> — hver med sin egen plass, dra ut hva du vil')+
+      cmpLi('✓',C.amber,'Ekte tre, bygget opp mot ditt tak — og kan trilles')+
+    '</ul></div>';
+  return ikea + roverk;
+}
+function renderCompare(){
+  var d = COMPARE[state.bt]; if(!d) return;
+  var intro = document.getElementById('cmp-intro');
+  if(intro) intro.innerHTML = 'Samme lagringsvolum — <strong>'+d.vol+' liter (16 kasser)</strong> som en Roverk '+d.model+'. Slik står vi mot en tilsvarende løsning i ekte tre fra IKEA (IVAR + SAMLA), som du kjøper og bygger selv.';
+  var cards = document.getElementById('cmp-cards');
+  if(cards) cards.innerHTML = cmpCards(state.bt);
+  var note = document.getElementById('cmp-note');
+  if(note) note.innerHTML = d.note;
 }
 
 // ---------- FAQ ----------
@@ -1239,6 +1288,7 @@ try {
   document.getElementById('hero-rack').innerHTML = buildRack(4, stackFor('60L',4), 6, true, false, true);
   renderConfig();
   renderModels();
+  renderCompare();
   renderFAQ();
   initReveal();
   initHeader();
