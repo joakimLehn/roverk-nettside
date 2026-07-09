@@ -357,11 +357,11 @@ function initHeader(){var h=document.getElementById('site-header');var f=functio
 function initNav(){var h=document.getElementById('site-header'),b=document.getElementById('hamburger'),n=document.getElementById('mainnav');b.addEventListener('click',function(){var o=h.classList.toggle('nav-open');b.setAttribute('aria-expanded',o?'true':'false');});n.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){h.classList.remove('nav-open');});});}
 
 /* ---------- ordremodal ---------- */
-var order={size:'medium',date:'',calMonth:null,name:'',phone:'',email:'',address:'',phase:'form'};
+var order={size:'medium',date:'',calMonth:null,name:'',phone:'',email:'',address:'',hp:'',phase:'form'};
 function sizeObj(id){return SIZES.filter(function(s){return s.id===id;})[0];}
 function openOrder(sizeId){order.size=sizeId||order.size;order.phase='form';document.body.style.overflow='hidden';renderModal();}
 function closeOrder(){document.body.style.overflow='';document.getElementById('modal-root').innerHTML='';}
-function canProceed(){return !!order.date&&!!order.name.trim()&&!!order.phone.trim();}
+function canProceed(){return !!order.date&&!!order.name.trim()&&!!order.phone.trim()&&/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(order.email.trim());}
 
 function buildCalendar(){
   var now=new Date();now.setHours(0,0,0,0);var cy=now.getFullYear(),cm=now.getMonth();var m=order.calMonth||{y:cy,m:cm};
@@ -381,7 +381,7 @@ function renderModal(){
   var reached={1:true,2:(order.phase==='confirm'||order.phase==='done')};
   var stepsHtml=steps.map(function(st,i){var on=reached[i+1];return '<div style="display:flex;align-items:center;gap:8px;flex:1;min-width:0"><span style="width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;font-family:\'Archivo\';flex:none;background:'+(on?C.green:'transparent')+';color:'+(on?'#fff':C.muted)+';border:'+(on?'none':'1.5px solid '+C.line)+'">'+st[0]+'</span><span style="font-size:12.5px;font-weight:600;color:'+(on?C.text:C.muted)+'">'+st[1]+'</span></div>';}).join('');
   var summary='<div style="padding:14px 26px;background:'+C.card+';border-bottom:1px solid '+C.line+';display:flex;justify-content:space-between;align-items:center;gap:14px"><div><div style="font-family:\'Archivo\';font-weight:900;font-size:20px">Vedskjul '+s.navn+'</div><div style="font-size:12.5px;color:'+C.muted+'">~'+fmt(s.liter)+' L · '+s.B+'×'+s.H+'×'+s.D+' mm</div></div><div style="text-align:right"><div style="font-size:12px;color:'+C.muted+'">fra</div><div style="font-family:\'Archivo\';font-weight:800;font-size:19px;color:'+C.green+'">'+fmt(s.fra)+' kr</div></div></div>';
-  var body=order.phase==='confirm'?confirmHtml(s):order.phase==='done'?doneHtml(s):formHtml(s);
+  var body=order.phase==='confirm'?confirmHtml(s):order.phase==='done'?doneHtml(s):order.phase==='sending'?sendingHtml():order.phase==='error'?errorHtml():formHtml(s);
   root.innerHTML='<div id="mback" style="position:fixed;inset:0;z-index:100;background:rgba(20,16,12,.55);display:flex;align-items:center;justify-content:center;padding:18px;animation:modalBg .2s ease"><div style="background:'+C.bg+';border-radius:22px;width:100%;max-width:540px;max-height:92vh;overflow:auto;box-shadow:0 30px 80px rgba(0,0,0,.4);animation:modalCard .3s cubic-bezier(.2,.7,.2,1)"><div style="padding:20px 26px;border-bottom:1px solid '+C.line+';display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:'+C.bg+';z-index:2"><span style="font-family:\'Archivo\';font-weight:800;font-size:18px">Bestill vedskjul</span><button data-act="close" style="background:transparent;border:none;font-size:26px;cursor:pointer;color:'+C.muted+';line-height:1">×</button></div><div style="padding:18px 26px;display:flex;align-items:center;gap:8px;border-bottom:1px solid '+C.line+'">'+stepsHtml+'</div>'+summary+body+'</div></div>';
   bindModal();
 }
@@ -394,7 +394,7 @@ function formHtml(s){
     '<div style="font-weight:700;font-size:14px;margin-bottom:9px">Ønsket monteringsdato</div>'+
     '<div style="background:'+C.card+';border:1px solid '+C.line+';border-radius:14px;padding:15px;margin-bottom:16px"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:9px"><button data-act="prev" style="'+(cal.canPrev?navB:navB+';opacity:.3;cursor:default')+'">‹</button><span id="callbl" style="font-weight:700;font-size:15px">'+cal.label+'</span><button data-act="next" style="'+navB+'">›</button></div><div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:4px">'+wd+'</div><div id="calgrid" style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px">'+calCells(cal)+'</div></div>'+
     '<div id="seldate">'+(order.date?'<div style="font-size:14px;margin-bottom:16px;background:'+C.card+';border:1px solid '+C.line+';border-radius:10px;padding:10px 14px">Valgt dato: <strong>'+selDateLabel()+'</strong></div>':'')+'</div>'+
-    '<div style="display:flex;flex-direction:column;gap:11px;margin-bottom:18px"><input data-f="name" value="'+esc(order.name)+'" placeholder="Navn" style="border:1px solid '+C.line+';border-radius:10px;padding:12px 14px;font-size:15px;background:'+C.card+';color:'+C.text+'"><div style="display:grid;grid-template-columns:1fr 1fr;gap:11px"><input data-f="phone" value="'+esc(order.phone)+'" placeholder="Telefon" inputmode="tel" style="border:1px solid '+C.line+';border-radius:10px;padding:12px 14px;font-size:15px;background:'+C.card+';color:'+C.text+'"><input data-f="email" value="'+esc(order.email)+'" placeholder="E-post" type="email" style="border:1px solid '+C.line+';border-radius:10px;padding:12px 14px;font-size:15px;background:'+C.card+';color:'+C.text+'"></div><input data-f="address" value="'+esc(order.address)+'" placeholder="Adresse for montering (valgfritt)" style="border:1px solid '+C.line+';border-radius:10px;padding:12px 14px;font-size:15px;background:'+C.card+';color:'+C.text+'"></div>'+
+    '<div style="display:flex;flex-direction:column;gap:11px;margin-bottom:18px"><input data-f="name" value="'+esc(order.name)+'" placeholder="Navn" style="border:1px solid '+C.line+';border-radius:10px;padding:12px 14px;font-size:15px;background:'+C.card+';color:'+C.text+'"><div style="display:grid;grid-template-columns:1fr 1fr;gap:11px"><input data-f="phone" value="'+esc(order.phone)+'" placeholder="Telefon" inputmode="tel" style="border:1px solid '+C.line+';border-radius:10px;padding:12px 14px;font-size:15px;background:'+C.card+';color:'+C.text+'"><input data-f="email" value="'+esc(order.email)+'" placeholder="E-post" type="email" style="border:1px solid '+C.line+';border-radius:10px;padding:12px 14px;font-size:15px;background:'+C.card+';color:'+C.text+'"></div><input data-f="address" value="'+esc(order.address)+'" placeholder="Adresse for montering (valgfritt)" style="border:1px solid '+C.line+';border-radius:10px;padding:12px 14px;font-size:15px;background:'+C.card+';color:'+C.text+'"><input data-f="hp" value="'+esc(order.hp)+'" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0"></div>'+
     '<button id="proceed" data-act="proceed" style="'+proceedStyle()+'">Se over bestillingen →</button>'+
     '<p style="text-align:center;font-size:12.5px;color:'+C.muted+';margin:10px 0 0">🔒 Ingen forskudd — du betaler først når vedskjulet står ferdig</p></div>';
 }
@@ -411,6 +411,12 @@ function doneHtml(s){
   var lbl=selDateLabel();
   var check='<svg width="60" height="60" viewBox="0 0 52 52" style="margin:0 auto 8px;display:block"><circle cx="26" cy="26" r="24" fill="none" stroke="'+C.green+'" stroke-width="3" stroke-dasharray="151" stroke-dashoffset="151" style="animation:drawRing .5s ease forwards"/><path d="M16 27 l7 7 l14 -16" fill="none" stroke="'+C.green+'" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="40" stroke-dashoffset="40" style="animation:drawCheck .4s ease .45s forwards"/></svg>';
   return '<div style="padding:36px 26px;text-align:center">'+check+'<div style="font-family:\'Archivo\';font-weight:900;font-size:28px;margin-bottom:10px;animation:popIn .5s ease .3s both">Bestilling mottatt! 🌲</div><p style="font-size:15px;color:'+C.muted+';margin:0 auto 22px;max-width:400px">Takk! Vi har registrert bestillingen av <strong>Vedskjul '+s.navn+'</strong>. Vi tar kontakt for å bekrefte detaljer og monteringsdato'+(lbl?(' <strong>'+lbl+'</strong>'):'')+'. <strong>Du betaler først når alt er levert og ferdig montert.</strong></p><button data-act="close" style="background:'+C.green+';color:#fff;border:none;border-radius:999px;padding:13px 28px;font-weight:700;cursor:pointer">Lukk</button></div>';
+}
+function sendingHtml(){
+  return '<div style="padding:44px 26px;text-align:center"><div style="font-family:\'Archivo\';font-weight:800;font-size:20px">Sender bestilling…</div></div>';
+}
+function errorHtml(){
+  return '<div style="padding:36px 26px;text-align:center"><div style="font-family:\'Archivo\';font-weight:900;font-size:24px;margin-bottom:10px">Noe gikk galt 😟</div><p style="font-size:15px;color:'+C.muted+';margin:0 auto 22px;max-width:400px">Vi fikk ikke registrert bestillingen. Prøv igjen, eller ring oss.</p><button data-act="confirm" style="background:'+C.green+';color:#fff;border:none;border-radius:999px;padding:13px 28px;font-weight:700;cursor:pointer">Prøv igjen</button></div>';
 }
 function bindModal(){
   var root=document.getElementById('modal-root');var back=document.getElementById('mback');
@@ -434,11 +440,18 @@ function selectDate(ds){order.date=ds;var root=document.getElementById('modal-ro
 function refreshCal(){var cal=buildCalendar();var g=document.getElementById('calgrid'),l=document.getElementById('callbl');if(l)l.textContent=cal.label;if(g){g.innerHTML=calCells(cal);g.querySelectorAll('.cc[data-date]').forEach(function(b){b.addEventListener('click',function(){selectDate(b.getAttribute('data-date'));});});}var pv=document.querySelector('[data-act="prev"]');if(pv){var navB='width:34px;height:34px;border-radius:9px;border:1px solid '+C.line+';background:transparent;color:'+C.text+';cursor:pointer;font-size:18px;line-height:1';pv.setAttribute('style',cal.canPrev?navB:navB+';opacity:.3;cursor:default');}}
 function submitOrder(){
   var s=sizeObj(order.size);
-  // Meta Pixel-hendelse (aktiveres når ekte pixel er satt inn) + UTM
   var utm={};try{utm=JSON.parse(localStorage.getItem('ns_utm')||'{}');}catch(e){}
-  try{ if(window.fbq) fbq('track','Lead',{content_name:'Vedskjul '+s.navn,value:s.fra,currency:'NOK'}); }catch(e){}
-  // TODO: send bestillingen til backend/e-post (navn,telefon,e-post,adresse,størrelse,dato,utm)
-  order.phase='done';renderModal();
+  var product='Vedskjul '+s.navn;
+  try{if(window.fbq)fbq('track','Lead',{content_name:product,value:s.fra,currency:'NOK'});}catch(e){}
+  var payload={site:'ved',product:product,
+    config:{size:order.size,navn:s.navn,liter:s.liter},
+    preferred_date:order.date||null,name:order.name.trim(),phone:order.phone.trim(),
+    email:order.email.trim(),address:(order.address||'').trim(),price_nok:s.fra,utm:utm,hp:order.hp||''};
+  order.phase='sending';renderModal();
+  fetch('/api/order',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)})
+    .then(function(r){if(!r.ok)throw new Error('http '+r.status);return r.json();})
+    .then(function(){order.phase='done';renderModal();})
+    .catch(function(err){if(window.console)console.error('ordre-feil',err);order.phase='error';renderModal();});
 }
 
 /* ---------- init ---------- */
