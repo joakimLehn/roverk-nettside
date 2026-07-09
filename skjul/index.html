@@ -258,8 +258,9 @@ function cardShed(n){
   // bins
   for(var d=0;d<n;d++){var bx=x0+wpx*(d+0.5)/n, rw=wpx/n*0.6, rh=hpx*0.6;o+='<rect x="'+(bx-rw/2).toFixed(0)+'" y="'+(by-rh).toFixed(0)+'" width="'+rw.toFixed(0)+'" height="'+rh.toFixed(0)+'" rx="4" fill="'+C.bin+'"/>';}
   // posts + beams
-  for(var p=0;p<=n;p++){var xx=x0+wpx*p/n;o+='<rect x="'+(xx-3).toFixed(0)+'" y="'+top.toFixed(0)+'" width="6" height="'+hpx+'" fill="'+C.wood+'"/>';}
-  o+='<rect x="'+(x0-3).toFixed(0)+'" y="'+top.toFixed(0)+'" width="'+(wpx+6).toFixed(0)+'" height="8" fill="'+C.wood+'"/>';
+  o+='<rect x="'+(x0-3).toFixed(0)+'" y="'+top.toFixed(0)+'" width="6" height="'+hpx+'" fill="'+C.wood+'"/>';
+  o+='<rect x="'+(x0+wpx-3).toFixed(0)+'" y="'+top.toFixed(0)+'" width="6" height="'+hpx+'" fill="'+C.wood+'"/>';
+  o+='<rect x="'+(x0-3).toFixed(0)+'" y="'+top.toFixed(0)+'" width="'+(wpx+6).toFixed(0)+'" height="13" fill="'+C.wood+'"/>';
   o+='<rect x="'+(x0-3).toFixed(0)+'" y="'+(by-6).toFixed(0)+'" width="'+(wpx+6).toFixed(0)+'" height="6" fill="'+C.wood+'"/>';
   o+='<rect x="'+(x0+4).toFixed(0)+'" y="'+by+'" width="5" height="12" fill="'+C.wood+'"/><rect x="'+(x0+wpx-9).toFixed(0)+'" y="'+by+'" width="5" height="12" fill="'+C.wood+'"/>';
   o+='</svg>';return o;
