@@ -297,9 +297,10 @@ function addrLine(order) {
   return (order.address || '—') + (post ? ', ' + post : '');
 }
 function addrUnverified(order) {
-  const m = order.address_meta || {};
-  // Uverifisert kun når adresse finnes men ikke ble valgt fra Kartverket.
-  return !!(order.address && m.verified !== true);
+  const m = order.address_meta;
+  // Uverifisert kun når adresse finnes OG address_meta ble satt (lookup forsøkt)
+  // men ikke valgt fra Kartverket. Mangler address_meta helt (eldre ordre) → ikke flagg.
+  return !!(order.address && m && m.verified !== true);
 }
 ```
 
