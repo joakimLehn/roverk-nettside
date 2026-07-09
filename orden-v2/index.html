@@ -556,8 +556,9 @@ var state = {
   bt:'60L', w:4, h:4, withWheels:false,
   faqOpen:0,
   orderOpen:false, orderPhase:'date', orderDate:'', calMonth:null,
-  o_name:'', o_phone:'', o_email:'', o_address:''
+  o_name:'', o_phone:'', o_email:'', o_address:'', o_hp:''
 };
+var SITE_ID='orden-v2';
 
 // ---------- helpers ----------
 function fmt(n){ return n.toLocaleString('nb-NO'); }
@@ -954,7 +955,25 @@ function requestQuote(){
 }
 function closeOrder(){ state.orderOpen=false; renderModal(); }
 
-function canProceed(){ return !!state.orderDate && !!state.o_name.trim() && !!state.o_phone.trim(); }
+function buildOrderPayload(){
+  var utm={};try{utm=JSON.parse(localStorage.getItem('ns_utm')||'{}');}catch(e){}
+  var price=(typeof lastShownPrice==='number')?lastShownPrice:null;
+  var v=computeVals();
+  var product='Orden v2 '+v.stdName;
+  return {site:SITE_ID,product:product.trim(),
+    config:{bt:state.bt,w:state.w,h:state.h,withWheels:state.withWheels},
+    preferred_date:state.orderDate||null,name:state.o_name.trim(),phone:state.o_phone.trim(),
+    email:state.o_email.trim(),address:(state.o_address||'').trim(),price_nok:price,utm:utm,hp:state.o_hp||''};
+}
+function submitOrder(){
+  try{if(window.fbq)fbq('track','Lead',{content_name:'Orden',currency:'NOK'});}catch(e){}
+  state.orderPhase='sending';renderModal();
+  fetch('/api/order',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(buildOrderPayload())})
+    .then(function(r){if(!r.ok)throw new Error('http '+r.status);return r.json();})
+    .then(function(){state.orderPhase='done';renderModal();})
+    .catch(function(err){if(window.console)console.error('ordre-feil',err);state.orderPhase='error';renderModal();});
+}
+function canProceed(){ return !!state.orderDate && !!state.o_name.trim() && !!state.o_phone.trim() && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(state.o_email.trim()); }
 
 function renderModal(){
   var root = document.getElementById('modal-root');
@@ -988,6 +1007,10 @@ function renderModal(){
     body = phaseDateHtml();
   } else if(phase==='confirm'){
     body = phaseConfirmHtml(v, orderModel, orderTotal);
+  } else if(phase==='sending'){
+    body = phaseSendingHtml();
+  } else if(phase==='error'){
+    body = phaseErrorHtml();
   } else {
     body = phaseDoneHtml(orderModel);
   }
@@ -1036,6 +1059,7 @@ function phaseDateHtml(){
         '<input data-field="o_email" value="'+esc(state.o_email)+'" placeholder="E-post" type="email" style="border:1px solid '+C.line+';border-radius:10px;padding:12px 14px;font-size:15px;background:'+C.card+';color:'+C.text+'">'+
       '</div>'+
       '<input data-field="o_address" value="'+esc(state.o_address)+'" placeholder="Adresse for montering (valgfritt)" style="border:1px solid '+C.line+';border-radius:10px;padding:12px 14px;font-size:15px;background:'+C.card+';color:'+C.text+'">'+
+      '<input data-field="o_hp" value="" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">'+
     '</div>'+
     '<button id="proceed-btn" data-act="proceed" style="'+proceedBtnStyle()+'">'+proceedLabel+'</button>'+
   '</div>';
@@ -1081,6 +1105,24 @@ function phaseConfirmHtml(v, orderModel, orderTotal){
     '<button data-act="backToDate" style="width:100%;background:transparent;color:'+C.muted+';border:none;padding:12px;font-size:14px;font-weight:600;cursor:pointer;margin-top:4px">‹ Tilbake</button>'+
   '</div>';
 }
+function phaseSendingHtml(){
+  return ''+
+  '<div style="padding:48px 28px;text-align:center">'+
+    '<div style="width:40px;height:40px;margin:0 auto 18px;border-radius:50%;border:3px solid '+C.line+';border-top-color:'+C.green+';animation:spin .8s linear infinite"></div>'+
+    '<p style="font-size:15px;color:'+C.muted+';margin:0">Sender bestilling…</p>'+
+  '</div>'+
+  '<style>@keyframes spin{to{transform:rotate(360deg)}}</style>';
+}
+function phaseErrorHtml(){
+  return ''+
+  '<div style="padding:38px 28px;text-align:center">'+
+    '<div style="font-size:34px;margin-bottom:12px">⚠️</div>'+
+    '<div style="font-family:\'Archivo\';font-weight:900;font-size:22px;margin-bottom:10px">Noe gikk feil</div>'+
+    '<p style="font-size:15px;color:'+C.muted+';margin:0 auto 22px;max-width:390px">Vi fikk ikke sendt bestillingen din. Sjekk nettforbindelsen og prøv igjen.</p>'+
+    '<button data-act="confirmOrder" class="hover-dim" style="width:100%;background:'+C.green+';color:#fff;border:none;border-radius:12px;padding:15px;font-size:16px;font-weight:700;cursor:pointer">Prøv igjen</button>'+
+    '<button data-act="backToDate" style="width:100%;background:transparent;color:'+C.muted+';border:none;padding:12px;font-size:14px;font-weight:600;cursor:pointer;margin-top:4px">‹ Tilbake</button>'+
+  '</div>';
+}
 function phaseDoneHtml(orderModel){
   var lbl = selectedDateLabel();
   var msg = 'Takk! Vi har registrert bestillingen av <strong>Modell '+orderModel+'</strong>. Vi tar kontakt for å bekrefte detaljer og monteringsdato'+(lbl?(' <strong>'+lbl+'</strong>'):'')+'. <strong>Du betaler først når alt er levert og ferdig montert</strong> — helt uten forskudd.';
@@ -1110,7 +1152,7 @@ function bindModal(){
     else if(act==='prevMonth'){ node.addEventListener('click', prevMonth); }
     else if(act==='nextMonth'){ node.addEventListener('click', nextMonth); }
     else if(act==='proceed'){ node.addEventListener('click', proceed); }
-    else if(act==='confirmOrder'){ node.addEventListener('click', function(){ state.orderPhase='done'; renderModal(); }); }
+    else if(act==='confirmOrder'){ node.addEventListener('click', submitOrder); }
     else if(act==='backToDate'){ node.addEventListener('click', function(){ state.orderPhase='date'; renderModal(); }); }
   });
   // calendar cells (in-place update, no full re-render → keeps input focus)
