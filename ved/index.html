@@ -385,10 +385,10 @@ function closeOrder(){document.body.style.overflow='';document.getElementById('m
 function canProceed(){return !!order.date&&!!order.name.trim()&&!!order.phone.trim()&&/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(order.email.trim())&&!!order.address.trim();}
 
 function buildCalendar(){
-  var now=new Date();now.setHours(0,0,0,0);var cy=now.getFullYear(),cm=now.getMonth();var m=order.calMonth||{y:cy,m:cm};
+  var now=new Date();now.setHours(0,0,0,0);var minDate=new Date(now);minDate.setDate(minDate.getDate()+14);var cy=minDate.getFullYear(),cm=minDate.getMonth();var m=order.calMonth||{y:cy,m:cm};
   var startWd=(new Date(m.y,m.m,1).getDay()+6)%7,dim=new Date(m.y,m.m+1,0).getDate(),cells=[];
   for(var i=0;i<startWd;i++)cells.push({blank:true});
-  for(var d=1;d<=dim;d++){var dt=new Date(m.y,m.m,d);var ds=m.y+'-'+String(m.m+1).padStart(2,'0')+'-'+String(d).padStart(2,'0');cells.push({day:d,ds:ds,past:dt<now,sel:order.date===ds});}
+  for(var d=1;d<=dim;d++){var dt=new Date(m.y,m.m,d);var ds=m.y+'-'+String(m.m+1).padStart(2,'0')+'-'+String(d).padStart(2,'0');cells.push({day:d,ds:ds,past:dt<minDate,sel:order.date===ds});}
   var lbl=NBMONTHS[m.m]+' '+m.y;return{m:m,label:lbl.charAt(0).toUpperCase()+lbl.slice(1),canPrev:!(m.y===cy&&m.m===cm),cells:cells};
 }
 function selDateLabel(){if(!order.date)return'';var p=order.date.split('-').map(Number);var dt=new Date(p[0],p[1]-1,p[2]);return WEEKDAY[dt.getDay()]+' '+p[2]+'. '+NBMONTHS[p[1]-1]+' '+p[0];}
@@ -455,7 +455,7 @@ function bindModal(){
   root.querySelectorAll('[data-f]').forEach(function(i){i.addEventListener('input',function(){order[i.getAttribute('data-f')]=i.value;var p=document.getElementById('proceed');if(p)p.setAttribute('style',proceedStyle());});});
   var addrEl=root.querySelector('[data-f="address"]');
   if(addrEl&&window.initAddressAutocomplete)initAddressAutocomplete(addrEl,{
-    onSelect:function(a){order.address=a.adressetekst;order.addressMeta={postnummer:a.postnummer,poststed:a.poststed,kommunenummer:a.kommunenummer,kommunenavn:a.kommunenavn,lat:a.lat,lon:a.lon,verified:true};var p=document.getElementById('proceed');if(p)p.setAttribute('style',proceedStyle());},
+    onSelect:function(a){order.address=a.formatted;order.addressMeta={postnummer:a.postnummer,poststed:a.poststed,kommunenummer:a.kommunenummer,kommunenavn:a.kommunenavn,lat:a.lat,lon:a.lon,verified:true};var p=document.getElementById('proceed');if(p)p.setAttribute('style',proceedStyle());},
     onInput:function(t){order.address=t;order.addressMeta={verified:false};}
   });
 }

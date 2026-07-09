@@ -5,9 +5,9 @@ function esc(v) {
 }
 
 function addrLine(order) {
-  const m = order.address_meta || {};
-  const post = [m.postnummer, m.poststed].filter(Boolean).join(' ');
-  return (order.address || '—') + (post ? ', ' + post : '');
+  // order.address inneholder nå hele adressen inkl. postnr/poststed (fra
+  // Kartverket-valg), eller fritekst. address_meta har de strukturerte feltene.
+  return order.address || '—';
 }
 function addrUnverified(order) {
   const m = order.address_meta;

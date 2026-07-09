@@ -1146,7 +1146,7 @@ function bindModal(){
   });
   var addrEl=root.querySelector('[data-field="o_address"]');
   if(addrEl&&window.initAddressAutocomplete)initAddressAutocomplete(addrEl,{
-    onSelect:function(a){state.o_address=a.adressetekst;state.o_addressMeta={postnummer:a.postnummer,poststed:a.poststed,kommunenummer:a.kommunenummer,kommunenavn:a.kommunenavn,lat:a.lat,lon:a.lon,verified:true};var pb=document.getElementById('proceed-btn');if(pb)pb.setAttribute('style',proceedBtnStyle());},
+    onSelect:function(a){state.o_address=a.formatted;state.o_addressMeta={postnummer:a.postnummer,poststed:a.poststed,kommunenummer:a.kommunenummer,kommunenavn:a.kommunenavn,lat:a.lat,lon:a.lon,verified:true};var pb=document.getElementById('proceed-btn');if(pb)pb.setAttribute('style',proceedBtnStyle());},
     onInput:function(t){state.o_address=t;state.o_addressMeta={verified:false};}
   });
 }
