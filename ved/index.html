@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="nb">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Roverk Ved – vedskjul i tre, ferdig montert, uten søknad | Roverk Trondheim</title>
+<meta name="description" content="Håndbygde vedskjul i ekte tre for garasje, hage og hytte. Levert og ferdig montert i Trondheimsområdet – du betaler først når det står ferdig. Ikke søknadspliktig. Tre størrelser fra 8 790 kr inkl. levering og montering.">
+<meta name="theme-color" content="#0E0D0B">
+<meta property="og:title" content="Roverk Ved – vedskjul i tre, ferdig montert, uten søknad">
+<meta property="og:description" content="Håndbygde vedskjul i ekte tre, levert og montert hjemme hos deg i Trondheim. Betal først etter montering. Ikke søknadspliktig.">
+<meta property="og:type" content="website">
+<link rel="icon" type="image/png" href="assets/roverk-favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800;900&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F4F2ED;--card:#FBFAF7;--text:#141310;--muted:#6E685E;--amber:#BE8A48;--amberSoft:#E9DBC1;--green:#17150F;--line:#E4DFD5;--heroBg:#0E0D0B;--wood:#A9743B}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:'Hanken Grotesk',system-ui,sans-serif;-webkit-font-smoothing:antialiased;line-height:1.55}
+h1,h2,h3,h4{font-family:'Archivo',system-ui,sans-serif;margin:0;line-height:1.05}
+button,input{font-family:inherit}
+button{cursor:pointer}
+img{max-width:100%}
+@keyframes drop{from{opacity:0;transform:translateY(-14px)}to{opacity:1;transform:translateY(0)}}
+@keyframes modalBg{from{opacity:0}to{opacity:1}}
+@keyframes modalCard{from{opacity:0;transform:translateY(16px) scale(.97)}to{opacity:1;transform:none}}
+@keyframes popIn{0%{opacity:0;transform:scale(.6)}60%{transform:scale(1.08)}100%{opacity:1;transform:scale(1)}}
+@keyframes drawRing{to{stroke-dashoffset:0}}
+@keyframes drawCheck{to{stroke-dashoffset:0}}
+
+.lnk{position:relative;transition:color .15s ease;text-decoration:none;color:var(--muted);font-size:14px;font-weight:500}
+.lnk::after{content:"";position:absolute;left:0;bottom:-4px;height:2px;width:100%;background:var(--amber);transform:scaleX(0);transform-origin:left;transition:transform .22s ease}
+.lnk:hover{color:var(--text)}
+.lnk:hover::after{transform:scaleX(1)}
+.hover-dim{transition:opacity .15s ease,transform .12s ease,box-shadow .2s ease}
+.hover-dim:hover{opacity:.92}
+.hover-dim:active{transform:scale(.98)}
+.arw{display:inline-block;transition:transform .2s ease}
+.hover-dim:hover .arw{transform:translateX(4px)}
+.card-lift{transition:transform .18s ease,box-shadow .18s ease}
+.card-lift:hover{transform:translateY(-4px);box-shadow:0 16px 34px rgba(30,27,24,.11)}
+
+.anim [data-reveal]{opacity:0;transform:translateY(16px);transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform .9s cubic-bezier(.2,.7,.2,1)}
+.anim [data-reveal].in{opacity:1;transform:none}
+.anim .hero-in{opacity:0;animation:drop .8s cubic-bezier(.2,.7,.2,1) forwards}
+.anim .hero-in.d1{animation-delay:.05s}.anim .hero-in.d2{animation-delay:.15s}.anim .hero-in.d3{animation-delay:.25s}.anim .hero-in.d4{animation-delay:.35s}
+
+#site-header{transition:box-shadow .25s ease}
+#site-header.scrolled{box-shadow:0 6px 22px rgba(30,27,24,.07)}
+#site-header.scrolled .hbar{padding-top:9px!important;padding-bottom:9px!important}
+.hamburger{display:none;background:transparent;border:none;font-size:24px;line-height:1;color:var(--text);padding:4px 6px}
+.mobile-cta{display:none}
+
+.faq-a{max-height:0;overflow:hidden;transition:max-height .32s ease}
+.faq-item.open .faq-a{max-height:460px}
+.faq-icon{font-family:'Archivo';font-weight:400;font-size:26px;color:var(--amber);line-height:1;transition:transform .25s ease}
+.faq-item.open .faq-icon{transform:rotate(45deg)}
+
+@media(max-width:860px){
+  [data-r=hero]{grid-template-columns:1fr!important}
+  [data-r=hero-art]{order:-1;max-width:460px;margin:0 auto 6px}
+  .hamburger{display:block}
+  #mainnav{display:none!important;position:absolute;top:100%;left:0;right:0;background:var(--bg);border-bottom:1px solid var(--line);flex-direction:column;align-items:stretch!important;gap:0!important;padding:6px 24px 16px!important;box-shadow:0 12px 24px rgba(30,27,24,.08)}
+  #site-header.nav-open #mainnav{display:flex!important}
+  #mainnav a{padding:13px 0!important;font-size:15px!important}
+  #mainnav a.hover-dim{margin-top:8px;text-align:center}
+  .mobile-cta{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:60;gap:10px;padding:10px 14px;background:var(--bg);border-top:1px solid var(--line);box-shadow:0 -6px 20px rgba(30,27,24,.09)}
+  body{padding-bottom:74px}
+}
+</style>
+<script>
+/* Aktiver animasjoner + failsafe: avdekk alt innhold hvis JS ikke initialiserer */
+document.documentElement.classList.add('anim');
+window.__init=false;
+addEventListener('DOMContentLoaded',function(){setTimeout(function(){if(!window.__init)document.querySelectorAll('[data-reveal]').forEach(function(e){e.classList.add('in')});},1200);});
+/* UTM-fangst (persisteres for annonseattribusjon) */
+try{var qs=new URLSearchParams(location.search),u={};['utm_source','utm_medium','utm_campaign','utm_content','utm_term','fbclid'].forEach(function(k){if(qs.get(k))u[k]=qs.get(k)});if(Object.keys(u).length)localStorage.setItem('ns_utm',JSON.stringify(u));}catch(e){}
+/* ===== Meta Pixel (PLASSHOLDER) =====
+   TODO: sett inn ekte Pixel-ID og fjern kommentaren under for å aktivere.
+   window.NS_PIXEL_ID = "DIN_PIXEL_ID";
+   !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+   if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+   t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+   fbq('init', window.NS_PIXEL_ID); fbq('track','PageView');
+*/
+window.fbq = window.fbq || function(){ (window.fbq.q=window.fbq.q||[]).push(arguments); };  // trygg stub til pixel aktiveres
+</script>
+</head>
+<body>
+
+<!-- ===== HEADER ===== -->
+<header id="site-header" style="position:sticky;top:0;z-index:50;background:var(--bg);border-bottom:1px solid var(--line)">
+  <div class="hbar" style="max-width:1160px;margin:0 auto;padding:13px 22px;display:flex;align-items:center;justify-content:space-between;gap:16px">
+    <a href="#topp" style="display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--text)">
+      <img src="assets/roverk-wordmark-sort.png" alt="Roverk" style="height:19px;width:auto;display:block">
+      <span style="width:1px;height:15px;background:var(--line);display:inline-block"></span>
+      <span style="font-family:'Hanken Grotesk';font-weight:600;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--amber)">Ved</span>
+    </a>
+    <button class="hamburger" id="hamburger" aria-label="Åpne meny" aria-expanded="false">☰</button>
+    <nav class="mainnav" id="mainnav" style="display:flex;gap:22px;align-items:center">
+      <a href="#storrelser" class="lnk">Størrelser</a>
+      <a href="#slik" class="lnk">Slik funker det</a>
+      <a href="#faq" class="lnk">Spørsmål</a>
+      <a href="#storrelser" class="hover-dim" data-order style="background:var(--green);color:#fff;padding:10px 18px;border-radius:999px;text-decoration:none;font-size:14px;font-weight:600">Bestill vedskjul</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ===== HERO ===== -->
+<section id="topp" style="background:var(--heroBg);color:#fff;position:relative;overflow:hidden">
+  <div style="position:absolute;left:0;right:0;bottom:0;height:120px;background:repeating-linear-gradient(90deg,rgba(255,255,255,.04) 0 2px,transparent 2px 30px)"></div>
+  <div data-r="hero" style="max-width:1160px;margin:0 auto;padding:64px 22px 44px;display:grid;grid-template-columns:1.08fr .92fr;gap:44px;align-items:center;position:relative">
+    <div>
+      <div class="hero-in d1" style="display:inline-flex;align-items:center;gap:8px;font-size:12.5px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--amber);margin-bottom:18px"><span style="width:7px;height:7px;border-radius:50%;background:var(--amber)"></span>Lokalt trehåndverk · Trondheim</div>
+      <h1 class="hero-in d2" style="font-size:clamp(36px,6vw,64px);font-weight:900;letter-spacing:-.025em;color:#fff;margin-bottom:20px">Tørr ved hele vinteren.<br>Ferdig montert — uten søknad.</h1>
+      <p class="hero-in d3" style="font-size:18.5px;color:rgba(255,255,255,.8);max-width:520px;margin:0 0 28px">Håndbygde vedskjul i ekte tre, levert og montert hjemme hos deg i Trondheimsområdet. Du betaler først når det står ferdig.</p>
+      <div class="hero-in d4" style="display:flex;gap:13px;flex-wrap:wrap;margin-bottom:22px">
+        <a href="#storrelser" class="hover-dim" data-order style="background:var(--amber);color:var(--heroBg);padding:15px 26px;border-radius:999px;text-decoration:none;font-size:16px;font-weight:700">Bestill vedskjul <span class="arw">→</span></a>
+        <a href="#storrelser" class="hover-dim" style="background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.35);padding:15px 26px;border-radius:999px;text-decoration:none;font-size:16px;font-weight:600">Se størrelser</a>
+      </div>
+      <div class="hero-in d4" style="display:flex;gap:20px;flex-wrap:wrap;font-size:13.5px;color:rgba(255,255,255,.72)">
+        <span>✓ Ikke søknadspliktig</span><span>✓ Ferdig montert og levert</span><span>✓ Betal etter montering</span>
+      </div>
+    </div>
+    <div data-r="hero-art" class="hero-in d3" id="hero-art"></div>
+  </div>
+</section>
+
+<!-- ===== BADGES ===== -->
+<section style="max-width:1160px;margin:0 auto;padding:34px 22px 6px">
+  <div data-reveal-group style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px">
+    <div class="card-lift" style="background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px 22px;display:flex;gap:14px;align-items:flex-start">
+      <div style="flex:none;width:42px;height:42px;border-radius:12px;background:var(--amberSoft);display:flex;align-items:center;justify-content:center;font-size:22px">📋</div>
+      <div><h3 style="font-size:17px;font-weight:800;margin-bottom:5px;font-family:'Archivo'">Ikke søknadspliktig</h3><p style="color:var(--muted);font-size:14px;margin:0">Frittstående, under 50 m² og min. 1 m fra nabogrense — du slipper byggesøknad i de aller fleste tilfeller.</p></div>
+    </div>
+    <div class="card-lift" style="background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px 22px;display:flex;gap:14px;align-items:flex-start">
+      <div style="flex:none;width:42px;height:42px;border-radius:12px;background:var(--amberSoft);display:flex;align-items:center;justify-content:center;font-size:22px">🔨</div>
+      <div><h3 style="font-size:17px;font-weight:800;margin-bottom:5px;font-family:'Archivo'">Ferdig montert og levert</h3><p style="color:var(--muted);font-size:14px;margin:0">Vi bygger, kjører hjem til deg og monterer ferdig. Du løfter ikke en finger.</p></div>
+    </div>
+    <div class="card-lift" style="background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px 22px;display:flex;gap:14px;align-items:flex-start">
+      <div style="flex:none;width:42px;height:42px;border-radius:12px;background:var(--amberSoft);display:flex;align-items:center;justify-content:center;font-size:22px">🔒</div>
+      <div><h3 style="font-size:17px;font-weight:800;margin-bottom:5px;font-family:'Archivo'">Betal etter montering</h3><p style="color:var(--muted);font-size:14px;margin:0">Ingen forskudd. Du betaler først når vedskjulet står ferdig hjemme hos deg.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PROBLEM ===== -->
+<section style="max-width:1160px;margin:0 auto;padding:56px 22px 10px">
+  <div data-reveal style="max-width:640px">
+    <div style="display:inline-flex;align-items:center;gap:8px;font-size:12.5px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--amber);margin-bottom:14px"><span style="width:7px;height:7px;border-radius:50%;background:var(--amber)"></span>Slutt på klam ved</div>
+    <h2 style="font-size:clamp(26px,4vw,42px);font-weight:900;letter-spacing:-.02em;margin-bottom:14px;text-wrap:balance">Presenning som blåser av. Ved som aldri blir tørr.</h2>
+    <p style="color:var(--muted);font-size:18px;margin:0;max-width:560px">Ved under presenning råtner, fryser fast og ser rotete ut. Et vedskjul som puster holder veden tørr og klar — og gjør uteplassen ryddig.</p>
+  </div>
+  <div data-reveal-group style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;margin-top:34px">
+    <div style="border-top:2px solid var(--amber);padding-top:16px"><h3 style="font-size:17px;font-weight:800;margin-bottom:7px;font-family:'Archivo'">Alltid tørr ved</h3><p style="color:var(--muted);font-size:14.5px;margin:0">Bratt tak feller regn og snø, åpne gavler og luftespalter gir gjennomtrekk. Veden holder seg tørr og fyrbar.</p></div>
+    <div style="border-top:2px solid var(--amber);padding-top:16px"><h3 style="font-size:17px;font-weight:800;margin-bottom:7px;font-family:'Archivo'">Ekte tre, bygget for vær</h3><p style="color:var(--muted);font-size:14.5px;margin:0">Solid konstruksjonsvirke og trykkimpregnert bunn. Står støtt gjennom norske vintre — og er pent å se på.</p></div>
+    <div style="border-top:2px solid var(--amber);padding-top:16px"><h3 style="font-size:17px;font-weight:800;margin-bottom:7px;font-family:'Archivo'">Null styr for deg</h3><p style="color:var(--muted);font-size:14.5px;margin:0">Ingen flatpakke, ingen byggesøknad, ingen forskudd. Vi leverer og monterer — du fyller på ved.</p></div>
+  </div>
+</section>
+
+<!-- ===== STØRRELSER ===== -->
+<section id="storrelser" style="scroll-margin-top:76px;background:var(--card);border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-top:52px">
+  <div style="max-width:1160px;margin:0 auto;padding:60px 22px">
+    <div data-reveal style="text-align:center;max-width:640px;margin:0 auto 40px">
+      <div style="display:inline-flex;align-items:center;gap:8px;font-size:12.5px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--amber);margin-bottom:12px">Velg størrelse</div>
+      <h2 style="font-size:clamp(26px,3.8vw,40px);font-weight:900;letter-spacing:-.02em;margin-bottom:10px">Tre størrelser — én fast pris</h2>
+      <p style="color:var(--muted);font-size:17px;margin:0">Alle prisene er komplett: levering og montering i Trondheimsområdet er inkludert. Betal først når det står ferdig.</p>
+    </div>
+    <div id="size-grid" data-reveal-group style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;align-items:stretch"></div>
+    <p data-reveal style="text-align:center;color:var(--muted);font-size:13.5px;margin:22px 0 0">Trenger du andre mål? <a href="#faq" style="color:var(--green);font-weight:600">Vi bygger også på bestilling.</a></p>
+  </div>
+</section>
+
+<!-- ===== SLIK FUNKER DET ===== -->
+<section id="slik" style="scroll-margin-top:76px;background:var(--green);color:#fff">
+  <div style="max-width:1160px;margin:0 auto;padding:60px 22px">
+    <h2 data-reveal style="font-size:clamp(24px,3.4vw,36px);font-weight:800;letter-spacing:-.02em;margin-bottom:38px;color:#fff">Slik funker det</h2>
+    <div data-reveal-group style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:26px">
+      <div style="border-top:2px solid rgba(255,255,255,.25);padding-top:18px"><div style="font-family:'Archivo';font-weight:900;font-size:40px;color:var(--amber);margin-bottom:10px">1</div><h3 style="font-size:19px;font-weight:800;margin-bottom:7px;color:#fff;font-family:'Archivo'">Du bestiller</h3><p style="color:rgba(255,255,255,.75);font-size:15px;margin:0">Velg størrelse og ønsket monteringsdato. Ingen forskudd, ingen byggesøknad.</p></div>
+      <div style="border-top:2px solid rgba(255,255,255,.25);padding-top:18px"><div style="font-family:'Archivo';font-weight:900;font-size:40px;color:var(--amber);margin-bottom:10px">2</div><h3 style="font-size:19px;font-weight:800;margin-bottom:7px;color:#fff;font-family:'Archivo'">Vi bygger</h3><p style="color:rgba(255,255,255,.75);font-size:15px;margin:0">Vedskjulet håndbygges i verkstedet vårt i ekte tre, klart til rask montering.</p></div>
+      <div style="border-top:2px solid rgba(255,255,255,.25);padding-top:18px"><div style="font-family:'Archivo';font-weight:900;font-size:40px;color:var(--amber);margin-bottom:10px">3</div><h3 style="font-size:19px;font-weight:800;margin-bottom:7px;color:#fff;font-family:'Archivo'">Vi leverer og monterer</h3><p style="color:rgba(255,255,255,.75);font-size:15px;margin:0">Vi kjører hjem til deg og setter det ferdig opp — og rydder etter oss.</p></div>
+      <div style="border-top:2px solid rgba(255,255,255,.25);padding-top:18px"><div style="font-family:'Archivo';font-weight:900;font-size:40px;color:var(--amber);margin-bottom:10px">4</div><h3 style="font-size:19px;font-weight:800;margin-bottom:7px;color:#fff;font-family:'Archivo'">Du betaler</h3><p style="color:rgba(255,255,255,.75);font-size:15px;margin:0">Først når vedskjulet står ferdig montert. Fast pris, ingen overraskelser.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== LØFTE + INTRO ===== -->
+<section style="background:var(--heroBg);color:#fff;position:relative;overflow:hidden">
+  <div style="position:absolute;left:0;right:0;bottom:0;height:90px;background:repeating-linear-gradient(90deg,rgba(255,255,255,.04) 0 2px,transparent 2px 30px)"></div>
+  <div style="max-width:1160px;margin:0 auto;padding:60px 22px;position:relative">
+    <div data-reveal style="max-width:640px;margin-bottom:34px">
+      <div style="display:inline-flex;align-items:center;gap:8px;font-size:12.5px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--amber);margin-bottom:12px"><span style="width:7px;height:7px;border-radius:50%;background:var(--amber)"></span>Vårt løfte</div>
+      <h2 style="font-size:clamp(24px,3.4vw,38px);font-weight:900;letter-spacing:-.02em;color:#fff;margin-bottom:10px">Dette lover vi deg.</h2>
+      <p style="font-size:16px;color:rgba(255,255,255,.72);margin:0">Vi er nystartet — og jobber ekstra hardt for hver eneste kunde.</p>
+    </div>
+    <div data-reveal-group style="display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:22px 28px">
+      <div style="border-top:2px solid var(--amber);padding-top:16px"><h3 style="font-size:17px;font-weight:800;margin-bottom:7px;font-family:'Archivo';color:#fff">Kvalitet du kan stole på</h3><p style="color:rgba(255,255,255,.75);font-size:14.5px;margin:0">Ekte tre gjennom hele skjulet. Bygget for å tåle vær og stå støtt i årevis.</p></div>
+      <div style="border-top:2px solid var(--amber);padding-top:16px"><h3 style="font-size:17px;font-weight:800;margin-bottom:7px;font-family:'Archivo';color:#fff">Vi tar hele jobben</h3><p style="color:rgba(255,255,255,.75);font-size:14.5px;margin:0">Bygging, levering og ferdig montering hjemme hos deg — og vi rydder opp etter oss.</p></div>
+      <div style="border-top:2px solid var(--amber);padding-top:16px"><h3 style="font-size:17px;font-weight:800;margin-bottom:7px;font-family:'Archivo';color:#fff">Lokalt, fra Trondheim</h3><p style="color:rgba(255,255,255,.75);font-size:14.5px;margin:0">Håndbygd i norske materialer av en lokal aktør som stiller opp.</p></div>
+      <div style="border-top:2px solid var(--amber);padding-top:16px"><h3 style="font-size:17px;font-weight:800;margin-bottom:7px;font-family:'Archivo';color:#fff">Uten risiko for deg</h3><p style="color:rgba(255,255,255,.75);font-size:14.5px;margin:0">Fast pris uten skjulte kostnader, og du betaler først når alt står ferdig.</p></div>
+    </div>
+    <div data-reveal style="margin-top:34px;background:var(--amber);color:var(--heroBg);border-radius:18px;padding:22px 26px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap">
+      <div><div style="font-family:'Archivo';font-weight:900;font-size:20px;margin-bottom:4px">Introduksjonspris i oppstarten</div><div style="font-size:14.5px;opacity:.85;max-width:520px">Vi tar et begrenset antall oppdrag nå. Bli en av våre første kunder og få introduksjonspris.</div></div>
+      <a href="#storrelser" class="hover-dim" data-order style="background:var(--heroBg);color:#fff;padding:14px 24px;border-radius:999px;text-decoration:none;font-size:15px;font-weight:700;white-space:nowrap">Sikre din plass <span class="arw">→</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FAQ ===== -->
+<section id="faq" style="scroll-margin-top:76px;background:var(--card);border-top:1px solid var(--line)">
+  <div style="max-width:800px;margin:0 auto;padding:58px 22px">
+    <h2 data-reveal style="font-size:clamp(24px,3.4vw,36px);font-weight:800;letter-spacing:-.02em;margin-bottom:28px">Ofte stilte spørsmål</h2>
+    <div id="faq-list" data-reveal style="display:flex;flex-direction:column;gap:12px"></div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer style="background:var(--heroBg);color:rgba(255,255,255,.7)">
+  <div style="max-width:1160px;margin:0 auto;padding:44px 22px;display:flex;justify-content:space-between;gap:26px;flex-wrap:wrap">
+    <div>
+      <div style="margin-bottom:13px">
+        <img src="assets/roverk-ordmerke-hvit.png" alt="Roverk – Bygget for orden" style="height:54px;width:auto;display:block">
+      </div>
+      <p style="margin:0;font-size:14px;max-width:320px">Roverk Ved — håndbygde vedskjul i ekte tre, levert og montert lokalt i Trondheimsområdet.</p>
+    </div>
+    <div style="display:flex;gap:48px;flex-wrap:wrap;font-size:14px">
+      <!-- TODO: bytt ut placeholder-verdiene med ekte kontaktinfo -->
+      <div><div style="color:#fff;font-weight:700;margin-bottom:9px">Kontakt</div><a href="tel:+4700000000" style="color:rgba(255,255,255,.85);text-decoration:none">[telefon]</a><br><a href="mailto:post@roverk.no" style="color:rgba(255,255,255,.85);text-decoration:none">[e-post]</a><br><span style="opacity:.6">Org.nr [org.nr]</span></div>
+      <div><div style="color:#fff;font-weight:700;margin-bottom:9px">Leverer i</div>Trondheim<br>Melhus<br>Malvik</div>
+    </div>
+  </div>
+  <div style="border-top:1px solid rgba(255,255,255,.12)"><div style="max-width:1160px;margin:0 auto;padding:16px 22px;font-size:12.5px;opacity:.6">© 2026 Roverk AS · Org.nr [plassholder]</div></div>
+</footer>
+
+<!-- ===== STICKY MOBIL-CTA ===== -->
+<div class="mobile-cta">
+  <a href="tel:+4700000000" class="hover-dim" style="display:flex;align-items:center;justify-content:center;background:transparent;color:var(--text);border:1.5px solid var(--line);border-radius:999px;padding:13px 18px;text-decoration:none;font-size:15px;font-weight:600;white-space:nowrap">Ring oss</a>
+  <a href="#storrelser" data-order class="hover-dim" style="flex:1;text-align:center;background:var(--green);color:#fff;border-radius:999px;padding:13px 18px;text-decoration:none;font-size:15px;font-weight:700">Bestill vedskjul →</a>
+</div>
+
+<div id="modal-root"></div>
+
+<script>
+"use strict";
+var C={text:"#141310",muted:"#6E685E",amber:"#BE8A48",amberSoft:"#E9DBC1",green:"#17150F",line:"#E4DFD5",card:"#FBFAF7",bg:"#F4F2ED",dark:"#0E0D0B",wood:"#A9743B"};
+var NBMONTHS=['januar','februar','mars','april','mai','juni','juli','august','september','oktober','november','desember'];
+var WEEKDAY=['søndag','mandag','tirsdag','onsdag','torsdag','fredag','lørdag'];
+var SIZES=[
+ {id:'small',navn:'Liten',B:2000,H:2000,D:700,liter:1000,kubber:2,fra:8790},
+ {id:'medium',navn:'Medium',B:2500,H:2500,D:1000,liter:2500,kubber:3,fra:13790,pop:true},
+ {id:'large',navn:'Stor',B:3000,H:3000,D:1300,liter:5000,kubber:4,fra:19790}
+];
+var FAQ=[
+ {q:'Må jeg søke kommunen om å sette det opp?',a:'Nei, i de aller fleste tilfeller ikke. Vedskjulene er frittstående, langt under 50 m² og lave nok til at de faller inn under «bygg uten å søke». Du bør holde minst 1 meter til nabogrense og sjekke lokal reguleringsplan – vi hjelper deg gjerne med en rask vurdering.'},
+ {q:'Er levering og montering inkludert i prisen?',a:'Ja. Prisen er komplett for Trondheimsområdet: vi bygger, kjører hjem til deg, monterer ferdig og rydder etter oss. Ingen skjulte tillegg.'},
+ {q:'Når betaler jeg?',a:'Først når vedskjulet står ferdig montert hjemme hos deg. Ingen forskudd og ingen betaling på nett – du bestiller nå, og gjør opp når jobben er gjort.'},
+ {q:'Hvor leverer dere?',a:'Vi leverer og monterer i Trondheim, Melhus og Malvik. Bor du litt utenfor? Ta kontakt, så finner vi ut av det.'},
+ {q:'Hvor mye ved får jeg plass til?',a:'Liten rommer ca. 1 000 liter, Medium ca. 2 500 liter og Stor ca. 5 000 liter stablet ved (basert på 30 cm kubbelengde). Du laster inn fra begge åpne gavlender.'},
+ {q:'Hvor lenge varer det?',a:'Vedskjulet er bygget i ekte tre med trykkimpregnert bunn og bratt, snøsikkert tak – laget for å stå ute i norske vintre i årevis.'},
+ {q:'Kan jeg få andre mål?',a:'Ja. I tillegg til de tre standardstørrelsene bygger vi på bestilling. Ta kontakt, så gir vi deg et tilbud.'}
+];
+
+function fmt(n){return n.toLocaleString('nb-NO');}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+function prefersReduced(){return window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;}
+
+/* ---------- SVG: A-ramme vedskjul ---------- */
+function gableDim(s){
+  // dimensjonert gavl-tegning – skalert relativt til største størrelse (3000) så figurene faktisk viser størrelsesforskjell
+  var w=300,hh=246, maxDim=3000, maxBpx=176, maxHpx=170;
+  var Bpx=maxBpx*(s.B/maxDim), Hpx=maxHpx*(s.H/maxDim);
+  var baseY=196, cx=158, x0=cx-Bpx/2;
+  var apexY=baseY-Hpx;
+  var out='<svg viewBox="0 0 '+w+' '+hh+'" style="width:100%;height:auto;display:block" font-family="Arial,Hanken Grotesk,sans-serif" xmlns="http://www.w3.org/2000/svg">';
+  out+='<defs><marker id="ah" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6z" fill="'+C.muted+'"/></marker><marker id="ah2" markerWidth="8" markerHeight="8" refX="0" refY="3" orient="auto"><path d="M6,0 L0,3 L6,6z" fill="'+C.muted+'"/></marker></defs>';
+  out+='<polygon points="'+cx+','+apexY.toFixed(0)+' '+x0.toFixed(0)+','+baseY+' '+(x0+Bpx).toFixed(0)+','+baseY+'" fill="'+C.amberSoft+'" stroke="'+C.wood+'" stroke-width="3" stroke-linejoin="round"/>';
+  var d=13,rr=4.6,y=baseY-d;
+  while(y>apexY+d){var frac=(baseY-y)/Hpx;var hw=(Bpx/2)*(1-frac);var x=cx-hw+d;while(x<cx+hw-d){out+='<circle cx="'+x.toFixed(0)+'" cy="'+y.toFixed(0)+'" r="'+rr+'" fill="none" stroke="'+C.amber+'" stroke-width="1.1" opacity="0.55"/>';x+=d;}y-=d;}
+  out+='<rect x="'+(x0-4).toFixed(0)+'" y="'+baseY+'" width="'+(Bpx+8).toFixed(0)+'" height="8" rx="2" fill="'+C.wood+'"/>';
+  out+='<rect x="'+(x0+10).toFixed(0)+'" y="'+(baseY+8)+'" width="5" height="12" fill="'+C.wood+'"/><rect x="'+(x0+Bpx-15).toFixed(0)+'" y="'+(baseY+8)+'" width="5" height="12" fill="'+C.wood+'"/>';
+  var by=baseY+26;
+  out+='<line x1="'+x0.toFixed(0)+'" y1="'+by+'" x2="'+(x0+Bpx).toFixed(0)+'" y2="'+by+'" stroke="'+C.muted+'" stroke-width="1" marker-start="url(#ah2)" marker-end="url(#ah)"/>';
+  out+='<text x="'+cx+'" y="'+(by+15)+'" font-size="12" fill="'+C.text+'" text-anchor="middle">B = '+s.B+' mm</text>';
+  var lx=x0-22;
+  out+='<line x1="'+lx.toFixed(0)+'" y1="'+apexY.toFixed(0)+'" x2="'+lx.toFixed(0)+'" y2="'+baseY+'" stroke="'+C.muted+'" stroke-width="1" marker-start="url(#ah2)" marker-end="url(#ah)"/>';
+  out+='<g transform="translate('+(lx-5).toFixed(0)+','+((apexY+baseY)/2).toFixed(0)+') rotate(-90)"><text font-size="12" fill="'+C.text+'" text-anchor="middle">H = '+s.H+' mm</text></g>';
+  out+='</svg>';
+  return out;
+}
+function heroArt(){
+  // 3/4 perspective on dark hero
+  var W=560,H=430,dx=150,dy=-86;
+  var ox=120,oy=360,B=300,Hh=280;
+  var apex=[ox+B/2,oy-Hh],L=[ox,oy],R=[ox+B,oy];
+  var apexB=[apex[0]+dx,apex[1]+dy],RcB=[R[0]+dx,R[1]+dy],LcB=[L[0]+dx,L[1]+dy];
+  var s='<svg viewBox="0 0 '+W+' '+H+'" style="width:100%;height:auto;display:block" xmlns="http://www.w3.org/2000/svg">';
+  s+='<ellipse cx="'+(ox+B/2+dx/2)+'" cy="'+(oy+22)+'" rx="300" ry="22" fill="rgba(0,0,0,.28)"/>';
+  s+='<polygon points="'+apexB[0]+','+apexB[1]+' '+LcB[0]+','+LcB[1]+' '+RcB[0]+','+RcB[1]+'" fill="#2f2820" stroke="'+C.wood+'" stroke-width="2"/>';
+  s+='<polygon points="'+R[0]+','+R[1]+' '+apex[0]+','+apex[1]+' '+apexB[0]+','+apexB[1]+' '+RcB[0]+','+RcB[1]+'" fill="'+C.wood+'" stroke="'+C.dark+'" stroke-width="1"/>';
+  for(var i=1;i<12;i++){var t=i/12;var x1=R[0]+(apex[0]-R[0])*t,y1=R[1]+(apex[1]-R[1])*t;s+='<line x1="'+x1.toFixed(0)+'" y1="'+y1.toFixed(0)+'" x2="'+(x1+dx).toFixed(0)+'" y2="'+(y1+dy).toFixed(0)+'" stroke="#6e4a24" stroke-width="2"/>';}
+  s+='<polygon points="'+apex[0]+','+apex[1]+' '+L[0]+','+L[1]+' '+R[0]+','+R[1]+'" fill="'+C.dark+'" stroke="'+C.wood+'" stroke-width="4" stroke-linejoin="round"/>';
+  var d=24,rr=9,y=oy-d;
+  while(y>apex[1]+d){var frac=(oy-y)/Hh;var hw=(B/2)*(1-frac);var x=apex[0]-hw+d;while(x<apex[0]+hw-d){s+='<circle cx="'+x.toFixed(0)+'" cy="'+y.toFixed(0)+'" r="'+rr+'" fill="'+C.amberSoft+'" stroke="'+C.amber+'" stroke-width="1.4"/><circle cx="'+x.toFixed(0)+'" cy="'+y.toFixed(0)+'" r="2.6" fill="'+C.amber+'" opacity="0.6"/>';x+=d;}y-=d;}
+  s+='<rect x="'+(L[0]-6)+'" y="'+oy+'" width="'+(B+12)+'" height="14" rx="3" fill="'+C.wood+'"/>';
+  s+='<rect x="'+(L[0]+16)+'" y="'+(oy+14)+'" width="8" height="18" fill="'+C.wood+'"/><rect x="'+(R[0]-24)+'" y="'+(oy+14)+'" width="8" height="18" fill="'+C.wood+'"/>';
+  s+='<line x1="'+apex[0]+'" y1="'+apex[1]+'" x2="'+apexB[0]+'" y2="'+apexB[1]+'" stroke="'+C.wood+'" stroke-width="4"/>';
+  s+='</svg>';
+  return s;
+}
+
+/* ---------- render sizes ---------- */
+function renderSizes(){
+  var g=document.getElementById('size-grid');var html='';
+  SIZES.forEach(function(s){
+    var pop=s.pop;
+    html+='<div class="card-lift" style="position:relative;background:var(--bg);border:'+(pop?'2px solid var(--green)':'1px solid var(--line)')+';border-radius:20px;padding:0;overflow:hidden;display:flex;flex-direction:column">';
+    if(pop) html+='<div style="position:absolute;top:14px;right:14px;background:var(--green);color:#fff;font-size:11.5px;font-weight:700;padding:5px 11px;border-radius:999px;letter-spacing:.03em">MEST POPULÆR</div>';
+    html+='<div style="background:var(--card);border-bottom:1px solid var(--line);padding:16px 18px 6px;display:flex;align-items:center;justify-content:center">'+gableDim(s)+'</div>';
+    html+='<div style="padding:20px 22px 22px;display:flex;flex-direction:column;gap:4px;flex:1">';
+    html+='<div style="font-family:\'Archivo\';font-weight:900;font-size:24px;letter-spacing:-.02em">'+s.navn+'</div>';
+    html+='<div style="font-size:14px;color:var(--muted)">~'+fmt(s.liter)+' liter ved · '+s.kubber+' kubber dyp</div>';
+    html+='<div style="font-size:13px;color:var(--muted);margin-bottom:8px">'+s.B+' × '+s.H+' × '+s.D+' mm</div>';
+    html+='<div style="margin-top:auto"><div style="font-family:\'Archivo\';font-weight:800;font-size:26px;color:var(--green)">fra '+fmt(s.fra)+' kr</div>';
+    html+='<div style="font-size:12px;color:var(--muted);margin-bottom:14px">inkl. levering og montering</div>';
+    html+='<button class="hover-dim" data-size="'+s.id+'" style="width:100%;background:var(--green);color:#fff;border:none;border-radius:12px;padding:14px;font-size:15px;font-weight:700;cursor:pointer">Bestill '+s.navn+' <span class="arw">→</span></button>';
+    html+='<div style="text-align:center;font-size:12px;color:var(--muted);margin-top:8px">🔒 Ingen forskudd — betal etter montering</div>';
+    html+='</div></div></div>';
+  });
+  g.innerHTML=html;
+  g.querySelectorAll('[data-size]').forEach(function(b){b.addEventListener('click',function(){openOrder(b.getAttribute('data-size'));});});
+}
+
+/* ---------- FAQ ---------- */
+function renderFAQ(){
+  var list=document.getElementById('faq-list');var html='';
+  FAQ.forEach(function(f,i){
+    var open=i===0;
+    html+='<div class="faq-item'+(open?' open':'')+'" data-faq="'+i+'" style="background:var(--bg);border:1px solid var(--line);border-radius:14px;overflow:hidden">'+
+      '<button class="faq-q" style="width:100%;text-align:left;cursor:pointer;background:transparent;border:none;padding:17px 20px;display:flex;align-items:center;justify-content:space-between;gap:16px;font-size:16px;font-weight:700;color:var(--text)"><span>'+esc(f.q)+'</span><span class="faq-icon">+</span></button>'+
+      '<div class="faq-a"><div style="padding:0 20px 18px;color:var(--muted);font-size:15px">'+esc(f.a)+'</div></div></div>';
+  });
+  list.innerHTML=html;
+  list.querySelectorAll('.faq-item').forEach(function(it){it.querySelector('.faq-q').addEventListener('click',function(){var open=it.classList.contains('open');list.querySelectorAll('.faq-item').forEach(function(o){o.classList.remove('open');});if(!open)it.classList.add('open');});});
+}
+
+/* ---------- reveal ---------- */
+function initReveal(){
+  if(prefersReduced()||!('IntersectionObserver' in window)){document.querySelectorAll('[data-reveal-group]').forEach(function(g){Array.prototype.forEach.call(g.children,function(c){c.classList.add('in');});});document.querySelectorAll('[data-reveal]').forEach(function(e){e.classList.add('in');});return;}
+  var obs=[];
+  document.querySelectorAll('[data-reveal-group]').forEach(function(g){Array.prototype.forEach.call(g.children,function(c,i){c.setAttribute('data-reveal','');c.dataset.st=Math.min(i,8)*70;obs.push(c);});});
+  document.querySelectorAll('[data-reveal]').forEach(function(e){if(!e.hasAttribute('data-reveal-group'))obs.push(e);});
+  var io=new IntersectionObserver(function(en){en.forEach(function(x){if(x.isIntersecting){var el=x.target,d=parseInt(el.dataset.st||'0',10);if(d)setTimeout(function(){el.classList.add('in');},d);else el.classList.add('in');io.unobserve(el);}});},{threshold:.12,rootMargin:'0px 0px -8% 0px'});
+  obs.forEach(function(e){io.observe(e);});
+}
+function initHeader(){var h=document.getElementById('site-header');var f=function(){h.classList.toggle('scrolled',window.scrollY>10);};addEventListener('scroll',f,{passive:true});f();}
+function initNav(){var h=document.getElementById('site-header'),b=document.getElementById('hamburger'),n=document.getElementById('mainnav');b.addEventListener('click',function(){var o=h.classList.toggle('nav-open');b.setAttribute('aria-expanded',o?'true':'false');});n.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){h.classList.remove('nav-open');});});}
+
+/* ---------- ordremodal ---------- */
+var order={size:'medium',date:'',calMonth:null,name:'',phone:'',email:'',address:'',phase:'form'};
+function sizeObj(id){return SIZES.filter(function(s){return s.id===id;})[0];}
+function openOrder(sizeId){order.size=sizeId||order.size;order.phase='form';document.body.style.overflow='hidden';renderModal();}
+function closeOrder(){document.body.style.overflow='';document.getElementById('modal-root').innerHTML='';}
+function canProceed(){return !!order.date&&!!order.name.trim()&&!!order.phone.trim();}
+
+function buildCalendar(){
+  var now=new Date();now.setHours(0,0,0,0);var cy=now.getFullYear(),cm=now.getMonth();var m=order.calMonth||{y:cy,m:cm};
+  var startWd=(new Date(m.y,m.m,1).getDay()+6)%7,dim=new Date(m.y,m.m+1,0).getDate(),cells=[];
+  for(var i=0;i<startWd;i++)cells.push({blank:true});
+  for(var d=1;d<=dim;d++){var dt=new Date(m.y,m.m,d);var ds=m.y+'-'+String(m.m+1).padStart(2,'0')+'-'+String(d).padStart(2,'0');cells.push({day:d,ds:ds,past:dt<now,sel:order.date===ds});}
+  var lbl=NBMONTHS[m.m]+' '+m.y;return{m:m,label:lbl.charAt(0).toUpperCase()+lbl.slice(1),canPrev:!(m.y===cy&&m.m===cm),cells:cells};
+}
+function selDateLabel(){if(!order.date)return'';var p=order.date.split('-').map(Number);var dt=new Date(p[0],p[1]-1,p[2]);return WEEKDAY[dt.getDay()]+' '+p[2]+'. '+NBMONTHS[p[1]-1]+' '+p[0];}
+function calCells(cal){var base='height:34px;border:none;border-radius:8px;font-size:13.5px;font-weight:600;font-family:\'Hanken Grotesk\',sans-serif;display:flex;align-items:center;justify-content:center;padding:0';
+  return cal.cells.map(function(c){if(c.blank)return'<button class="cc" disabled style="'+base+';visibility:hidden"></button>';if(c.past)return'<button class="cc" disabled style="'+base+';color:'+C.muted+';opacity:.3;background:transparent;cursor:default">'+c.day+'</button>';var sel=c.sel;return'<button class="cc" data-date="'+c.ds+'" style="'+base+';cursor:pointer;background:'+(sel?C.green:'transparent')+';color:'+(sel?'#fff':C.text)+';border:'+(sel?'none':'1px solid '+C.line)+'">'+c.day+'</button>';}).join('');}
+function proceedStyle(){var ok=canProceed();return'width:100%;background:'+C.green+';color:#fff;border:none;border-radius:12px;padding:15px;font-size:16px;font-weight:700;cursor:'+(ok?'pointer':'not-allowed')+';opacity:'+(ok?1:.5);}
+
+function renderModal(){
+  var root=document.getElementById('modal-root');var s=sizeObj(order.size);
+  var steps=[['1','Størrelse & dato'],['2','Bekreft']];
+  var reached={1:true,2:(order.phase==='confirm'||order.phase==='done')};
+  var stepsHtml=steps.map(function(st,i){var on=reached[i+1];return '<div style="display:flex;align-items:center;gap:8px;flex:1;min-width:0"><span style="width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;font-family:\'Archivo\';flex:none;background:'+(on?C.green:'transparent')+';color:'+(on?'#fff':C.muted)+';border:'+(on?'none':'1.5px solid '+C.line)+'">'+st[0]+'</span><span style="font-size:12.5px;font-weight:600;color:'+(on?C.text:C.muted)+'">'+st[1]+'</span></div>';}).join('');
+  var summary='<div style="padding:14px 26px;background:'+C.card+';border-bottom:1px solid '+C.line+';display:flex;justify-content:space-between;align-items:center;gap:14px"><div><div style="font-family:\'Archivo\';font-weight:900;font-size:20px">Vedskjul '+s.navn+'</div><div style="font-size:12.5px;color:'+C.muted+'">~'+fmt(s.liter)+' L · '+s.B+'×'+s.H+'×'+s.D+' mm</div></div><div style="text-align:right"><div style="font-size:12px;color:'+C.muted+'">fra</div><div style="font-family:\'Archivo\';font-weight:800;font-size:19px;color:'+C.green+'">'+fmt(s.fra)+' kr</div></div></div>';
+  var body=order.phase==='confirm'?confirmHtml(s):order.phase==='done'?doneHtml(s):formHtml(s);
+  root.innerHTML='<div id="mback" style="position:fixed;inset:0;z-index:100;background:rgba(20,16,12,.55);display:flex;align-items:center;justify-content:center;padding:18px;animation:modalBg .2s ease"><div style="background:'+C.bg+';border-radius:22px;width:100%;max-width:540px;max-height:92vh;overflow:auto;box-shadow:0 30px 80px rgba(0,0,0,.4);animation:modalCard .3s cubic-bezier(.2,.7,.2,1)"><div style="padding:20px 26px;border-bottom:1px solid '+C.line+';display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:'+C.bg+';z-index:2"><span style="font-family:\'Archivo\';font-weight:800;font-size:18px">Bestill vedskjul</span><button data-act="close" style="background:transparent;border:none;font-size:26px;cursor:pointer;color:'+C.muted+';line-height:1">×</button></div><div style="padding:18px 26px;display:flex;align-items:center;gap:8px;border-bottom:1px solid '+C.line+'">'+stepsHtml+'</div>'+summary+body+'</div></div>';
+  bindModal();
+}
+function formHtml(s){
+  var cal=buildCalendar();var navB='width:34px;height:34px;border-radius:9px;border:1px solid '+C.line+';background:transparent;color:'+C.text+';cursor:pointer;font-size:18px;line-height:1';
+  var wd=['Ma','Ti','On','To','Fr','Lø','Sø'].map(function(w){return'<div style="text-align:center;font-size:11px;font-weight:700;color:'+C.muted+';padding:3px 0">'+w+'</div>';}).join('');
+  var pills=SIZES.map(function(o){var on=o.id===order.size;return'<button data-pick="'+o.id+'" style="flex:1;padding:11px 6px;border-radius:11px;cursor:pointer;border:'+(on?'2px solid '+C.green:'1.5px solid '+C.line)+';background:'+(on?C.green:'transparent')+';color:'+(on?'#fff':C.text)+';font-family:\'Archivo\';font-weight:800;font-size:14px">'+o.navn+'<div style="font-family:\'Hanken Grotesk\';font-weight:500;font-size:11px;opacity:.85">'+fmt(o.liter)+' L</div></button>';}).join('');
+  return '<div style="padding:22px 26px">'+
+    '<div style="font-weight:700;font-size:14px;margin-bottom:9px">Størrelse</div><div style="display:flex;gap:8px;margin-bottom:20px">'+pills+'</div>'+
+    '<div style="font-weight:700;font-size:14px;margin-bottom:9px">Ønsket monteringsdato</div>'+
+    '<div style="background:'+C.card+';border:1px solid '+C.line+';border-radius:14px;padding:15px;margin-bottom:16px"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:9px"><button data-act="prev" style="'+(cal.canPrev?navB:navB+';opacity:.3;cursor:default')+'">‹</button><span id="callbl" style="font-weight:700;font-size:15px">'+cal.label+'</span><button data-act="next" style="'+navB+'">›</button></div><div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:4px">'+wd+'</div><div id="calgrid" style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px">'+calCells(cal)+'</div></div>'+
+    '<div id="seldate">'+(order.date?'<div style="font-size:14px;margin-bottom:16px;background:'+C.card+';border:1px solid '+C.line+';border-radius:10px;padding:10px 14px">Valgt dato: <strong>'+selDateLabel()+'</strong></div>':'')+'</div>'+
+    '<div style="display:flex;flex-direction:column;gap:11px;margin-bottom:18px"><input data-f="name" value="'+esc(order.name)+'" placeholder="Navn" style="border:1px solid '+C.line+';border-radius:10px;padding:12px 14px;font-size:15px;background:'+C.card+';color:'+C.text+'"><div style="display:grid;grid-template-columns:1fr 1fr;gap:11px"><input data-f="phone" value="'+esc(order.phone)+'" placeholder="Telefon" inputmode="tel" style="border:1px solid '+C.line+';border-radius:10px;padding:12px 14px;font-size:15px;background:'+C.card+';color:'+C.text+'"><input data-f="email" value="'+esc(order.email)+'" placeholder="E-post" type="email" style="border:1px solid '+C.line+';border-radius:10px;padding:12px 14px;font-size:15px;background:'+C.card+';color:'+C.text+'"></div><input data-f="address" value="'+esc(order.address)+'" placeholder="Adresse for montering (valgfritt)" style="border:1px solid '+C.line+';border-radius:10px;padding:12px 14px;font-size:15px;background:'+C.card+';color:'+C.text+'"></div>'+
+    '<button id="proceed" data-act="proceed" style="'+proceedStyle()+'">Se over bestillingen →</button>'+
+    '<p style="text-align:center;font-size:12.5px;color:'+C.muted+';margin:10px 0 0">🔒 Ingen forskudd — du betaler først når vedskjulet står ferdig</p></div>';
+}
+function confirmHtml(s){
+  var lbl=selDateLabel();
+  function row(k,v){return'<div style="display:flex;justify-content:space-between;gap:16px;font-size:14px"><span style="color:'+C.muted+'">'+k+'</span><span style="text-align:right">'+v+'</span></div>';}
+  return '<div style="padding:22px 26px"><h3 style="font-size:18px;font-weight:800;margin-bottom:4px;font-family:\'Archivo\'">Bekreft bestillingen</h3><p style="font-size:13.5px;color:'+C.muted+';margin:0 0 16px">Se over at alt stemmer. Vi tar kontakt for å bekrefte detaljer og monteringsdato.</p>'+
+    '<div style="background:'+C.card+';border:1px solid '+C.line+';border-radius:14px;padding:16px;margin-bottom:16px;display:flex;flex-direction:column;gap:9px">'+row('Modell','Vedskjul '+s.navn)+row('Volum','~'+fmt(s.liter)+' liter')+row('Mål',''+s.B+'×'+s.H+'×'+s.D+' mm')+(lbl?row('Ønsket montering',lbl):'')+'<div style="display:flex;justify-content:space-between;font-size:16px;font-weight:800;border-top:1px solid '+C.line+';padding-top:10px"><span>Fra pris</span><span style="color:'+C.green+'">'+fmt(s.fra)+' kr</span></div></div>'+
+    '<div style="display:flex;gap:11px;background:var(--amberSoft);border-radius:12px;padding:14px 16px;margin-bottom:18px"><span style="font-size:18px">🔒</span><div style="font-size:13.5px;color:'+C.dark+'"><strong>Ingen forskudd.</strong> Du betaler først når vedskjulet er levert og ferdig montert. Fast pris — levering og montering inkludert.</div></div>'+
+    '<button data-act="confirm" class="hover-dim" style="width:100%;background:'+C.green+';color:#fff;border:none;border-radius:12px;padding:15px;font-size:16px;font-weight:700;cursor:pointer">Send bestilling</button>'+
+    '<button data-act="back" style="width:100%;background:transparent;color:'+C.muted+';border:none;padding:12px;font-size:14px;font-weight:600;cursor:pointer;margin-top:4px">‹ Tilbake</button></div>';
+}
+function doneHtml(s){
+  var lbl=selDateLabel();
+  var check='<svg width="60" height="60" viewBox="0 0 52 52" style="margin:0 auto 8px;display:block"><circle cx="26" cy="26" r="24" fill="none" stroke="'+C.green+'" stroke-width="3" stroke-dasharray="151" stroke-dashoffset="151" style="animation:drawRing .5s ease forwards"/><path d="M16 27 l7 7 l14 -16" fill="none" stroke="'+C.green+'" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="40" stroke-dashoffset="40" style="animation:drawCheck .4s ease .45s forwards"/></svg>';
+  return '<div style="padding:36px 26px;text-align:center">'+check+'<div style="font-family:\'Archivo\';font-weight:900;font-size:28px;margin-bottom:10px;animation:popIn .5s ease .3s both">Bestilling mottatt! 🌲</div><p style="font-size:15px;color:'+C.muted+';margin:0 auto 22px;max-width:400px">Takk! Vi har registrert bestillingen av <strong>Vedskjul '+s.navn+'</strong>. Vi tar kontakt for å bekrefte detaljer og monteringsdato'+(lbl?(' <strong>'+lbl+'</strong>'):'')+'. <strong>Du betaler først når alt er levert og ferdig montert.</strong></p><button data-act="close" style="background:'+C.green+';color:#fff;border:none;border-radius:999px;padding:13px 28px;font-weight:700;cursor:pointer">Lukk</button></div>';
+}
+function bindModal(){
+  var root=document.getElementById('modal-root');var back=document.getElementById('mback');
+  if(back)back.addEventListener('mousedown',function(e){if(e.target===back)closeOrder();});
+  root.querySelectorAll('[data-act]').forEach(function(n){var a=n.getAttribute('data-act');
+    if(a==='close')n.addEventListener('click',closeOrder);
+    else if(a==='prev')n.addEventListener('click',function(){var c=buildCalendar();if(!c.canPrev)return;var mm=c.m.m-1;order.calMonth=mm<0?{y:c.m.y-1,m:11}:{y:c.m.y,m:mm};refreshCal();});
+    else if(a==='next')n.addEventListener('click',function(){var c=buildCalendar();var mm=c.m.m+1;order.calMonth=mm>11?{y:c.m.y+1,m:0}:{y:c.m.y,m:mm};refreshCal();});
+    else if(a==='proceed')n.addEventListener('click',function(){if(canProceed()){order.phase='confirm';renderModal();}});
+    else if(a==='confirm')n.addEventListener('click',submitOrder);
+    else if(a==='back')n.addEventListener('click',function(){order.phase='form';renderModal();});
+  });
+  root.querySelectorAll('[data-pick]').forEach(function(b){b.addEventListener('click',function(){order.size=b.getAttribute('data-pick');renderModal();});});
+  root.querySelectorAll('.cc[data-date]').forEach(function(b){b.addEventListener('click',function(){selectDate(b.getAttribute('data-date'));});});
+  root.querySelectorAll('[data-f]').forEach(function(i){i.addEventListener('input',function(){order[i.getAttribute('data-f')]=i.value;var p=document.getElementById('proceed');if(p)p.setAttribute('style',proceedStyle());});});
+}
+function selectDate(ds){order.date=ds;var root=document.getElementById('modal-root');var base='height:34px;border:none;border-radius:8px;font-size:13.5px;font-weight:600;font-family:\'Hanken Grotesk\',sans-serif;display:flex;align-items:center;justify-content:center;padding:0';
+  root.querySelectorAll('.cc[data-date]').forEach(function(b){var sel=b.getAttribute('data-date')===ds;b.setAttribute('style',base+';cursor:pointer;background:'+(sel?C.green:'transparent')+';color:'+(sel?'#fff':C.text)+';border:'+(sel?'none':'1px solid '+C.line));});
+  var sd=document.getElementById('seldate');if(sd)sd.innerHTML='<div style="font-size:14px;margin-bottom:16px;background:'+C.card+';border:1px solid '+C.line+';border-radius:10px;padding:10px 14px">Valgt dato: <strong>'+selDateLabel()+'</strong></div>';
+  var p=document.getElementById('proceed');if(p)p.setAttribute('style',proceedStyle());}
+function refreshCal(){var cal=buildCalendar();var g=document.getElementById('calgrid'),l=document.getElementById('callbl');if(l)l.textContent=cal.label;if(g){g.innerHTML=calCells(cal);g.querySelectorAll('.cc[data-date]').forEach(function(b){b.addEventListener('click',function(){selectDate(b.getAttribute('data-date'));});});}var pv=document.querySelector('[data-act="prev"]');if(pv){var navB='width:34px;height:34px;border-radius:9px;border:1px solid '+C.line+';background:transparent;color:'+C.text+';cursor:pointer;font-size:18px;line-height:1';pv.setAttribute('style',cal.canPrev?navB:navB+';opacity:.3;cursor:default');}}
+function submitOrder(){
+  var s=sizeObj(order.size);
+  // Meta Pixel-hendelse (aktiveres når ekte pixel er satt inn) + UTM
+  var utm={};try{utm=JSON.parse(localStorage.getItem('ns_utm')||'{}');}catch(e){}
+  try{ if(window.fbq) fbq('track','Lead',{content_name:'Vedskjul '+s.navn,value:s.fra,currency:'NOK'}); }catch(e){}
+  // TODO: send bestillingen til backend/e-post (navn,telefon,e-post,adresse,størrelse,dato,utm)
+  order.phase='done';renderModal();
+}
+
+/* ---------- init ---------- */
+try{
+  document.getElementById('hero-art').innerHTML=heroArt();
+  renderSizes();renderFAQ();initReveal();initHeader();initNav();
+  document.querySelectorAll('[data-order]').forEach(function(a){a.addEventListener('click',function(e){/* lar ankeret scrolle til #storrelser; ingen auto-modal */});});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&document.getElementById('mback'))closeOrder();});
+  window.__init=true;
+}catch(err){document.querySelectorAll('[data-reveal]').forEach(function(e){e.classList.add('in');});if(window.console)console.error('init-feil',err);}
+</script>
+</body>
+</html>
