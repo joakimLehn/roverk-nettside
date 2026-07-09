@@ -372,8 +372,8 @@ window.addEventListener('DOMContentLoaded',function(){
       </div>
       <div style="border-top:2px solid rgba(255,255,255,.25);padding-top:20px">
         <div style="font-family:'Archivo';font-weight:900;font-size:44px;letter-spacing:-.03em;color:var(--amber);margin-bottom:12px">2</div>
-        <h3 style="font-size:20px;font-weight:800;margin-bottom:8px;color:#fff;font-family:'Archivo'">Forespør dato</h3>
-        <p style="color:rgba(255,255,255,.75);font-size:15px;margin:0">Send inn ønsket monteringsdato. Dette er kun en forespørsel — vi bekrefter tilgjengelighet.</p>
+        <h3 style="font-size:20px;font-weight:800;margin-bottom:8px;color:#fff;font-family:'Archivo'">Legg inn bestilling</h3>
+        <p style="color:rgba(255,255,255,.75);font-size:15px;margin:0">Fyll inn kontaktinfo. Forventet levering september — stor etterspørsel, så sikre plassen din i køen.</p>
       </div>
       <div style="border-top:2px solid rgba(255,255,255,.25);padding-top:20px">
         <div style="font-family:'Archivo';font-weight:900;font-size:44px;letter-spacing:-.03em;color:var(--amber);margin-bottom:12px">3</div>
@@ -959,7 +959,7 @@ function submitOrder(){
     .then(function(){state.orderPhase='done';renderModal();})
     .catch(function(err){if(window.console)console.error('ordre-feil',err);state.orderPhase='error';renderModal();});
 }
-function canProceed(){ return !!state.orderDate && !!state.o_name.trim() && !!state.o_phone.trim() && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(state.o_email.trim()) && !!state.o_address.trim(); }
+function canProceed(){ return !!state.o_name.trim() && !!state.o_phone.trim() && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(state.o_email.trim()) && !!state.o_address.trim(); }
 
 function renderModal(){
   var root = document.getElementById('modal-root');
@@ -975,7 +975,7 @@ function renderModal(){
   // step indicator: 1 Mål & utstyr, 2 Dato & kontakt, 3 Bekreft/Forespørsel
   var step3Label = 'Bekreft';
   var reached = { 1:true, 2:(phase==='date'||phase==='confirm'||phase==='done'), 3:(phase==='confirm'||phase==='done') };
-  var stepsHtml = [[1,'Mål & utstyr'],[2,'Dato & kontakt'],[3,step3Label]].map(function(st){
+  var stepsHtml = [[1,'Mål & utstyr'],[2,'Kontakt'],[3,step3Label]].map(function(st){
     var on = reached[st[0]];
     return '<div style="display:flex;align-items:center;gap:9px;flex:1;min-width:0">'+
       '<span style="width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;font-family:\'Archivo\',sans-serif;flex:none;background:'+(on?C.green:'transparent')+';color:'+(on?'#fff':C.muted)+';border:'+(on?'none':'1.5px solid '+C.line)+'">'+st[0]+'</span>'+
@@ -1018,26 +1018,16 @@ function renderModal(){
 }
 
 function phaseDateHtml(){
-  var cal = buildCalendar();
-  var navBase='width:34px;height:34px;border-radius:9px;border:1px solid '+C.line+';background:transparent;color:'+C.text+';cursor:pointer;font-size:18px;line-height:1';
-  var prevStyle = cal.canPrev ? navBase : navBase+';opacity:.3;cursor:default';
-  var weekdays = ['Ma','Ti','On','To','Fr','Lø','Sø'].map(function(wd){ return '<div style="text-align:center;font-size:11px;font-weight:700;color:'+C.muted+';padding:3px 0">'+wd+'</div>'; }).join('');
   var proceedLabel = 'Se over bestillingen →';
-  var intro = 'Velg ønsket monteringsdato, så bekrefter vi tilgjengelighet når vi tar kontakt. Ingen forskudd — du betaler først når alt er levert og montert.';
+  var intro = 'Legg igjen kontaktinfoen din, så tar vi kontakt og bekrefter bestillingen. Ingen forskudd — du betaler først når alt er levert og montert.';
   return ''+
   '<div style="padding:24px 28px">'+
-    '<h3 style="font-size:18px;font-weight:800;margin-bottom:4px;font-family:\'Archivo\'">Ønsket monteringsdato</h3>'+
-    '<p style="font-size:13.5px;color:'+C.muted+';margin:0 0 18px">'+intro+'</p>'+
-    '<div style="background:'+C.card+';border:1px solid '+C.line+';border-radius:14px;padding:16px;margin-bottom:16px">'+
-      '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">'+
-        '<button data-act="prevMonth" style="'+prevStyle+'">‹</button>'+
-        '<span id="cal-label" style="font-weight:700;font-size:15px">'+cal.label+'</span>'+
-        '<button data-act="nextMonth" style="'+navBase+'">›</button>'+
-      '</div>'+
-      '<div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:4px">'+weekdays+'</div>'+
-      '<div id="cal-grid" style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px">'+calCellsHtml(cal)+'</div>'+
+    '<h3 style="font-size:18px;font-weight:800;margin-bottom:4px;font-family:\'Archivo\'">Din kontaktinfo</h3>'+
+    '<p style="font-size:13.5px;color:'+C.muted+';margin:0 0 16px">'+intro+'</p>'+
+    '<div style="display:flex;align-items:flex-start;gap:11px;background:var(--amberSoft);border:1px solid '+C.amber+';border-radius:12px;padding:14px 16px;margin-bottom:18px">'+
+      '<span style="font-size:18px;line-height:1.2">📦</span>'+
+      '<div style="font-size:13.5px;color:var(--heroBg)"><strong>Forventet levering: september.</strong> Svært stor etterspørsel om dagen — legg inn bestillingen nå for å sikre plassen din i køen, så gir vi deg et konkret leveringstidspunkt når vi tar kontakt.</div>'+
     '</div>'+
-    '<div id="sel-date-wrap">'+selDateWrapHtml()+'</div>'+
     '<div style="display:flex;flex-direction:column;gap:11px;margin-bottom:20px">'+
       '<input data-field="o_name" value="'+esc(state.o_name)+'" placeholder="Navn" style="border:1px solid '+C.line+';border-radius:10px;padding:12px 14px;font-size:15px;background:'+C.card+';color:'+C.text+'">'+
       '<div style="display:grid;grid-template-columns:1fr 1fr;gap:11px">'+
@@ -1075,13 +1065,13 @@ function phaseConfirmHtml(v, orderModel, orderTotal){
     row('Mål (B×D×H)', v.dimStr) +
     row('Hjul', v.wheelsLabel) +
     row('Bokser', v.boxesLabel) +
-    (lbl ? row('Ønsket montering', lbl) : '') +
+    row('Forventet levering', 'September') +
     '<div style="display:flex;justify-content:space-between;font-size:16px;font-weight:800;border-top:1px solid '+C.line+';padding-top:10px;margin-top:2px"><span>Fast pris</span><span style="color:'+C.green+'">'+orderTotal+'</span></div>';
   function row(k,val){ return '<div style="display:flex;justify-content:space-between;gap:16px;font-size:14px"><span style="color:'+C.muted+'">'+k+'</span><span style="text-align:right">'+val+'</span></div>'; }
   return ''+
   '<div style="padding:24px 28px">'+
     '<h3 style="font-size:18px;font-weight:800;margin-bottom:4px;font-family:\'Archivo\'">Bekreft bestillingen</h3>'+
-    '<p style="font-size:13.5px;color:'+C.muted+';margin:0 0 18px">Se over at alt stemmer. Vi tar kontakt for å bekrefte detaljer og monteringsdato.</p>'+
+    '<p style="font-size:13.5px;color:'+C.muted+';margin:0 0 18px">Se over at alt stemmer. Vi tar kontakt for å bekrefte detaljer og leveringstidspunkt.</p>'+
     '<div style="background:'+C.card+';border:1px solid '+C.line+';border-radius:14px;padding:18px;margin-bottom:16px;display:flex;flex-direction:column;gap:9px">'+ rows +'</div>'+
     '<div style="display:flex;align-items:flex-start;gap:11px;background:var(--amberSoft);border-radius:12px;padding:14px 16px;margin-bottom:20px">'+
       '<span style="font-size:18px;line-height:1.2">🔒</span>'+
@@ -1111,7 +1101,7 @@ function phaseErrorHtml(){
 }
 function phaseDoneHtml(orderModel){
   var lbl = selectedDateLabel();
-  var msg = 'Takk! Vi har registrert bestillingen av <strong>Modell '+orderModel+'</strong>. Vi tar kontakt for å bekrefte detaljer og monteringsdato'+(lbl?(' <strong>'+lbl+'</strong>'):'')+'. <strong>Du betaler først når alt er levert og ferdig montert</strong> — helt uten forskudd.';
+  var msg = 'Takk! Vi har registrert bestillingen av <strong>Modell '+orderModel+'</strong>. Forventet levering er <strong>september</strong> (stor etterspørsel) — vi tar kontakt for å bekrefte detaljer og et konkret leveringstidspunkt. <strong>Du betaler først når alt er levert og ferdig montert</strong> — helt uten forskudd.';
   var head = 'Bestilling mottatt! 🌲';
   var check = '<svg width="62" height="62" viewBox="0 0 52 52" style="margin:0 auto 8px;display:block">'+
     '<circle cx="26" cy="26" r="24" fill="none" stroke="'+C.green+'" stroke-width="3" stroke-dasharray="151" stroke-dashoffset="151" style="animation:drawRing .5s ease forwards"/>'+
