@@ -10,9 +10,10 @@ function sql(strings, ...values) {
 
 export async function insertOrder(o) {
   const rows = await sql`
-    insert into orders (site, product, config, preferred_date, name, phone, email, address, price_nok, utm)
+    insert into orders (site, product, config, preferred_date, name, phone, email, address, address_meta, price_nok, utm)
     values (${o.site}, ${o.product}, ${JSON.stringify(o.config)}, ${o.preferred_date},
-            ${o.name}, ${o.phone}, ${o.email}, ${o.address}, ${o.price_nok}, ${JSON.stringify(o.utm)})
+            ${o.name}, ${o.phone}, ${o.email}, ${o.address}, ${JSON.stringify(o.address_meta || {})},
+            ${o.price_nok}, ${JSON.stringify(o.utm)})
     returning id`;
   return rows[0].id;
 }
