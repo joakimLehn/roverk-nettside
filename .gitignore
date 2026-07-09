@@ -1,0 +1,27 @@
+# macOS
+.DS_Store
+._*
+.AppleDouble
+.LSOverride
+.Spotlight-V100
+.Trashes
+Icon
+Icon?
+
+# Dropbox
+.dropbox
+.dropbox.attr
+*conflicted copy*
+* (1).*
+
+# Vercel
+.vercel
+
+# Node (fremtidssikring – ingen bygg i dag)
+node_modules/
+npm-debug.log*
+yarn-error.log*
+
+# Logg/temp
+*.log
+*.tmp
