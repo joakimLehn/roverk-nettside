@@ -96,7 +96,7 @@ img{max-width:100%}
 
 /* press feedback + arrow nudge */
 .hover-dim,.hover-dim-amber{transition:opacity .15s ease,transform .12s ease,box-shadow .2s ease}
-.hover-dim:active,.hover-dim-amber:active,.wopt:active,.seg-btn:active{transform:scale(.97)}
+.hover-dim:active,.hover-dim-amber:active,.wopt:active{transform:scale(.97)}
 .arw{display:inline-block;transition:transform .2s ease}
 .hover-dim:hover .arw,.hover-dim-amber:hover .arw{transform:translateX(4px)}
 #cfg-cta:hover{box-shadow:0 10px 24px rgba(46,64,52,.22)}
@@ -105,12 +105,6 @@ img{max-width:100%}
 .model-card svg{transition:transform .32s cubic-bezier(.2,.7,.2,1)}
 .model-card:hover svg{transform:translateX(7px)}
 
-/* segmented sliding pill */
-.seg-wrap{position:relative;display:flex;gap:0;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:5px;margin-bottom:24px}
-.seg-pill{position:absolute;top:5px;left:5px;width:calc(50% - 5px);height:calc(100% - 10px);background:var(--green);border-radius:9px;transition:transform .28s cubic-bezier(.3,.8,.3,1)}
-.seg-wrap[data-mode=custom] .seg-pill{transform:translateX(100%)}
-.seg-btn{position:relative;z-index:1;flex:1;padding:10px 4px;border-radius:9px;cursor:pointer;border:none;background:transparent;font-family:'Hanken Grotesk',sans-serif;font-weight:700;font-size:14px;color:var(--text);transition:color .2s ease}
-.seg-wrap[data-mode=standard] .seg-std,.seg-wrap[data-mode=custom] .seg-cust{color:#fff}
 
 /* FAQ smooth expand (max-height = bredt støttet, ingen fr-avhengighet) */
 .faq-a{max-height:0;overflow:hidden;transition:max-height .32s ease}
@@ -559,10 +553,9 @@ var FAQ=[
 
 // ---------- state ----------
 var state = {
-  mode:'standard', bt:'60L', w:4, h:4, withWheels:false,
-  cw:'', ch:'', cd:'', cnote:'',
+  bt:'60L', w:4, h:4, withWheels:false,
   faqOpen:0,
-  orderOpen:false, orderKind:'order' /* order|quote */, orderPhase:'date', orderDate:'', calMonth:null,
+  orderOpen:false, orderPhase:'date', orderDate:'', calMonth:null,
   o_name:'', o_phone:'', o_email:'', o_address:''
 };
 
@@ -792,25 +785,9 @@ function stepperRow(title, sub, key, count, decStyle, incStyle){
     '<button data-act="inc" data-val="'+key+'" style="'+incStyle+'">+</button>'+
   '</div>';
 }
-function customField(label, key, val, ph){
-  return '<label style="display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:600">'+label+
-    '<input data-act="'+key+'" value="'+esc(val)+'" inputmode="numeric" placeholder="'+ph+'" style="border:1px solid '+C.line+';border-radius:10px;padding:11px 12px;font-size:15px;background:'+C.card+';color:'+C.text+'"></label>';
-}
-
 function renderViz(v){
   var el = document.getElementById('cfg-viz-inner');
   el.innerHTML = buildRack(v.w, stackFor(v.bt,v.H), state.withWheels?v.wCount:0, true, false);
-}
-
-// update only readout + cta + viz (used while typing custom fields, no re-render of inputs)
-function updateReadoutOnly(){
-  var v = computeVals();
-  var ro = document.getElementById('cfg-readout');
-  if(ro) ro.innerHTML = readoutHtml(v);
-  var cta = document.getElementById('cfg-cta');
-  if(cta) cta.innerHTML = v.quoteLabel + ' <span class="arw">→</span>';
-  renderViz(v);
-  applyPriceAnim(v);
 }
 
 function bindConfig(){
@@ -818,10 +795,6 @@ function bindConfig(){
   // buttons / toggles
   root.querySelectorAll('[data-act]').forEach(function(node){
     var act = node.getAttribute('data-act');
-    if(act==='cw'||act==='ch'||act==='cd'||act==='cnote'){
-      node.addEventListener('input', function(){ state[act]=node.value; updateReadoutOnly(); });
-      return;
-    }
     if(act==='bt'){ node.addEventListener('click', function(){ state.bt=node.getAttribute('data-val'); renderConfig(); renderModels(); renderCompare(); }); return; }
     if(act==='w'){ node.addEventListener('click', function(){ state.w=parseInt(node.getAttribute('data-val'),10); renderConfig(); }); return; }
     if(act==='dec'){ node.addEventListener('click', function(){ stepH(-1); }); return; }
@@ -870,7 +843,7 @@ function renderModels(){
   });
 }
 function pick(W,H){
-  state.mode='standard'; state.w=W; state.h=H;
+  state.w=W; state.h=H;
   renderConfig();
   try{ location.hash='#konfigurator'; }catch(e){}
 }
@@ -976,7 +949,7 @@ function selectedDateLabel(){
 
 // ---------- order modal ----------
 function requestQuote(){
-  state.orderKind='order'; state.orderPhase='date'; state.orderOpen=true;
+  state.orderPhase='date'; state.orderOpen=true;
   renderModal();
 }
 function closeOrder(){ state.orderOpen=false; renderModal(); }
@@ -989,14 +962,13 @@ function renderModal(){
   document.body.style.overflow='hidden';
 
   var v = computeVals();
-  var isQuote = state.orderKind==='quote';
   var phase = state.orderPhase;
   var total = v.total;
-  var orderModel = isQuote ? 'Skreddersøm' : v.stdName;
-  var orderTotal = isQuote ? 'Be om tilbud' : (fmt(total)+' kr');
+  var orderModel = v.stdName;
+  var orderTotal = fmt(total)+' kr';
 
   // step indicator: 1 Mål & utstyr, 2 Dato & kontakt, 3 Bekreft/Forespørsel
-  var step3Label = isQuote ? 'Forespørsel' : 'Bekreft';
+  var step3Label = 'Bekreft';
   var reached = { 1:true, 2:(phase==='date'||phase==='confirm'||phase==='done'), 3:(phase==='confirm'||phase==='done') };
   var stepsHtml = [[1,'Mål & utstyr'],[2,'Dato & kontakt'],[3,step3Label]].map(function(st){
     var on = reached[st[0]];
@@ -1013,14 +985,14 @@ function renderModal(){
 
   var body = '';
   if(phase==='date'){
-    body = phaseDateHtml(isQuote);
+    body = phaseDateHtml();
   } else if(phase==='confirm'){
     body = phaseConfirmHtml(v, orderModel, orderTotal);
   } else {
-    body = phaseDoneHtml(isQuote, orderModel);
+    body = phaseDoneHtml(orderModel);
   }
 
-  var titleTxt = isQuote ? 'Be om tilbud' : 'Bestill rack';
+  var titleTxt = 'Bestill rack';
   root.innerHTML = ''+
   '<div id="modal-backdrop" style="position:fixed;inset:0;z-index:100;background:rgba(20,16,12,.55);display:flex;align-items:center;justify-content:center;padding:20px;animation:modalBackdropIn .2s ease">'+
     '<div style="background:'+C.bg+';border-radius:22px;width:100%;max-width:540px;max-height:92vh;overflow:auto;box-shadow:0 30px 80px rgba(0,0,0,.4);animation:modalCardIn .3s cubic-bezier(.2,.7,.2,1)">'+
@@ -1036,15 +1008,13 @@ function renderModal(){
   bindModal();
 }
 
-function phaseDateHtml(isQuote){
+function phaseDateHtml(){
   var cal = buildCalendar();
   var navBase='width:34px;height:34px;border-radius:9px;border:1px solid '+C.line+';background:transparent;color:'+C.text+';cursor:pointer;font-size:18px;line-height:1';
   var prevStyle = cal.canPrev ? navBase : navBase+';opacity:.3;cursor:default';
   var weekdays = ['Ma','Ti','On','To','Fr','Lø','Sø'].map(function(wd){ return '<div style="text-align:center;font-size:11px;font-weight:700;color:'+C.muted+';padding:3px 0">'+wd+'</div>'; }).join('');
-  var proceedLabel = isQuote ? 'Send forespørsel →' : 'Se over bestillingen →';
-  var intro = isQuote
-    ? 'Velg gjerne en ønsket dato. Vi tegner og priser skreddersømmen din, og tar kontakt med et konkret tilbud.'
-    : 'Velg ønsket monteringsdato, så bekrefter vi tilgjengelighet når vi tar kontakt. Ingen forskudd — du betaler først når alt er levert og montert.';
+  var proceedLabel = 'Se over bestillingen →';
+  var intro = 'Velg ønsket monteringsdato, så bekrefter vi tilgjengelighet når vi tar kontakt. Ingen forskudd — du betaler først når alt er levert og montert.';
   return ''+
   '<div style="padding:24px 28px">'+
     '<h3 style="font-size:18px;font-weight:800;margin-bottom:4px;font-family:\'Archivo\'">Ønsket monteringsdato</h3>'+
@@ -1111,15 +1081,10 @@ function phaseConfirmHtml(v, orderModel, orderTotal){
     '<button data-act="backToDate" style="width:100%;background:transparent;color:'+C.muted+';border:none;padding:12px;font-size:14px;font-weight:600;cursor:pointer;margin-top:4px">‹ Tilbake</button>'+
   '</div>';
 }
-function phaseDoneHtml(isQuote, orderModel){
+function phaseDoneHtml(orderModel){
   var lbl = selectedDateLabel();
-  var msg;
-  if(isQuote){
-    msg = 'Takk! Vi har registrert forespørselen om <strong>skreddersøm</strong>'+(lbl?(' med ønsket dato <strong>'+lbl+'</strong>'):'')+'. Vi tegner og priser, og tar kontakt med et konkret tilbud.';
-  } else {
-    msg = 'Takk! Vi har registrert bestillingen av <strong>Modell '+orderModel+'</strong>. Vi tar kontakt for å bekrefte detaljer og monteringsdato'+(lbl?(' <strong>'+lbl+'</strong>'):'')+'. <strong>Du betaler først når alt er levert og ferdig montert</strong> — helt uten forskudd.';
-  }
-  var head = isQuote ? 'Forespørsel sendt! 🌲' : 'Bestilling mottatt! 🌲';
+  var msg = 'Takk! Vi har registrert bestillingen av <strong>Modell '+orderModel+'</strong>. Vi tar kontakt for å bekrefte detaljer og monteringsdato'+(lbl?(' <strong>'+lbl+'</strong>'):'')+'. <strong>Du betaler først når alt er levert og ferdig montert</strong> — helt uten forskudd.';
+  var head = 'Bestilling mottatt! 🌲';
   var check = '<svg width="62" height="62" viewBox="0 0 52 52" style="margin:0 auto 8px;display:block">'+
     '<circle cx="26" cy="26" r="24" fill="none" stroke="'+C.green+'" stroke-width="3" stroke-dasharray="151" stroke-dashoffset="151" style="animation:drawRing .5s ease forwards"/>'+
     '<path d="M16 27 l7 7 l14 -16" fill="none" stroke="'+C.green+'" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="40" stroke-dashoffset="40" style="animation:drawCheck .4s ease .45s forwards"/>'+
@@ -1209,21 +1174,8 @@ function refreshCalendar(){
 }
 function proceed(){
   if(!canProceed()) return;
-  if(state.orderKind==='quote'){ state.orderPhase='done'; }
-  else { state.orderPhase='confirm'; }
+  state.orderPhase='confirm';
   renderModal();
-}
-
-// ---------- segmented control (statisk, glidende pille) ----------
-function bindSegment(){
-  document.querySelectorAll('#seg-wrap .seg-btn').forEach(function(b){
-    b.addEventListener('click', function(){
-      var m = b.getAttribute('data-mode');
-      if(m===state.mode) return;
-      state.mode = m;
-      renderConfig();
-    });
-  });
 }
 
 // ---------- scroll-reveal ----------
