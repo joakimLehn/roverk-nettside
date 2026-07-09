@@ -403,7 +403,7 @@ Vi tar kontakt for å bekrefte detaljer og monteringsdato.</p>
 export function slackMessage(order, notify) {
   const navn = SITE_NAVN[order.site] || order.site;
   const lines = [
-    `:package: *Ny ordre — Roverk ${navn}*`,
+    `:package: *Ny ordre — Roverk ${navn}* (${order.site})`,
     `*Produkt:* ${order.product || '—'}`,
     `*Kunde:* ${order.name} · ${order.phone} · ${order.email}`,
     `*Adresse:* ${order.address || '—'}`,
