@@ -25,3 +25,5 @@ yarn-error.log*
 # Logg/temp
 *.log
 *.tmp
+.env
+.env*

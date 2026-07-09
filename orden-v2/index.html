@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Roverk Orden – oppbevaringssystem i tre for garasje og bod, montert i Trondheim | Roverk</title>
-<meta name="description" content="Mobile oppbevaringsrack i ekte tre for garasje og bod. Bygget rundt kassene dine så du utnytter hver centimeter. Levert og montert lokalt i Trondheimsområdet – du betaler først når alt står ferdig. Standardmodell eller skreddersøm på mål.">
+<meta name="description" content="Mobile oppbevaringsrack i ekte tre for garasje og bod. Bygget rundt kassene dine så du utnytter hver centimeter. Levert og montert lokalt i Trondheimsområdet – du betaler først når alt står ferdig. Standardmodeller i to kassestørrelser (60L/100L).">
 <meta name="theme-color" content="#0E0D0B">
 <meta property="og:title" content="Roverk Orden – oppbevaringssystem i tre for garasje og bod">
 <meta property="og:description" content="Mobile trebaserte oppbevaringsrack for garasje og bod. Bygget rundt kassene dine, levert og montert lokalt i Trondheim. Betal først etter montering.">
@@ -96,7 +96,7 @@ img{max-width:100%}
 
 /* press feedback + arrow nudge */
 .hover-dim,.hover-dim-amber{transition:opacity .15s ease,transform .12s ease,box-shadow .2s ease}
-.hover-dim:active,.hover-dim-amber:active,.wopt:active,.seg-btn:active{transform:scale(.97)}
+.hover-dim:active,.hover-dim-amber:active,.wopt:active{transform:scale(.97)}
 .arw{display:inline-block;transition:transform .2s ease}
 .hover-dim:hover .arw,.hover-dim-amber:hover .arw{transform:translateX(4px)}
 #cfg-cta:hover{box-shadow:0 10px 24px rgba(46,64,52,.22)}
@@ -105,12 +105,6 @@ img{max-width:100%}
 .model-card svg{transition:transform .32s cubic-bezier(.2,.7,.2,1)}
 .model-card:hover svg{transform:translateX(7px)}
 
-/* segmented sliding pill */
-.seg-wrap{position:relative;display:flex;gap:0;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:5px;margin-bottom:24px}
-.seg-pill{position:absolute;top:5px;left:5px;width:calc(50% - 5px);height:calc(100% - 10px);background:var(--green);border-radius:9px;transition:transform .28s cubic-bezier(.3,.8,.3,1)}
-.seg-wrap[data-mode=custom] .seg-pill{transform:translateX(100%)}
-.seg-btn{position:relative;z-index:1;flex:1;padding:10px 4px;border-radius:9px;cursor:pointer;border:none;background:transparent;font-family:'Hanken Grotesk',sans-serif;font-weight:700;font-size:14px;color:var(--text);transition:color .2s ease}
-.seg-wrap[data-mode=standard] .seg-std,.seg-wrap[data-mode=custom] .seg-cust{color:#fff}
 
 /* FAQ smooth expand (max-height = bredt støttet, ingen fr-avhengighet) */
 .faq-a{max-height:0;overflow:hidden;transition:max-height .32s ease}
@@ -144,19 +138,23 @@ window.addEventListener('DOMContentLoaded',function(){
 </head>
 <body>
 
+<!-- ===== v2 EKSPERIMENT-BANNER ===== -->
+<div style="background:var(--amber);color:var(--heroBg);text-align:center;font-size:12.5px;font-weight:700;padding:7px 16px;letter-spacing:.01em">EKSPERIMENT v2 · kinakasser (60L / 100L) — kassa henger i kanten, ingen plate. Isolert versjon; påvirker ikke roverk.no/orden.</div>
+
 <!-- ===== HEADER ===== -->
 <header id="site-header" style="position:sticky;top:0;z-index:50;background:var(--bg);border-bottom:1px solid var(--line);backdrop-filter:saturate(1.1)">
   <div class="hbar" style="max-width:1180px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap">
     <a href="#hero" style="display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--text)">
       <img src="assets/roverk-wordmark-sort.png" alt="Roverk" style="height:19px;width:auto;display:block">
       <span style="width:1px;height:15px;background:var(--line);display:inline-block"></span>
-      <span style="font-family:'Hanken Grotesk';font-weight:600;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--amber)">Orden</span>
+      <span style="font-family:'Hanken Grotesk';font-weight:600;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--amber)">Orden v2</span>
     </a>
     <button class="hamburger" id="hamburger" aria-label="Åpne meny" aria-expanded="false">☰</button>
     <nav class="mainnav" id="mainnav" style="display:flex;gap:22px;align-items:center;flex-wrap:wrap">
       <a href="#konfigurator" class="lnk" style="text-decoration:none;color:var(--muted);font-size:14px;font-weight:500">Planlegger</a>
       <a href="#hvorfor-viktig" class="lnk" style="text-decoration:none;color:var(--muted);font-size:14px;font-weight:500">Hvorfor</a>
       <a href="#modeller" class="lnk" style="text-decoration:none;color:var(--muted);font-size:14px;font-weight:500">Modeller</a>
+      <a href="#sammenlign" class="lnk" style="text-decoration:none;color:var(--muted);font-size:14px;font-weight:500">Mot IKEA</a>
       <a href="#prosess" class="lnk" style="text-decoration:none;color:var(--muted);font-size:14px;font-weight:500">Slik funker det</a>
       <a href="#om" class="lnk" style="text-decoration:none;color:var(--muted);font-size:14px;font-weight:500">Om oss</a>
       <a href="#referanser" class="lnk" style="text-decoration:none;color:var(--muted);font-size:14px;font-weight:500">Eksempler</a>
@@ -181,7 +179,7 @@ window.addEventListener('DOMContentLoaded',function(){
           <a href="#modeller" class="hover-border-light" style="background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.35);padding:15px 26px;border-radius:999px;text-decoration:none;font-size:16px;font-weight:600;transition:border-color .15s ease">Se modeller</a>
         </div>
         <div class="hero-in d4" style="display:flex;gap:22px;flex-wrap:wrap;font-size:13.5px;color:rgba(255,255,255,.72)">
-          <span>✓ Betal først etter montering</span><span>✓ Fast pris — levering og montering inkludert</span><span>✓ Skreddersøm på mål</span>
+          <span>✓ Betal først etter montering</span><span>✓ Fast pris — levering og montering inkludert</span><span>✓ Kasser inkludert</span>
         </div>
       </div>
       <div id="hero-rack" class="hero-in d3"></div>
@@ -263,8 +261,8 @@ window.addEventListener('DOMContentLoaded',function(){
       </div>
       <div style="border-top:2px solid var(--amber);padding-top:18px">
         <div style="font-size:11.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--amber);margin-bottom:8px">Laget for din garasje</div>
-        <h3 style="font-size:18px;font-weight:800;margin-bottom:8px;font-family:'Archivo'">Skreddersydd &amp; plassoptimalisert</h3>
-        <p style="color:var(--muted);font-size:14.5px;margin:0">Standardmodell eller helt egne mål. Bygget etter garasjen eller boden din — og rundt kassene — så hver centimeter teller, også i høyden.</p>
+        <h3 style="font-size:18px;font-weight:800;margin-bottom:8px;font-family:'Archivo'">Plassoptimalisert</h3>
+        <p style="color:var(--muted);font-size:14.5px;margin:0">Velg bredde, høyde og kassestørrelse (60L/100L). Bygget rundt kassene så hver centimeter teller — også opp mot taket.</p>
       </div>
       <div style="border-top:2px solid var(--amber);padding-top:18px">
         <div style="font-size:11.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--amber);margin-bottom:8px">Uten helgeprosjektet</div>
@@ -282,17 +280,12 @@ window.addEventListener('DOMContentLoaded',function(){
     <div style="text-align:center;max-width:640px;margin:0 auto 44px">
       <div style="display:inline-flex;align-items:center;gap:8px;font-size:12.5px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--amber);margin-bottom:14px">Planlegger</div>
       <h2 style="font-size:clamp(28px,3.8vw,42px);font-weight:900;letter-spacing:-.02em;margin-bottom:12px">Bygg ditt rack</h2>
-      <p style="color:var(--muted);font-size:17px;margin:0">Velg størrelse — eller skreddersøm på mål. Vi regner ut mål, hjul, bokser og total pris, inkl. levering og montering.</p>
+      <p style="color:var(--muted);font-size:17px;margin:0">Velg kassestørrelse (60L eller 100L), bredde og høyde. Vi regner ut mål, lagringsvolum, hjul og total pris, inkl. kasser, levering og montering.</p>
     </div>
 
     <div data-r="cfg" data-reveal style="display:grid;grid-template-columns:1fr 1fr;gap:36px;align-items:start;background:var(--bg);border:1px solid var(--line);border-radius:22px;padding:34px">
       <!-- controls (rendered by JS) -->
       <div>
-        <div class="seg-wrap" id="seg-wrap" data-mode="standard">
-          <div class="seg-pill"></div>
-          <button class="seg-btn seg-std" data-mode="standard">Standardmodell</button>
-          <button class="seg-btn seg-cust" data-mode="custom">Skreddersøm</button>
-        </div>
         <div id="cfg-controls"></div>
       </div>
 
@@ -313,10 +306,60 @@ window.addEventListener('DOMContentLoaded',function(){
     <div data-reveal style="display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:36px">
       <div>
         <h2 style="font-size:clamp(26px,3.4vw,38px);font-weight:800;letter-spacing:-.02em;margin-bottom:8px">Eksempler på standardmodeller</h2>
-        <p style="color:var(--muted);font-size:17px;margin:0;max-width:560px">Fra 1×3 til 5×5. Prisen beregnes automatisk i konfiguratoren når du velger hjul og bokser. Trykk på en modell for å åpne den.</p>
+        <p style="color:var(--muted);font-size:17px;margin:0;max-width:560px">Fra 1×3 til 5×7, i 60L eller 100L. Prisen beregnes automatisk i planleggeren — kasser alltid inkludert. Trykk på en modell for å åpne den.</p>
       </div>
     </div>
     <div id="models-grid" data-reveal-group style="display:grid;grid-template-columns:repeat(auto-fill,minmax(215px,1fr));gap:14px"></div>
+  </div>
+</section>
+
+<!-- ===== SAMMENLIGN MOT IKEA ===== -->
+<section id="sammenlign" style="scroll-margin-top:80px;background:var(--card);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+  <div style="max-width:1180px;margin:0 auto;padding:64px 24px">
+    <div data-reveal style="max-width:680px;margin:0 auto 40px;text-align:center">
+      <div style="display:inline-flex;align-items:center;gap:8px;font-size:12.5px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--amber);margin-bottom:14px"><span style="width:7px;height:7px;border-radius:50%;background:var(--amber)"></span>Sammenlignet med IKEA</div>
+      <h2 style="font-size:clamp(28px,3.8vw,42px);font-weight:900;letter-spacing:-.02em;margin-bottom:12px">Skal du kjøpe hyller til kassene? Regn på det først.</h2>
+      <p id="cmp-intro" style="color:var(--muted);font-size:17px;margin:0">Samme lagringsvolum — <strong>960 liter (16 kasser)</strong>. Slik står Roverk mot en tilsvarende løsning i ekte tre fra IKEA (IVAR + SAMLA), som du kjøper og bygger selv.</p>
+    </div>
+
+    <div id="cmp-cards" data-reveal style="display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:20px;align-items:stretch">
+
+      <!-- IKEA -->
+      <div style="background:var(--bg);border:1px solid var(--line);border-radius:20px;padding:28px 26px;display:flex;flex-direction:column">
+        <div style="font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin-bottom:6px">IKEA IVAR + SAMLA</div>
+        <div style="font-size:14px;color:var(--muted);margin-bottom:16px">Gjør-det-selv</div>
+        <div style="font-family:'Archivo';font-weight:900;font-size:38px;letter-spacing:-.02em;color:var(--text)">~11 800 kr</div>
+        <div style="font-size:13px;color:var(--muted);margin:4px 0 20px">~9 200 kr bare i deler, + frakt + montering*</div>
+        <ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:13px;font-size:14.5px">
+          <li style="display:flex;gap:11px"><span style="color:var(--muted);font-weight:800;flex:none">✕</span><span><strong>3,56 m</strong> vegg — hvert 83 cm-plan tar bare én boks, så det blir mye tomrom i bredden</span></li>
+          <li style="display:flex;gap:11px"><span style="color:var(--muted);font-weight:800;flex:none">✕</span><span><strong>4 reoler</strong> du må hente som flatpakke og bygge selv</span></li>
+          <li style="display:flex;gap:11px"><span style="color:var(--muted);font-weight:800;flex:none">✕</span><span>Kasser og <strong>lokk kjøpes separat</strong> (15 bokser + 15 lokk)</span></li>
+          <li style="display:flex;gap:11px"><span style="color:var(--muted);font-weight:800;flex:none">✕</span><span>Ingen frakt eller montering — det ordner du selv</span></li>
+        </ul>
+      </div>
+
+      <!-- ROVERK -->
+      <div style="background:var(--heroBg);color:#fff;border:2px solid var(--amber);border-radius:20px;padding:28px 26px;display:flex;flex-direction:column;position:relative;overflow:hidden">
+        <div style="position:absolute;top:16px;right:-34px;transform:rotate(45deg);background:var(--amber);color:var(--heroBg);font-size:11px;font-weight:800;letter-spacing:.06em;padding:5px 40px">BEST</div>
+        <div style="font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--amber);margin-bottom:6px">Roverk Orden</div>
+        <div style="font-size:14px;color:rgba(255,255,255,.7);margin-bottom:16px">Levert + ferdig montert</div>
+        <div style="font-family:'Archivo';font-weight:900;font-size:38px;letter-spacing:-.02em;color:#fff">8 390 kr</div>
+        <div style="font-size:13px;color:rgba(255,255,255,.7);margin:4px 0 20px">Alt inkludert — rack, 16 kasser, levering og montering</div>
+        <ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:13px;font-size:14.5px">
+          <li style="display:flex;gap:11px"><span style="color:var(--amber);font-weight:800;flex:none">✓</span><span><strong>1,95 m</strong> vegg for samme 960 liter — nesten halvparten av plassen</span></li>
+          <li style="display:flex;gap:11px"><span style="color:var(--amber);font-weight:800;flex:none">✓</span><span>Vi kjører hjem til deg og <strong>monterer ferdig</strong> — ingen helg med skrujern</span></li>
+          <li style="display:flex;gap:11px"><span style="color:var(--amber);font-weight:800;flex:none">✓</span><span><strong>16 kasser inkludert</strong> — hver med sin egen plass, dra ut hva du vil</span></li>
+          <li style="display:flex;gap:11px"><span style="color:var(--amber);font-weight:800;flex:none">✓</span><span>Ekte tre, bygget opp mot ditt tak — og kan trilles</span></li>
+        </ul>
+      </div>
+
+    </div>
+
+    <p id="cmp-note" style="max-width:820px;margin:22px auto 0;text-align:center;font-size:12px;color:var(--muted);line-height:1.6">* Prisanslag hentet juli 2026: dyp IVAR 89×50×179 cm à 1 590 kr × 4, SAMLA 65 l à 149 kr × 15, SAMLA-lokk à 40 kr × 15 = ~9 200 kr i deler. Frakt og montering kommer i tillegg og varierer. IKEA-priser kan endres — vi har tatt utgangspunkt i ordinær nettpris.</p>
+
+    <div data-reveal style="text-align:center;margin-top:28px">
+      <a href="#konfigurator" class="hover-dim-amber" style="display:inline-block;background:var(--amber);color:var(--heroBg);padding:15px 28px;border-radius:999px;text-decoration:none;font-size:16px;font-weight:700">Se hva ditt rack koster <span class="arw">→</span></a>
+    </div>
   </div>
 </section>
 
@@ -328,7 +371,7 @@ window.addEventListener('DOMContentLoaded',function(){
       <div style="border-top:2px solid rgba(255,255,255,.25);padding-top:20px">
         <div style="font-family:'Archivo';font-weight:900;font-size:44px;letter-spacing:-.03em;color:var(--amber);margin-bottom:12px">1</div>
         <h3 style="font-size:20px;font-weight:800;margin-bottom:8px;color:#fff;font-family:'Archivo'">Du konfigurerer</h3>
-        <p style="color:rgba(255,255,255,.75);font-size:15px;margin:0">Bruk konfiguratoren: velg en standardmodell eller skreddersøm på mål.</p>
+        <p style="color:rgba(255,255,255,.75);font-size:15px;margin:0">Bruk planleggeren: velg kassestørrelse, bredde og høyde.</p>
       </div>
       <div style="border-top:2px solid rgba(255,255,255,.25);padding-top:20px">
         <div style="font-family:'Archivo';font-weight:900;font-size:44px;letter-spacing:-.03em;color:var(--amber);margin-bottom:12px">2</div>
@@ -450,7 +493,7 @@ window.addEventListener('DOMContentLoaded',function(){
       <div style="margin-bottom:14px">
         <img src="assets/roverk-ordmerke-hvit.png" alt="Roverk – Bygget for orden" style="height:56px;width:auto;display:block">
       </div>
-      <p style="margin:0;font-size:14px;max-width:320px">Roverk Orden — skreddersydde oppbevaringssystem i tre, bygget og montert lokalt i Trondheimsområdet.</p>
+      <p style="margin:0;font-size:14px;max-width:320px">Roverk Orden — oppbevaringssystem i tre, bygget og montert lokalt i Trondheimsområdet.</p>
     </div>
     <div style="display:flex;gap:56px;flex-wrap:wrap;font-size:14px">
       <!-- TODO: bytt ut placeholder-verdiene i href og tekst med ekte kontaktinfo -->
@@ -481,23 +524,26 @@ window.addEventListener('DOMContentLoaded',function(){
 // Palett: "Varm lin" (design-default)
 var C = { bg:'#F4F2ED', card:'#FBFAF7', text:'#141310', muted:'#6E685E', amber:'#BE8A48', amberSoft:'#E9DBC1', green:'#17150F', line:'#E4DFD5', heroBg:'#0E0D0B', wood:'#A9743B' };
 
-// Geometri (mm)
-// Geometri fra kalkylen (Nordic_Storage_rack_kalkyle.xlsx): nivåhøyde = kasse + 30 mm (12 margin + 18 plate),
-// utvendig bredde = 424×W + 72, dybde 600, +96 mm sviller u/hjul, +155 mm med hjul (Ø125 hjul + feste).
-var DEPTH=600, BOXH={S:260,L:340}, LEVELADD=30, OVERHEAD=96, WHEELH=155;
-function widthMm(W){ return 424*W + 72; }
+// Geometri (mm) — Roverk Orden v2 (kinakasser). Kassa henger i kanten på lekt; ingen plate.
+// Ytre bredde = W·(kassebredde+10) + 2·48 (ytre stender) + (W-1)·24 (indre stender).
+// Etasjehøyde (pitch) = kassehøyde + 40 mm klaring. Ytre høyde = H·pitch + 130 mm ramme.
+var BOX = { '60L':{D:630,W:435,H:340,liter:60}, '100L':{D:780,W:520,H:365,liter:100} };
+var CLR_W=10, CLR_PITCH=40, FRAME_ALLOW=130, WHEELH=155;
+function pitchMm(bt){ return BOX[bt].H + CLR_PITCH; }
+function widthMm(bt,W){ return W*(BOX[bt].W+CLR_W) + 2*48 + (W-1)*24; }
+function heightMm(bt,H){ return H*pitchMm(bt) + FRAME_ALLOW; }
+function depthMm(bt){ return BOX[bt].D + 20; }
 var NBMONTHS=['januar','februar','mars','april','mai','juni','juli','august','september','oktober','november','desember'];
 var WEEKDAY=['søndag','mandag','tirsdag','onsdag','torsdag','fredag','lørdag'];
 
-var ORDER=['1x3','1x4','1x5','2x3','2x4','2x5','3x3','3x4','3x5','4x3','4x4','4x5','5x3','5x4','5x5'];
+var ORDER=['2x3','2x4','3x3','3x4','3x5','4x4','4x5','5x5'];
 
 var FAQ=[
   { q:'Hvor leverer og monterer dere?', a:'Vi leverer og monterer i Trondheim, Melhus og Malvik. Bor du litt utenfor? Ta kontakt, så finner vi ut av det.' },
-  { q:'Følger hjul og bokser med?', a:'Du velger selv i konfiguratoren. Hjul (med brems) og oppbevaringsbokser (40L/60L) kan legges til, og prisen beregnes automatisk.' },
-  { q:'Kan jeg få andre mål enn standardmodellene?', a:'Absolutt. I tillegg til standardmodellene bygger vi skreddersøm på mål. Velg «Skreddersøm» i konfiguratoren, skriv inn målene, så gir vi deg et tilbud.' },
+  { q:'Følger kasser og hjul med?', a:'Kassene er alltid inkludert — racket er bygget for å henge nøyaktig disse kassene i kanten, og det finnes ingen kasser i Norge som passer til dette. Du velger størrelse: Stor (60L) eller Veldig stor (100L). Hjul med brems kan legges til som tilvalg, og prisen beregnes automatisk.' },
   { q:'Hvor lang er leveringstiden?', a:'Normalt tar det 1–2 uker fra bestilling til ferdig montert. Du sender inn en forespørsel om leveringstidspunkt under bestillingen, og vi avtaler konkret tid når tilbudet er akseptert.' },
-  { q:'Hva er inkludert i prisen?', a:'Grunnprisen på racket inkluderer levering og montering i leveringsområdet. Hjul og bokser kommer i tillegg — totalen ser du i konfiguratoren.' },
-  { q:'Passer racket i bod, kjeller eller loft — også med lav takhøyde?', a:'Ja. Racket passer like godt i bod, kjeller og loft som i garasjen. Fordi vi bygger etter dine mål, tilpasser vi høyden til lav takhøyde eller skråtak, og bredden til plassen du har.' },
+  { q:'Hva er inkludert i prisen?', a:'Prisen inkluderer racket, kassene og levering og montering i leveringsområdet. Hjul kommer eventuelt i tillegg — totalen ser du i planleggeren.' },
+  { q:'Passer racket i bod, kjeller eller loft — også med lav takhøyde?', a:'Ja. Racket passer like godt i bod, kjeller og loft som i garasjen. Du velger bredde (1–5) og høyde (3–7 kasser), så du tilpasser til takhøyden og plassen du har.' },
   { q:'Hvor mye tåler racket?', a:'Racket er bygget rundt oppbevaringskassene, så hvert nivå er dimensjonert for å bære en full kasse med god margin — også når kassene er tungt lastet. Har du uvanlig tung last, sier du fra, så tilpasser vi konstruksjonen.' },
   { q:'Hvor lenge varer racket?', a:'Det er bygget i ekte tre for å vare i årevis, også med daglig bruk — fulle kasser som trekkes ut og inn i et garasje- eller bodmiljø.' },
   { q:'Kan jeg ta racket med meg hvis jeg flytter?', a:'Ja. Racket er ikke festet til vegg, og med hjul kan det enkelt trilles og flyttes — også med i flyttelasset. Det er ditt.' },
@@ -507,87 +553,92 @@ var FAQ=[
 
 // ---------- state ----------
 var state = {
-  mode:'standard', w:4, n40:2, n60:3, withWheels:true, withBoxes:false,
-  cw:'', ch:'', cd:'', cnote:'',
+  bt:'60L', w:4, h:4, withWheels:false,
   faqOpen:0,
-  orderOpen:false, orderKind:'order' /* order|quote */, orderPhase:'date', orderDate:'', calMonth:null,
+  orderOpen:false, orderPhase:'date', orderDate:'', calMonth:null,
   o_name:'', o_phone:'', o_email:'', o_address:'', o_hp:''
 };
-var SITE_ID='orden';
+var SITE_ID='orden-v2';
 
 // ---------- helpers ----------
 function fmt(n){ return n.toLocaleString('nb-NO'); }
 function esc(s){ return String(s).replace(/[&<>"]/g,function(ch){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[ch];}); }
-function presetStack(H){ return { n40:2, n60:Math.max(1,H-2) }; }
-function stackArr(n40,n60){ return Array(n40).fill('S').concat(Array(n60).fill('L')); }
-function dims(W,n40,n60,wheels){
-  var innv = n40*(BOXH.S+LEVELADD) + n60*(BOXH.L+LEVELADD);
-  var utenHjul = innv + OVERHEAD;
-  return { bredde:widthMm(W), dybde:DEPTH, innv:innv, utenHjul:utenHjul, totalt:utenHjul + (wheels?WHEELH:0) };
+function stackFor(bt,H){ return Array(H).fill(bt==='100L'?'L':'S'); }
+function dims(bt,W,H,wheels){
+  var utenHjul = heightMm(bt,H);
+  return { bredde:widthMm(bt,W), dybde:depthMm(bt), utenHjul:utenHjul, totalt:utenHjul + (wheels?WHEELH:0) };
 }
-// Basispris fra kalkylen (Nordic_Storage_rack_kalkyle.xlsx, ark "Salgspris").
-// base = kostnad(arb+mat) × 1,30, rundet opp til å ende på 90. Nøkkel: W_n40_n60 (antall 40L-/60L-nivåer).
-// Hjul (+500/stk) og bokser (+250/stk) legges til i computeVals(), i tråd med kalkylens parametere.
-var BASEPRICE = {"1_3_0":3190,"1_2_1":3290,"1_1_2":3290,"1_0_3":3290,"1_4_0":3490,"1_3_1":3590,"1_2_2":3590,"1_1_3":3590,"1_0_4":3590,"1_5_0":3890,"1_4_1":3890,"1_3_2":3890,"1_2_3":3890,"1_1_4":3890,"1_0_5":3890,"1_6_0":4490,"1_5_1":4490,"1_4_2":4490,"1_3_3":4490,"1_2_4":4490,"1_1_5":4590,"1_0_6":4590,"1_7_0":4790,"1_6_1":4790,"1_5_2":4790,"1_4_3":4790,"1_3_4":4790,"1_2_5":4890,"1_1_6":4890,"1_0_7":4890,"2_3_0":4290,"2_2_1":4290,"2_1_2":4290,"2_0_3":4290,"2_4_0":4690,"2_3_1":4790,"2_2_2":4790,"2_1_3":4790,"2_0_4":4790,"2_5_0":5190,"2_4_1":5190,"2_3_2":5190,"2_2_3":5290,"2_1_4":5290,"2_0_5":5290,"2_6_0":5990,"2_5_1":5990,"2_4_2":5990,"2_3_3":5990,"2_2_4":5990,"2_1_5":6090,"2_0_6":6090,"2_7_0":6390,"2_6_1":6390,"2_5_2":6490,"2_4_3":6490,"2_3_4":6490,"2_2_5":6490,"2_1_6":6590,"2_0_7":6590,"3_3_0":5090,"3_2_1":5090,"3_1_2":5090,"3_0_3":5090,"3_4_0":5990,"3_3_1":5990,"3_2_2":5990,"3_1_3":6090,"3_0_4":6090,"3_5_0":6590,"3_4_1":6590,"3_3_2":6690,"3_2_3":6690,"3_1_4":6690,"3_0_5":6690,"3_6_0":7490,"3_5_1":7590,"3_4_2":7590,"3_3_3":7590,"3_2_4":7590,"3_1_5":7690,"3_0_6":7690,"3_7_0":8490,"3_6_1":8490,"3_5_2":8490,"3_4_3":8490,"3_3_4":8590,"3_2_5":8590,"3_1_6":8590,"3_0_7":8590,"4_3_0":6090,"4_2_1":6090,"4_1_2":6190,"4_0_3":6190,"4_4_0":7190,"4_3_1":7190,"4_2_2":7190,"4_1_3":7290,"4_0_4":7290,"4_5_0":7990,"4_4_1":7990,"4_3_2":7990,"4_2_3":7990,"4_1_4":8090,"4_0_5":8090,"4_6_0":8990,"4_5_1":9090,"4_4_2":9090,"4_3_3":9090,"4_2_4":9190,"4_1_5":9190,"4_0_6":9190,"4_7_0":10090,"4_6_1":10190,"4_5_2":10190,"4_4_3":10190,"4_3_4":10190,"4_2_5":10290,"4_1_6":10290,"4_0_7":10290,"5_3_0":6890,"5_2_1":6890,"5_1_2":6990,"5_0_3":6990,"5_4_0":8090,"5_3_1":8190,"5_2_2":8190,"5_1_3":8190,"5_0_4":8290,"5_5_0":9390,"5_4_1":9390,"5_3_2":9390,"5_2_3":9490,"5_1_4":9490,"5_0_5":9490,"5_6_0":10590,"5_5_1":10590,"5_4_2":10690,"5_3_3":10690,"5_2_4":10690,"5_1_5":10790,"5_0_6":10790,"5_7_0":11890,"5_6_1":11890,"5_5_2":11890,"5_4_3":11990,"5_3_4":11990,"5_2_5":11990,"5_1_6":11990,"5_0_7":12090};
-// Lineært estimat per bredde for konfigurasjoner utenfor kalkylens dekning (høyere enn 7 nivåer): [konstant, per 40L-nivå, per 60L-nivå]
-var BASEFALLBACK = {"1":[1947.6,405.1,420.7],"2":[2510,558.5,581.5],"3":[2517.6,841.7,864.2],"4":[3096.5,995.3,1023.6],"5":[3165.3,1240.5,1271.2]};
-function priceFor(W,n40,n60){
-  var key = W+'_'+n40+'_'+n60;
+// Basispris = struktur (materiale + arbeid inkl. frakt) × 1,30, rundet opp til å ende på 90.
+// Kassene (250/stk, påbudt) og evt. hjul (500/stk) legges til i computeVals(). Nøkkel: type_W_H.
+var BASEPRICE = {"60L_1_3":2390,"60L_1_4":2590,"60L_1_5":2790,"60L_1_6":2990,"60L_1_7":3090,"60L_2_3":2890,"60L_2_4":3190,"60L_2_5":3490,"60L_2_6":3790,"60L_2_7":4090,"60L_3_3":3390,"60L_3_4":3790,"60L_3_5":4290,"60L_3_6":4690,"60L_3_7":4990,"60L_4_3":3890,"60L_4_4":4390,"60L_4_5":4990,"60L_4_6":5490,"60L_4_7":5990,"60L_5_3":4390,"60L_5_4":4990,"60L_5_5":5790,"60L_5_6":6390,"60L_5_7":6990,"100L_1_3":2490,"100L_1_4":2590,"100L_1_5":2890,"100L_1_6":2990,"100L_1_7":3190,"100L_2_3":2990,"100L_2_4":3290,"100L_2_5":3690,"100L_2_6":3990,"100L_2_7":4290,"100L_3_3":3490,"100L_3_4":3890,"100L_3_5":4490,"100L_3_6":4890,"100L_3_7":5290,"100L_4_3":4090,"100L_4_4":4590,"100L_4_5":5290,"100L_4_6":5790,"100L_4_7":6390,"100L_5_3":4590,"100L_5_4":5290,"100L_5_5":6090,"100L_5_6":6790,"100L_5_7":7390};
+function r90(x){ return Math.ceil((x-90)/100)*100+90; }
+function priceFor(bt,W,H){
+  var key = bt+'_'+W+'_'+H;
   if(BASEPRICE[key]!=null) return BASEPRICE[key];
-  var f = BASEFALLBACK[W] || BASEFALLBACK[5];
-  var est = f[0] + f[1]*n40 + f[2]*n60;
-  return Math.ceil((est-90)/100)*100+90;
+  // fallback: skalér lineært mellom 3 og 7 etasjer for samme bredde/type
+  var lo=BASEPRICE[bt+'_'+W+'_3'], hi=BASEPRICE[bt+'_'+W+'_7'];
+  if(lo==null||hi==null) return null;
+  return r90(lo + (hi-lo)/4*(H-3));
 }
 function wheelsFor(W){ return W<=2 ? 4 : (W<=4 ? 6 : 8); }
 
 // ---------- SVG rack ----------
 function buildRack(w, stack, wheels, showBoxes, fit, drop){
-  var cell=46, gap=7, post=8, pad=14, legH=28, wr=8.5, S=22, L=30;
-  var rowHs = stack.map(function(t){ return t==='L'?L:S; });
+  var cell=46, post=9, pad=14, legH=26, wr=8, boxGap=13, lekt=6;
+  var rowHs = stack.map(function(t){ return t==='L'?32:26; });
   var rows = rowHs.length;
-  var gridW = w*cell + (w-1)*gap;
-  var gridH = rowHs.reduce(function(a,b){return a+b;},0) + (rows-1)*gap;
-  var frameW = gridW + post*2 + gap*2;
-  var frameH = gridH + post + gap*2;
-  var innerX = pad+post+gap, innerY0 = pad+post+gap;
-  var totalW = frameW + pad*2, totalH = frameH + legH + pad*2;
+  var colStep = cell+post;
+  var frameW = post + w*colStep;                 // venstre stender + kolonner
+  var innerY = pad+post+6;
+  var rowTops=[], y=innerY;
+  for(var r=0;r<rows;r++){ rowTops.push(y); y += rowHs[r]+boxGap; }
+  var baseY = y - boxGap + 6;                     // topp av bunnramme
+  var totalW = frameW + pad*2, totalH = baseY + post + legH + pad;
   var s = '';
-  s += '<rect x="'+pad+'" y="'+pad+'" width="'+post+'" height="'+frameH+'" rx="2" fill="'+C.wood+'"/>';
-  s += '<rect x="'+(pad+frameW-post)+'" y="'+pad+'" width="'+post+'" height="'+frameH+'" rx="2" fill="'+C.wood+'"/>';
+  // topp- og bunnramme i bredden
   s += '<rect x="'+pad+'" y="'+pad+'" width="'+frameW+'" height="'+post+'" rx="2" fill="'+C.wood+'"/>';
-  var yc = innerY0, idx = 0;
-  for(var r=0;r<rows;r++){
-    var rh = rowHs[r], y = yc;
-    s += '<rect x="'+(pad+post-2)+'" y="'+(y+rh+2)+'" width="'+(frameW-2*post+4)+'" height="5" rx="2" fill="'+C.wood+'"/>';
-    if(showBoxes){
-      for(var col=0;col<w;col++){
-        var x = innerX + col*(cell+gap);
+  s += '<rect x="'+pad+'" y="'+baseY+'" width="'+frameW+'" height="'+post+'" rx="2" fill="'+C.wood+'"/>';
+  // loddrette stendere (w+1), fra topp- til bunnramme — ingen hylleplater
+  for(var i=0;i<=w;i++){
+    var px = pad + i*colStep;
+    s += '<rect x="'+px+'" y="'+pad+'" width="'+post+'" height="'+(baseY+post-pad)+'" rx="2" fill="'+C.wood+'"/>';
+  }
+  // kasser henger på lekt, med åpen luft under hver kasse
+  var idx = 0;
+  for(var r2=0;r2<rows;r2++){
+    var by = rowTops[r2], rh = rowHs[r2];
+    for(var c=0;c<w;c++){
+      var bx = pad + post + c*colStep;
+      // lekt: liten kloss på hver nabostender rett under kassekanten
+      s += '<rect x="'+(bx-lekt)+'" y="'+(by+3)+'" width="'+lekt+'" height="4" fill="'+C.amber+'"/>';
+      s += '<rect x="'+(bx+cell)+'" y="'+(by+3)+'" width="'+lekt+'" height="4" fill="'+C.amber+'"/>';
+      if(showBoxes){
         var anim = drop ? 'animation:rackdrop .5s cubic-bezier(.2,.7,.2,1) '+(idx*45)+'ms both'
                         : 'animation:boxpop .4s ease '+(idx*26)+'ms both';
-        s += '<rect x="'+x+'" y="'+y+'" width="'+cell+'" height="'+rh+'" rx="4" fill="'+C.amberSoft+'" stroke="'+C.amber+'" stroke-width="1.5" style="'+anim+'"/>';
-        s += '<rect x="'+(x+cell*0.28)+'" y="'+(y+5)+'" width="'+(cell*0.44)+'" height="3" rx="1.5" fill="'+C.amber+'" opacity="0.55" style="'+anim+'"/>';
+        // kassekant stikker litt ut i toppen (det den henger etter), kroppen henger ned
+        s += '<rect x="'+(bx-2)+'" y="'+by+'" width="'+(cell+4)+'" height="6" rx="2" fill="'+C.amber+'" opacity="0.65" style="'+anim+'"/>';
+        s += '<rect x="'+bx+'" y="'+(by+5)+'" width="'+cell+'" height="'+(rh-5)+'" rx="3" fill="'+C.amberSoft+'" stroke="'+C.amber+'" stroke-width="1.3" style="'+anim+'"/>';
+        s += '<rect x="'+(bx+cell*0.3)+'" y="'+(by+rh*0.5)+'" width="'+(cell*0.4)+'" height="3" rx="1.5" fill="'+C.amber+'" opacity="0.5" style="'+anim+'"/>';
         idx++;
       }
     }
-    s += '<rect x="'+(innerX-2)+'" y="'+(y+rh-4)+'" width="'+(gridW+4)+'" height="4" rx="2" fill="'+C.wood+'" opacity="0.85"/>';
-    yc += rh + gap;
   }
-  var baseY = pad+frameH;
-  s += '<rect x="'+(pad+2)+'" y="'+baseY+'" width="'+(frameW-4)+'" height="8" rx="3" fill="'+C.wood+'"/>';
+  // hjul eller føtter under bunnrammen
+  var wbY = baseY+post;
   if(wheels>0){
     var vis = Math.max(1, Math.round(wheels/2));
-    var span = frameW-4-24;
-    for(var i=0;i<vis;i++){
-      var cx = pad+2+12 + (vis===1 ? span/2 : i*(span/(vis-1)));
-      var cy = baseY+8+legH-wr-2;
-      s += '<rect x="'+(cx-2)+'" y="'+(baseY+8)+'" width="4" height="'+(legH-wr-2)+'" fill="'+C.wood+'"/>';
+    var span = frameW-24;
+    for(var k=0;k<vis;k++){
+      var cx = pad+12 + (vis===1 ? span/2 : k*(span/(vis-1)));
+      var cy = wbY+legH-wr-2;
+      s += '<rect x="'+(cx-2)+'" y="'+wbY+'" width="4" height="'+(legH-wr-2)+'" fill="'+C.wood+'"/>';
       s += '<circle cx="'+cx+'" cy="'+cy+'" r="'+wr+'" fill="none" stroke="'+C.text+'" stroke-width="3"/>';
       s += '<circle cx="'+cx+'" cy="'+cy+'" r="2.5" fill="'+C.text+'"/>';
     }
   } else {
-    [pad+2+14, pad+frameW-2-14].forEach(function(fx){
-      s += '<rect x="'+(fx-3)+'" y="'+(baseY+8)+'" width="6" height="'+(legH-8)+'" fill="'+C.wood+'"/>';
-      s += '<rect x="'+(fx-10)+'" y="'+(baseY+8+legH-8)+'" width="20" height="5" rx="2" fill="'+C.wood+'"/>';
+    [pad+16, pad+frameW-16].forEach(function(fx){
+      s += '<rect x="'+(fx-3)+'" y="'+wbY+'" width="6" height="'+(legH-6)+'" fill="'+C.wood+'"/>';
+      s += '<rect x="'+(fx-10)+'" y="'+(wbY+legH-6)+'" width="20" height="5" rx="2" fill="'+C.wood+'"/>';
     });
   }
   var svgStyle = fit ? 'width:100%;height:100%;display:block' : 'max-height:340px;display:block;margin:0 auto';
@@ -603,40 +654,29 @@ function stepBtn(en){ return "width:34px;height:34px;border-radius:9px;border:1.
 // ---------- derived values ----------
 function computeVals(){
   var s = state;
-  var isCustom = s.mode === 'custom';
-  var w=s.w, n40=s.n40, n60=s.n60;
-  var H = n40+n60;
-  var d = dims(w,n40,n60,s.withWheels);
+  var bt=s.bt, w=s.w, H=s.h;
+  var d = dims(bt,w,H,s.withWheels);
   var wCount = wheelsFor(w);
   var bCount = H*w;
-  var basePrice = priceFor(w,n40,n60);
+  var liter = bCount*BOX[bt].liter;
+  var basePrice = priceFor(bt,w,H);
   var wheelAdd = s.withWheels ? wCount*500 : 0;
-  var boxAdd = s.withBoxes ? bCount*250 : 0;
-  var total = basePrice + wheelAdd + boxAdd;
-  var stdName = w+'×'+H;
+  var boxAdd = bCount*250;                       // kassene er påbudt / alltid inkludert
+  var total = r90(basePrice + boxAdd + wheelAdd);
+  var typeName = bt==='60L' ? 'Stor (60L)' : 'Veldig stor (100L)';
+  var stdName = bt+' · '+w+'×'+H;
   var dimTriple = d.bredde+' × '+d.dybde+' × '+(s.withWheels?d.totalt:d.utenHjul)+' mm';
-  var mixStd = (n40*w)+'×40L + '+(n60*w)+'×60L';
-  var custDims = (s.cw && s.ch) ? (s.cw+' × '+s.ch+(s.cd?(' × '+s.cd):'')+' mm') : null;
 
-  var v = { isCustom:isCustom, isStandard:!isCustom, w:w, n40:n40, n60:n60, H:H, d:d,
-    wCount:wCount, bCount:bCount, total:total, stdName:stdName, dimTriple:dimTriple,
-    mixStd:mixStd, custDims:custDims, wheelHint:wCount+' stk', boxHint:bCount+' stk' };
-
-  if(isCustom){
-    v.modelKind='Skreddersøm'; v.modelName='Etter mål'; v.priceStr='Be om tilbud';
-    v.dimStr = custDims || 'Dine mål';
-    v.wheelsLabel = s.withWheels ? 'Med hjul' : 'Uten hjul';
-    v.boxesLabel = s.withBoxes ? 'Med bokser' : 'Uten bokser';
-    v.mixLabel='—'; v.showNote=true;
-    v.noteText='Skreddersøm prises individuelt. Send oss målene, så får du et konkret tilbud raskt.';
-  } else {
-    v.modelKind='Modell'; v.modelName=stdName; v.priceStr=fmt(total)+' kr';
-    v.dimStr=dimTriple;
-    v.wheelsLabel = s.withWheels ? (wCount+' hjul') : 'Uten hjul (på gulv)';
-    v.boxesLabel = s.withBoxes ? (bCount+' bokser') : 'Uten bokser';
-    v.mixLabel = s.withBoxes ? mixStd : '—'; v.showNote=false; v.noteText='';
-  }
-  v.quoteLabel = v.isStandard ? ('Bestill '+stdName) : 'Be om tilbud på skreddersøm';
+  var v = { isStandard:true, bt:bt, typeName:typeName, w:w, H:H, d:d,
+    wCount:wCount, bCount:bCount, liter:liter, total:total, stdName:stdName, dimTriple:dimTriple,
+    wheelHint:wCount+' stk' };
+  v.modelKind='Modell'; v.modelName=stdName; v.priceStr=fmt(total)+' kr';
+  v.dimStr=dimTriple;
+  v.wheelsLabel = s.withWheels ? (wCount+' hjul') : 'Uten hjul (på gulv)';
+  v.boxesLabel = bCount+' kasser ('+bt+')';
+  v.literLabel = fmt(liter)+' liter';
+  v.showNote=false; v.noteText='';
+  v.quoteLabel = 'Bestill '+stdName;
   return v;
 }
 
@@ -646,13 +686,13 @@ function readoutHtml(v){
   return ''+
   '<div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:16px">'+
     '<div><div style="font-size:12px;color:'+C.muted+';text-transform:uppercase;letter-spacing:.05em;margin-bottom:2px">'+v.modelKind+'</div><div style="font-family:\'Archivo\';font-weight:900;font-size:32px;letter-spacing:-.02em">'+v.modelName+'</div></div>'+
-    '<div style="text-align:right"><div style="font-size:12px;color:'+C.muted+';text-transform:uppercase;letter-spacing:.05em;margin-bottom:2px">'+(v.isStandard?'Fast pris':'Pris')+'</div><div id="price-val" style="font-family:\'Archivo\';font-weight:800;font-size:24px;color:'+C.green+'">'+v.priceStr+'</div>'+(v.isStandard?'<div style="font-size:11px;color:'+C.muted+';margin-top:2px">inkl. levering og montering</div>':'')+'</div>'+
+    '<div style="text-align:right"><div style="font-size:12px;color:'+C.muted+';text-transform:uppercase;letter-spacing:.05em;margin-bottom:2px">'+(v.isStandard?'Fast pris':'Pris')+'</div><div id="price-val" style="font-family:\'Archivo\';font-weight:800;font-size:24px;color:'+C.green+'">'+v.priceStr+'</div>'+(v.isStandard?'<div style="font-size:11px;color:'+C.muted+';margin-top:2px">inkl. kasser, levering og montering</div>':'')+'</div>'+
   '</div>'+
   '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;font-size:14px;border-top:1px solid '+C.line+';padding-top:14px">'+
     '<div><span style="color:'+C.muted+'">Mål (B×D×H)</span><br><strong>'+v.dimStr+'</strong></div>'+
     '<div><span style="color:'+C.muted+'">Hjul</span><br><strong>'+v.wheelsLabel+'</strong></div>'+
-    '<div><span style="color:'+C.muted+'">Bokser</span><br><strong>'+v.boxesLabel+'</strong></div>'+
-    '<div><span style="color:'+C.muted+'">Fordeling</span><br><strong>'+v.mixLabel+'</strong></div>'+
+    '<div><span style="color:'+C.muted+'">Kasser</span><br><strong>'+v.boxesLabel+'</strong></div>'+
+    '<div><span style="color:'+C.muted+'">Lagringsvolum</span><br><strong>'+v.literLabel+'</strong></div>'+
   '</div>'+ note;
 }
 
@@ -661,41 +701,37 @@ function renderConfig(){
   var v = computeVals();
   var s = state;
   var html = '';
-  var segw = document.getElementById('seg-wrap');
-  if(segw) segw.dataset.mode = s.mode;
 
   if(v.isStandard){
+    // kassestørrelse (60L / 100L — kan ikke mikses)
+    html += '<div style="margin-bottom:22px">';
+    html += '<div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:12px"><span style="font-weight:700;font-size:15px">Kassestørrelse</span><span style="color:'+C.muted+';font-size:13px">samme størrelse i hele racket</span></div>';
+    html += '<div data-r="wrow" style="display:flex;gap:10px">';
+    [['60L','Stor · 60L','43,5 × 63 × 34 cm'],['100L','Veldig stor · 100L','52 × 78 × 36,5 cm']].forEach(function(o){
+      var sel=o[0]===s.bt;
+      html += '<button data-act="bt" data-val="'+o[0]+'" style="flex:1;padding:12px 12px;border-radius:12px;cursor:pointer;text-align:left;border:'+(sel?'2px solid '+C.green:'1.5px solid '+C.line)+';background:'+(sel?C.green:'transparent')+';color:'+(sel?'#fff':C.text)+'"><div style="font-family:\'Archivo\';font-weight:800;font-size:15px">'+o[1]+'</div><div style="font-size:11.5px;opacity:.78;margin-top:3px">'+o[2]+'</div></button>';
+    });
+    html += '</div></div>';
     // width
     html += '<div style="margin-bottom:22px">';
     html += '<div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:12px"><span style="font-weight:700;font-size:15px">Bredde</span><span style="color:'+C.muted+';font-size:13px">ytre bredde (mm) · kasser i bredden</span></div>';
     html += '<div data-r="wrow" style="display:flex;gap:10px">';
     [1,2,3,4,5].forEach(function(n){
-      html += '<button class="wopt" data-act="w" data-val="'+n+'" style="'+optStyle(n===s.w)+'">'+widthMm(n)+'</button>';
+      html += '<button class="wopt" data-act="w" data-val="'+n+'" style="'+optStyle(n===s.w)+'">'+widthMm(s.bt,n)+'</button>';
     });
     html += '</div></div>';
-    // height steppers (min. 3, maks 7 kasser i høyden)
-    var canDec = (v.H>3);
-    var canInc = (v.H<7);
+    // høyde-stepper (3–7 kasser i høyden)
+    var canDec = (s.h>3), canInc = (s.h<7);
     html += '<div style="margin-bottom:22px">';
     html += '<div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:12px"><span style="font-weight:700;font-size:15px">Kasser i høyden</span><span style="color:'+C.muted+';font-size:13px">per kolonne · 3–7</span></div>';
     html += '<div style="display:flex;flex-direction:column;gap:10px">';
-    html += stepperRow('40L-kasser','26 cm høy','n40',s.n40,stepBtn(canDec&&s.n40>0),stepBtn(canInc));
-    html += stepperRow('60L-kasser','34 cm høy','n60',s.n60,stepBtn(canDec&&s.n60>0),stepBtn(canInc));
+    html += stepperRow('Antall etasjer', Math.round(pitchMm(s.bt)/10)+' cm pr. etasje','h',s.h,stepBtn(canDec),stepBtn(canInc));
     html += '</div></div>';
-  } else {
-    // custom inputs
-    html += '<div data-r="c3" style="margin-bottom:16px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">';
-    html += customField('Bredde (mm)','cw',s.cw,'2200');
-    html += customField('Høyde (mm)','ch',s.ch,'1900');
-    html += customField('Dybde (mm)','cd',s.cd,'valgfritt');
-    html += '</div>';
-    html += '<label style="display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:600;margin-bottom:22px">Kommentar<textarea data-act="cnote" rows="2" placeholder="Antall nivåer, plassering, spesielle ønsker …" style="border:1px solid '+C.line+';border-radius:10px;padding:11px 12px;font-size:15px;background:'+C.card+';color:'+C.text+';resize:vertical">'+esc(s.cnote)+'</textarea></label>';
   }
 
   // add-ons
   html += '<div style="display:flex;flex-direction:column;gap:10px;margin-bottom:24px">';
-  html += '<div data-act="toggleWheels" style="display:flex;align-items:center;gap:12px;cursor:pointer;padding:13px 15px;border:1.5px solid '+C.line+';border-radius:12px;background:'+C.card+'"><span style="'+chkStyle(s.withWheels)+'">✓</span><span style="flex:1;font-weight:600;font-size:14.5px">Ta med hjul <span style="color:'+C.muted+';font-weight:400">(med brems)</span></span><span style="font-size:13px;color:'+C.muted+';white-space:nowrap">'+v.wheelHint+'</span></div>';
-  html += '<div data-act="toggleBoxes" style="display:flex;align-items:center;gap:12px;cursor:pointer;padding:13px 15px;border:1.5px solid '+C.line+';border-radius:12px;background:'+C.card+'"><span style="'+chkStyle(s.withBoxes)+'">✓</span><span style="flex:1;font-weight:600;font-size:14.5px">Ta med oppbevaringsbokser</span><span style="font-size:13px;color:'+C.muted+';white-space:nowrap">'+v.boxHint+'</span></div>';
+  html += '<div data-act="toggleWheels" style="display:flex;align-items:center;gap:12px;cursor:pointer;padding:13px 15px;border:1.5px solid '+C.line+';border-radius:12px;background:'+C.card+'"><span style="'+chkStyle(s.withWheels)+'">✓</span><span style="flex:1;font-weight:600;font-size:14.5px">Ta med hjul <span style="color:'+C.muted+';font-weight:400">(med brems · tilvalg)</span></span><span style="font-size:13px;color:'+C.muted+';white-space:nowrap">'+v.wheelHint+'</span></div>';
   html += '</div>';
 
   // readout
@@ -750,30 +786,9 @@ function stepperRow(title, sub, key, count, decStyle, incStyle){
     '<button data-act="inc" data-val="'+key+'" style="'+incStyle+'">+</button>'+
   '</div>';
 }
-function customField(label, key, val, ph){
-  return '<label style="display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:600">'+label+
-    '<input data-act="'+key+'" value="'+esc(val)+'" inputmode="numeric" placeholder="'+ph+'" style="border:1px solid '+C.line+';border-radius:10px;padding:11px 12px;font-size:15px;background:'+C.card+';color:'+C.text+'"></label>';
-}
-
 function renderViz(v){
   var el = document.getElementById('cfg-viz-inner');
-  if(v.isStandard){
-    // illustrasjonen viser alltid kasser (racket er laget for dem), uavhengig av om kunden vil ha bokser levert
-    el.innerHTML = buildRack(v.w, stackArr(v.n40,v.n60), state.withWheels?v.wCount:0, true, false);
-  } else {
-    el.innerHTML = '<div style="position:relative;text-align:center;color:rgba(255,255,255,.72);font-family:ui-monospace,Menlo,monospace;font-size:13px;line-height:1.7;padding:40px 20px">skreddersøm<br>— vi tegner og priser —<br>etter dine mål</div>';
-  }
-}
-
-// update only readout + cta + viz (used while typing custom fields, no re-render of inputs)
-function updateReadoutOnly(){
-  var v = computeVals();
-  var ro = document.getElementById('cfg-readout');
-  if(ro) ro.innerHTML = readoutHtml(v);
-  var cta = document.getElementById('cfg-cta');
-  if(cta) cta.innerHTML = v.quoteLabel + ' <span class="arw">→</span>';
-  renderViz(v);
-  applyPriceAnim(v);
+  el.innerHTML = buildRack(v.w, stackFor(v.bt,v.H), state.withWheels?v.wCount:0, true, false);
 }
 
 function bindConfig(){
@@ -781,27 +796,18 @@ function bindConfig(){
   // buttons / toggles
   root.querySelectorAll('[data-act]').forEach(function(node){
     var act = node.getAttribute('data-act');
-    if(act==='cw'||act==='ch'||act==='cd'||act==='cnote'){
-      node.addEventListener('input', function(){ state[act]=node.value; updateReadoutOnly(); });
-      return;
-    }
+    if(act==='bt'){ node.addEventListener('click', function(){ state.bt=node.getAttribute('data-val'); renderConfig(); renderModels(); renderCompare(); }); return; }
     if(act==='w'){ node.addEventListener('click', function(){ state.w=parseInt(node.getAttribute('data-val'),10); renderConfig(); }); return; }
-    if(act==='dec'){ node.addEventListener('click', function(){ decBox(node.getAttribute('data-val')); }); return; }
-    if(act==='inc'){ node.addEventListener('click', function(){ incBox(node.getAttribute('data-val')); }); return; }
+    if(act==='dec'){ node.addEventListener('click', function(){ stepH(-1); }); return; }
+    if(act==='inc'){ node.addEventListener('click', function(){ stepH(1); }); return; }
     if(act==='toggleWheels'){ node.addEventListener('click', function(){ state.withWheels=!state.withWheels; renderConfig(); }); return; }
-    if(act==='toggleBoxes'){ node.addEventListener('click', function(){ state.withBoxes=!state.withBoxes; renderConfig(); }); return; }
     if(act==='requestQuote'){ node.addEventListener('click', requestQuote); return; }
   });
 }
-function decBox(key){
-  if((state.n40+state.n60)<=3) return;
-  if(state[key]<=0) return;
-  state[key] = state[key]-1;
-  renderConfig();
-}
-function incBox(key){
-  if((state.n40+state.n60)>=7) return;   // maks 7 kasser i høyden
-  state[key] = Math.min(7, state[key]+1);
+function stepH(delta){
+  var nv = state.h + delta;
+  if(nv<3 || nv>7) return;   // 3–7 kasser i høyden
+  state.h = nv;
   renderConfig();
 }
 
@@ -809,13 +815,14 @@ function incBox(key){
 function renderModels(){
   var grid = document.getElementById('models-grid');
   var html = '';
+  var bt = state.bt;
   ORDER.forEach(function(kk){
-    var W=parseInt(kk[0],10), Hh=parseInt(kk[2],10);
-    var ps=presetStack(Hh);
+    var W=parseInt(kk.split('x')[0],10), Hh=parseInt(kk.split('x')[1],10);
     var wc=wheelsFor(W);
-    var sa=stackArr(ps.n40,ps.n60);
-    var dim=widthMm(W)+' × '+dims(W,ps.n40,ps.n60,true).totalt+' mm';
-    var price='fra '+fmt(priceFor(W,ps.n40,ps.n60))+' kr';
+    var sa=stackFor(bt,Hh);
+    var dd=dims(bt,W,Hh,false);
+    var dim=dd.bredde+' × '+dd.utenHjul+' mm';
+    var price='fra '+fmt(r90(priceFor(bt,W,Hh)+Hh*W*250))+' kr';
     html += '<button class="model-card" data-w="'+W+'" data-h="'+Hh+'" style="text-align:left;cursor:pointer;background:'+C.card+';border:1px solid '+C.line+';border-radius:16px;padding:0;overflow:hidden;display:flex;flex-direction:column">'+
       '<div style="height:180px;background:'+C.heroBg+';display:flex;align-items:flex-end;justify-content:center;padding:16px 18px 12px;position:relative;overflow:hidden">'+
         '<div style="position:absolute;left:0;right:0;bottom:0;height:24px;background:repeating-linear-gradient(90deg,rgba(255,255,255,.05) 0 2px,transparent 2px 22px)"></div>'+
@@ -823,9 +830,9 @@ function renderModels(){
       '</div>'+
       '<div style="padding:15px 17px 17px;display:flex;flex-direction:column;gap:5px">'+
         '<div style="display:flex;align-items:baseline;justify-content:space-between"><span style="font-family:\'Archivo\';font-weight:900;font-size:24px;letter-spacing:-.02em">'+W+'×'+Hh+'</span><span style="font-size:12px;color:'+C.muted+'">'+wc+' hjul</span></div>'+
-        '<div style="font-size:12.5px;color:'+C.muted+'">'+dim+' · '+(Hh*W)+' kasser</div>'+
+        '<div style="font-size:12.5px;color:'+C.muted+'">'+dim+' · '+(Hh*W)+' kasser · '+fmt(Hh*W*BOX[bt].liter)+' L</div>'+
         '<div style="font-weight:700;color:'+C.green+';font-size:15px;margin-top:2px">'+price+'</div>'+
-        '<div style="font-size:11px;color:'+C.muted+'">inkl. levering og montering</div>'+
+        '<div style="font-size:11px;color:'+C.muted+'">inkl. kasser, levering og montering</div>'+
       '</div>'+
     '</button>';
   });
@@ -837,10 +844,58 @@ function renderModels(){
   });
 }
 function pick(W,H){
-  var ps = presetStack(H);
-  state.mode='standard'; state.w=W; state.n40=ps.n40; state.n60=ps.n60;
+  state.w=W; state.h=H;
   renderConfig();
   try{ location.hash='#konfigurator'; }catch(e){}
+}
+
+// ---------- sammenlign mot IKEA (følger valgt kassestørrelse) ----------
+var COMPARE = {
+  '60L':  { vol:960,  model:'60L 4×4',
+            roverk:{ pris:'8 390 kr', vegg:'1,95 m' },
+            ikea:{ deler:'~9 200 kr', allin:'~11 800 kr', vegg:'3,56 m', bokser:'15 SAMLA 65 l + 15 lokk', seksjoner:'4 dype IVAR-seksjoner' },
+            note:'* Prisanslag hentet juli 2026: dyp IVAR 89×50×179 cm à 1 590 kr × 4, SAMLA 65 l à 149 kr × 15, SAMLA-lokk à 40 kr × 15 = ~9 200 kr i deler. Frakt og montering kommer i tillegg og varierer. IKEA-priser kan endres — vi har tatt utgangspunkt i ordinær nettpris.' },
+  '100L': { vol:1600, model:'100L 4×4',
+            roverk:{ pris:'8 590 kr', vegg:'2,29 m' },
+            ikea:{ deler:'~15 900 kr', allin:'~18 500 kr', vegg:'6,2 m', bokser:'25 SAMLA 65 l + 25 lokk', seksjoner:'7 dype IVAR-seksjoner' },
+            note:'* Prisanslag hentet juli 2026: dyp IVAR 89×50×179 cm à 1 590 kr × 7, SAMLA 65 l à 149 kr × 25, SAMLA-lokk à 40 kr × 25 = ~15 900 kr i deler. Store 130 l-bokser får ikke plass i IVAR (57 cm dype > 50 cm), så det finnes ingen god IKEA-hylle for store kasser. Frakt/montering i tillegg; priser kan endres.' }
+};
+function cmpLi(mark,color,txt){ return '<li style="display:flex;gap:11px"><span style="color:'+color+';font-weight:800;flex:none">'+mark+'</span><span>'+txt+'</span></li>'; }
+function cmpCards(bt){
+  var d = COMPARE[bt];
+  var ikea = '<div style="background:'+C.bg+';border:1px solid '+C.line+';border-radius:20px;padding:28px 26px;display:flex;flex-direction:column">'+
+    '<div style="font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:'+C.muted+';margin-bottom:6px">IKEA IVAR + SAMLA</div>'+
+    '<div style="font-size:14px;color:'+C.muted+';margin-bottom:16px">Gjør-det-selv</div>'+
+    '<div style="font-family:\'Archivo\';font-weight:900;font-size:38px;letter-spacing:-.02em;color:'+C.text+'">'+d.ikea.allin+'</div>'+
+    '<div style="font-size:13px;color:'+C.muted+';margin:4px 0 20px">'+d.ikea.deler+' bare i deler, + frakt + montering*</div>'+
+    '<ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:13px;font-size:14.5px">'+
+      cmpLi('✕',C.muted,'<strong>'+d.ikea.vegg+'</strong> vegg — hvert 83 cm-plan tar bare én boks, så det blir mye tomrom i bredden')+
+      cmpLi('✕',C.muted,'<strong>'+d.ikea.seksjoner+'</strong> du må hente som flatpakke og bygge selv')+
+      cmpLi('✕',C.muted,'Kasser og lokk kjøpes separat ('+d.ikea.bokser+')')+
+      cmpLi('✕',C.muted,'Ingen frakt eller montering — det ordner du selv')+
+    '</ul></div>';
+  var roverk = '<div style="background:'+C.heroBg+';color:#fff;border:2px solid '+C.amber+';border-radius:20px;padding:28px 26px;display:flex;flex-direction:column;position:relative;overflow:hidden">'+
+    '<div style="position:absolute;top:16px;right:-34px;transform:rotate(45deg);background:'+C.amber+';color:'+C.heroBg+';font-size:11px;font-weight:800;letter-spacing:.06em;padding:5px 40px">BEST</div>'+
+    '<div style="font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:'+C.amber+';margin-bottom:6px">Roverk Orden</div>'+
+    '<div style="font-size:14px;color:rgba(255,255,255,.7);margin-bottom:16px">Levert + ferdig montert</div>'+
+    '<div style="font-family:\'Archivo\';font-weight:900;font-size:38px;letter-spacing:-.02em;color:#fff">'+d.roverk.pris+'</div>'+
+    '<div style="font-size:13px;color:rgba(255,255,255,.7);margin:4px 0 20px">Alt inkludert — rack, 16 kasser, levering og montering</div>'+
+    '<ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:13px;font-size:14.5px">'+
+      cmpLi('✓',C.amber,'<strong>'+d.roverk.vegg+'</strong> vegg for samme '+d.vol+' liter — langt mindre plass')+
+      cmpLi('✓',C.amber,'Vi kjører hjem til deg og <strong>monterer ferdig</strong> — ingen helg med skrujern')+
+      cmpLi('✓',C.amber,'<strong>16 kasser inkludert</strong> — hver med sin egen plass, dra ut hva du vil')+
+      cmpLi('✓',C.amber,'Ekte tre, bygget opp mot ditt tak — og kan trilles')+
+    '</ul></div>';
+  return ikea + roverk;
+}
+function renderCompare(){
+  var d = COMPARE[state.bt]; if(!d) return;
+  var intro = document.getElementById('cmp-intro');
+  if(intro) intro.innerHTML = 'Samme lagringsvolum — <strong>'+d.vol+' liter (16 kasser)</strong> som en Roverk '+d.model+'. Slik står vi mot en tilsvarende løsning i ekte tre fra IKEA (IVAR + SAMLA), som du kjøper og bygger selv.';
+  var cards = document.getElementById('cmp-cards');
+  if(cards) cards.innerHTML = cmpCards(state.bt);
+  var note = document.getElementById('cmp-note');
+  if(note) note.innerHTML = d.note;
 }
 
 // ---------- FAQ ----------
@@ -895,12 +950,7 @@ function selectedDateLabel(){
 
 // ---------- order modal ----------
 function requestQuote(){
-  var v = computeVals();
-  if(v.isStandard){
-    state.orderKind='order'; state.orderPhase='date'; state.orderOpen=true;
-  } else {
-    state.orderKind='quote'; state.orderPhase='date'; state.orderOpen=true;
-  }
+  state.orderPhase='date'; state.orderOpen=true;
   renderModal();
 }
 function closeOrder(){ state.orderOpen=false; renderModal(); }
@@ -909,9 +959,9 @@ function buildOrderPayload(){
   var utm={};try{utm=JSON.parse(localStorage.getItem('ns_utm')||'{}');}catch(e){}
   var price=(typeof lastShownPrice==='number')?lastShownPrice:null;
   var v=computeVals();
-  var product='Orden '+(v.isCustom?'Skreddersøm':v.stdName)+(state.orderKind==='quote'?' (tilbud)':'');
+  var product='Orden v2 '+v.stdName;
   return {site:SITE_ID,product:product.trim(),
-    config:{mode:state.mode,w:state.w,n40:state.n40,n60:state.n60,withWheels:state.withWheels,withBoxes:state.withBoxes,cw:state.cw,ch:state.ch,cd:state.cd,cnote:state.cnote,orderKind:state.orderKind},
+    config:{bt:state.bt,w:state.w,h:state.h,withWheels:state.withWheels},
     preferred_date:state.orderDate||null,name:state.o_name.trim(),phone:state.o_phone.trim(),
     email:state.o_email.trim(),address:(state.o_address||'').trim(),price_nok:price,utm:utm,hp:state.o_hp||''};
 }
@@ -931,14 +981,13 @@ function renderModal(){
   document.body.style.overflow='hidden';
 
   var v = computeVals();
-  var isQuote = state.orderKind==='quote';
   var phase = state.orderPhase;
   var total = v.total;
-  var orderModel = isQuote ? 'Skreddersøm' : v.stdName;
-  var orderTotal = isQuote ? 'Be om tilbud' : (fmt(total)+' kr');
+  var orderModel = v.stdName;
+  var orderTotal = fmt(total)+' kr';
 
   // step indicator: 1 Mål & utstyr, 2 Dato & kontakt, 3 Bekreft/Forespørsel
-  var step3Label = isQuote ? 'Forespørsel' : 'Bekreft';
+  var step3Label = 'Bekreft';
   var reached = { 1:true, 2:(phase==='date'||phase==='confirm'||phase==='done'), 3:(phase==='confirm'||phase==='done') };
   var stepsHtml = [[1,'Mål & utstyr'],[2,'Dato & kontakt'],[3,step3Label]].map(function(st){
     var on = reached[st[0]];
@@ -955,7 +1004,7 @@ function renderModal(){
 
   var body = '';
   if(phase==='date'){
-    body = phaseDateHtml(isQuote);
+    body = phaseDateHtml();
   } else if(phase==='confirm'){
     body = phaseConfirmHtml(v, orderModel, orderTotal);
   } else if(phase==='sending'){
@@ -963,10 +1012,10 @@ function renderModal(){
   } else if(phase==='error'){
     body = phaseErrorHtml();
   } else {
-    body = phaseDoneHtml(isQuote, orderModel);
+    body = phaseDoneHtml(orderModel);
   }
 
-  var titleTxt = isQuote ? 'Be om tilbud' : 'Bestill rack';
+  var titleTxt = 'Bestill rack';
   root.innerHTML = ''+
   '<div id="modal-backdrop" style="position:fixed;inset:0;z-index:100;background:rgba(20,16,12,.55);display:flex;align-items:center;justify-content:center;padding:20px;animation:modalBackdropIn .2s ease">'+
     '<div style="background:'+C.bg+';border-radius:22px;width:100%;max-width:540px;max-height:92vh;overflow:auto;box-shadow:0 30px 80px rgba(0,0,0,.4);animation:modalCardIn .3s cubic-bezier(.2,.7,.2,1)">'+
@@ -982,15 +1031,13 @@ function renderModal(){
   bindModal();
 }
 
-function phaseDateHtml(isQuote){
+function phaseDateHtml(){
   var cal = buildCalendar();
   var navBase='width:34px;height:34px;border-radius:9px;border:1px solid '+C.line+';background:transparent;color:'+C.text+';cursor:pointer;font-size:18px;line-height:1';
   var prevStyle = cal.canPrev ? navBase : navBase+';opacity:.3;cursor:default';
   var weekdays = ['Ma','Ti','On','To','Fr','Lø','Sø'].map(function(wd){ return '<div style="text-align:center;font-size:11px;font-weight:700;color:'+C.muted+';padding:3px 0">'+wd+'</div>'; }).join('');
-  var proceedLabel = isQuote ? 'Send forespørsel →' : 'Se over bestillingen →';
-  var intro = isQuote
-    ? 'Velg gjerne en ønsket dato. Vi tegner og priser skreddersømmen din, og tar kontakt med et konkret tilbud.'
-    : 'Velg ønsket monteringsdato, så bekrefter vi tilgjengelighet når vi tar kontakt. Ingen forskudd — du betaler først når alt er levert og montert.';
+  var proceedLabel = 'Se over bestillingen →';
+  var intro = 'Velg ønsket monteringsdato, så bekrefter vi tilgjengelighet når vi tar kontakt. Ingen forskudd — du betaler først når alt er levert og montert.';
   return ''+
   '<div style="padding:24px 28px">'+
     '<h3 style="font-size:18px;font-weight:800;margin-bottom:4px;font-family:\'Archivo\'">Ønsket monteringsdato</h3>'+
@@ -1076,15 +1123,10 @@ function phaseErrorHtml(){
     '<button data-act="backToDate" style="width:100%;background:transparent;color:'+C.muted+';border:none;padding:12px;font-size:14px;font-weight:600;cursor:pointer;margin-top:4px">‹ Tilbake</button>'+
   '</div>';
 }
-function phaseDoneHtml(isQuote, orderModel){
+function phaseDoneHtml(orderModel){
   var lbl = selectedDateLabel();
-  var msg;
-  if(isQuote){
-    msg = 'Takk! Vi har registrert forespørselen om <strong>skreddersøm</strong>'+(lbl?(' med ønsket dato <strong>'+lbl+'</strong>'):'')+'. Vi tegner og priser, og tar kontakt med et konkret tilbud.';
-  } else {
-    msg = 'Takk! Vi har registrert bestillingen av <strong>Modell '+orderModel+'</strong>. Vi tar kontakt for å bekrefte detaljer og monteringsdato'+(lbl?(' <strong>'+lbl+'</strong>'):'')+'. <strong>Du betaler først når alt er levert og ferdig montert</strong> — helt uten forskudd.';
-  }
-  var head = isQuote ? 'Forespørsel sendt! 🌲' : 'Bestilling mottatt! 🌲';
+  var msg = 'Takk! Vi har registrert bestillingen av <strong>Modell '+orderModel+'</strong>. Vi tar kontakt for å bekrefte detaljer og monteringsdato'+(lbl?(' <strong>'+lbl+'</strong>'):'')+'. <strong>Du betaler først når alt er levert og ferdig montert</strong> — helt uten forskudd.';
+  var head = 'Bestilling mottatt! 🌲';
   var check = '<svg width="62" height="62" viewBox="0 0 52 52" style="margin:0 auto 8px;display:block">'+
     '<circle cx="26" cy="26" r="24" fill="none" stroke="'+C.green+'" stroke-width="3" stroke-dasharray="151" stroke-dashoffset="151" style="animation:drawRing .5s ease forwards"/>'+
     '<path d="M16 27 l7 7 l14 -16" fill="none" stroke="'+C.green+'" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="40" stroke-dashoffset="40" style="animation:drawCheck .4s ease .45s forwards"/>'+
@@ -1174,20 +1216,8 @@ function refreshCalendar(){
 }
 function proceed(){
   if(!canProceed()) return;
-  if(state.orderKind==='quote'){ submitOrder(); }
-  else { state.orderPhase='confirm'; renderModal(); }
-}
-
-// ---------- segmented control (statisk, glidende pille) ----------
-function bindSegment(){
-  document.querySelectorAll('#seg-wrap .seg-btn').forEach(function(b){
-    b.addEventListener('click', function(){
-      var m = b.getAttribute('data-mode');
-      if(m===state.mode) return;
-      state.mode = m;
-      renderConfig();
-    });
-  });
+  state.orderPhase='confirm';
+  renderModal();
 }
 
 // ---------- scroll-reveal ----------
@@ -1249,11 +1279,11 @@ function initMobileNav(){
 
 // ---------- init ----------
 try {
-  document.getElementById('hero-rack').innerHTML = buildRack(4, stackArr(2,3), 6, true, false, true);
+  document.getElementById('hero-rack').innerHTML = buildRack(4, stackFor('60L',4), 6, true, false, true);
   renderConfig();
   renderModels();
+  renderCompare();
   renderFAQ();
-  bindSegment();
   initReveal();
   initHeader();
   initMobileNav();
