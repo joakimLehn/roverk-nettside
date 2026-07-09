@@ -499,6 +499,7 @@ window.addEventListener('DOMContentLoaded',function(){
 <!-- ===== MODAL ROOT ===== -->
 <div id="modal-root"></div>
 
+<script src="/assets/address-autocomplete.js"></script>
 <script>
 "use strict";
 /* ============================================================
@@ -541,7 +542,7 @@ var state = {
   bt:'60L', w:4, h:4, withWheels:false,
   faqOpen:0,
   orderOpen:false, orderPhase:'date', orderDate:'', calMonth:null,
-  o_name:'', o_phone:'', o_email:'', o_address:'', o_hp:''
+  o_name:'', o_phone:'', o_email:'', o_address:'', o_addressMeta:{verified:false}, o_hp:''
 };
 var SITE_ID='orden';
 
@@ -948,7 +949,7 @@ function buildOrderPayload(){
   return {site:SITE_ID,product:product.trim(),
     config:{bt:state.bt,w:state.w,h:state.h,withWheels:state.withWheels},
     preferred_date:state.orderDate||null,name:state.o_name.trim(),phone:state.o_phone.trim(),
-    email:state.o_email.trim(),address:(state.o_address||'').trim(),price_nok:price,utm:utm,hp:state.o_hp||''};
+    email:state.o_email.trim(),address:(state.o_address||'').trim(),address_meta:state.o_addressMeta||{verified:false},price_nok:price,utm:utm,hp:state.o_hp||''};
 }
 function submitOrder(){
   try{if(window.fbq)fbq('track','Lead',{content_name:'Orden',currency:'NOK'});}catch(e){}
@@ -958,7 +959,7 @@ function submitOrder(){
     .then(function(){state.orderPhase='done';renderModal();})
     .catch(function(err){if(window.console)console.error('ordre-feil',err);state.orderPhase='error';renderModal();});
 }
-function canProceed(){ return !!state.orderDate && !!state.o_name.trim() && !!state.o_phone.trim() && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(state.o_email.trim()); }
+function canProceed(){ return !!state.orderDate && !!state.o_name.trim() && !!state.o_phone.trim() && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(state.o_email.trim()) && !!state.o_address.trim(); }
 
 function renderModal(){
   var root = document.getElementById('modal-root');
@@ -1043,7 +1044,7 @@ function phaseDateHtml(){
         '<input data-field="o_phone" value="'+esc(state.o_phone)+'" placeholder="Telefon" inputmode="tel" style="border:1px solid '+C.line+';border-radius:10px;padding:12px 14px;font-size:15px;background:'+C.card+';color:'+C.text+'">'+
         '<input data-field="o_email" value="'+esc(state.o_email)+'" placeholder="E-post" type="email" style="border:1px solid '+C.line+';border-radius:10px;padding:12px 14px;font-size:15px;background:'+C.card+';color:'+C.text+'">'+
       '</div>'+
-      '<input data-field="o_address" value="'+esc(state.o_address)+'" placeholder="Adresse for montering (valgfritt)" style="border:1px solid '+C.line+';border-radius:10px;padding:12px 14px;font-size:15px;background:'+C.card+';color:'+C.text+'">'+
+      '<input data-field="o_address" value="'+esc(state.o_address)+'" placeholder="Adresse for montering" style="border:1px solid '+C.line+';border-radius:10px;padding:12px 14px;font-size:15px;background:'+C.card+';color:'+C.text+'">'+
       '<input data-field="o_hp" value="" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">'+
     '</div>'+
     '<button id="proceed-btn" data-act="proceed" style="'+proceedBtnStyle()+'">'+proceedLabel+'</button>'+
@@ -1151,6 +1152,11 @@ function bindModal(){
       var pb = document.getElementById('proceed-btn');
       if(pb) pb.setAttribute('style', proceedBtnStyle());
     });
+  });
+  var addrEl=root.querySelector('[data-field="o_address"]');
+  if(addrEl&&window.initAddressAutocomplete)initAddressAutocomplete(addrEl,{
+    onSelect:function(a){state.o_address=a.adressetekst;state.o_addressMeta={postnummer:a.postnummer,poststed:a.poststed,kommunenummer:a.kommunenummer,kommunenavn:a.kommunenavn,lat:a.lat,lon:a.lon,verified:true};var pb=document.getElementById('proceed-btn');if(pb)pb.setAttribute('style',proceedBtnStyle());},
+    onInput:function(t){state.o_address=t;state.o_addressMeta={verified:false};}
   });
 }
 function selectDate(ds){
