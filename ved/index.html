@@ -262,6 +262,7 @@ window.fbq = window.fbq || function(){ (window.fbq.q=window.fbq.q||[]).push(argu
 
 <div id="modal-root"></div>
 
+<script src="/assets/address-autocomplete.js"></script>
 <script>
 "use strict";
 var C={text:"#141310",muted:"#6E685E",amber:"#BE8A48",amberSoft:"#E9DBC1",green:"#17150F",line:"#E4DFD5",card:"#FBFAF7",bg:"#F4F2ED",dark:"#0E0D0B",wood:"#A9743B"};
@@ -378,11 +379,11 @@ function initHeader(){var h=document.getElementById('site-header');var f=functio
 function initNav(){var h=document.getElementById('site-header'),b=document.getElementById('hamburger'),n=document.getElementById('mainnav');b.addEventListener('click',function(){var o=h.classList.toggle('nav-open');b.setAttribute('aria-expanded',o?'true':'false');});n.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){h.classList.remove('nav-open');});});}
 
 /* ---------- ordremodal ---------- */
-var order={size:'medium',date:'',calMonth:null,name:'',phone:'',email:'',address:'',hp:'',phase:'form'};
+var order={size:'medium',date:'',calMonth:null,name:'',phone:'',email:'',address:'',addressMeta:{verified:false},hp:'',phase:'form'};
 function sizeObj(id){return SIZES.filter(function(s){return s.id===id;})[0];}
 function openOrder(sizeId){order.size=sizeId||order.size;order.phase='form';document.body.style.overflow='hidden';renderModal();}
 function closeOrder(){document.body.style.overflow='';document.getElementById('modal-root').innerHTML='';}
-function canProceed(){return !!order.date&&!!order.name.trim()&&!!order.phone.trim()&&/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(order.email.trim());}
+function canProceed(){return !!order.date&&!!order.name.trim()&&!!order.phone.trim()&&/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(order.email.trim())&&!!order.address.trim();}
 
 function buildCalendar(){
   var now=new Date();now.setHours(0,0,0,0);var cy=now.getFullYear(),cm=now.getMonth();var m=order.calMonth||{y:cy,m:cm};
@@ -415,7 +416,7 @@ function formHtml(s){
     '<div style="font-weight:700;font-size:14px;margin-bottom:9px">Ønsket monteringsdato</div>'+
     '<div style="background:'+C.card+';border:1px solid '+C.line+';border-radius:14px;padding:15px;margin-bottom:16px"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:9px"><button data-act="prev" style="'+(cal.canPrev?navB:navB+';opacity:.3;cursor:default')+'">‹</button><span id="callbl" style="font-weight:700;font-size:15px">'+cal.label+'</span><button data-act="next" style="'+navB+'">›</button></div><div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:4px">'+wd+'</div><div id="calgrid" style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px">'+calCells(cal)+'</div></div>'+
     '<div id="seldate">'+(order.date?'<div style="font-size:14px;margin-bottom:16px;background:'+C.card+';border:1px solid '+C.line+';border-radius:10px;padding:10px 14px">Valgt dato: <strong>'+selDateLabel()+'</strong></div>':'')+'</div>'+
-    '<div style="display:flex;flex-direction:column;gap:11px;margin-bottom:18px"><input data-f="name" value="'+esc(order.name)+'" placeholder="Navn" style="border:1px solid '+C.line+';border-radius:10px;padding:12px 14px;font-size:15px;background:'+C.card+';color:'+C.text+'"><div style="display:grid;grid-template-columns:1fr 1fr;gap:11px"><input data-f="phone" value="'+esc(order.phone)+'" placeholder="Telefon" inputmode="tel" style="border:1px solid '+C.line+';border-radius:10px;padding:12px 14px;font-size:15px;background:'+C.card+';color:'+C.text+'"><input data-f="email" value="'+esc(order.email)+'" placeholder="E-post" type="email" style="border:1px solid '+C.line+';border-radius:10px;padding:12px 14px;font-size:15px;background:'+C.card+';color:'+C.text+'"></div><input data-f="address" value="'+esc(order.address)+'" placeholder="Adresse for montering (valgfritt)" style="border:1px solid '+C.line+';border-radius:10px;padding:12px 14px;font-size:15px;background:'+C.card+';color:'+C.text+'"><input data-f="hp" value="'+esc(order.hp)+'" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0"></div>'+
+    '<div style="display:flex;flex-direction:column;gap:11px;margin-bottom:18px"><input data-f="name" value="'+esc(order.name)+'" placeholder="Navn" style="border:1px solid '+C.line+';border-radius:10px;padding:12px 14px;font-size:15px;background:'+C.card+';color:'+C.text+'"><div style="display:grid;grid-template-columns:1fr 1fr;gap:11px"><input data-f="phone" value="'+esc(order.phone)+'" placeholder="Telefon" inputmode="tel" style="border:1px solid '+C.line+';border-radius:10px;padding:12px 14px;font-size:15px;background:'+C.card+';color:'+C.text+'"><input data-f="email" value="'+esc(order.email)+'" placeholder="E-post" type="email" style="border:1px solid '+C.line+';border-radius:10px;padding:12px 14px;font-size:15px;background:'+C.card+';color:'+C.text+'"></div><input data-f="address" value="'+esc(order.address)+'" placeholder="Adresse for montering" style="border:1px solid '+C.line+';border-radius:10px;padding:12px 14px;font-size:15px;background:'+C.card+';color:'+C.text+'"><input data-f="hp" value="'+esc(order.hp)+'" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0"></div>'+
     '<button id="proceed" data-act="proceed" style="'+proceedStyle()+'">Se over bestillingen →</button>'+
     '<p style="text-align:center;font-size:12.5px;color:'+C.muted+';margin:10px 0 0">🔒 Ingen forskudd — du betaler først når vedskjulet står ferdig</p></div>';
 }
@@ -453,6 +454,11 @@ function bindModal(){
   root.querySelectorAll('[data-pick]').forEach(function(b){b.addEventListener('click',function(){order.size=b.getAttribute('data-pick');renderModal();});});
   root.querySelectorAll('.cc[data-date]').forEach(function(b){b.addEventListener('click',function(){selectDate(b.getAttribute('data-date'));});});
   root.querySelectorAll('[data-f]').forEach(function(i){i.addEventListener('input',function(){order[i.getAttribute('data-f')]=i.value;var p=document.getElementById('proceed');if(p)p.setAttribute('style',proceedStyle());});});
+  var addrEl=root.querySelector('[data-f="address"]');
+  if(addrEl&&window.initAddressAutocomplete)initAddressAutocomplete(addrEl,{
+    onSelect:function(a){order.address=a.adressetekst;order.addressMeta={postnummer:a.postnummer,poststed:a.poststed,kommunenummer:a.kommunenummer,kommunenavn:a.kommunenavn,lat:a.lat,lon:a.lon,verified:true};var p=document.getElementById('proceed');if(p)p.setAttribute('style',proceedStyle());},
+    onInput:function(t){order.address=t;order.addressMeta={verified:false};}
+  });
 }
 function selectDate(ds){order.date=ds;var root=document.getElementById('modal-root');var base='height:34px;border:none;border-radius:8px;font-size:13.5px;font-weight:600;font-family:\'Hanken Grotesk\',sans-serif;display:flex;align-items:center;justify-content:center;padding:0';
   root.querySelectorAll('.cc[data-date]').forEach(function(b){var sel=b.getAttribute('data-date')===ds;b.setAttribute('style',base+';cursor:pointer;background:'+(sel?C.green:'transparent')+';color:'+(sel?'#fff':C.text)+';border:'+(sel?'none':'1px solid '+C.line));});
@@ -467,7 +473,7 @@ function submitOrder(){
   var payload={site:'ved',product:product,
     config:{size:order.size,navn:s.navn,liter:s.liter},
     preferred_date:order.date||null,name:order.name.trim(),phone:order.phone.trim(),
-    email:order.email.trim(),address:(order.address||'').trim(),price_nok:s.fra,utm:utm,hp:order.hp||''};
+    email:order.email.trim(),address:(order.address||'').trim(),address_meta:order.addressMeta||{verified:false},price_nok:s.fra,utm:utm,hp:order.hp||''};
   order.phase='sending';renderModal();
   fetch('/api/order',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)})
     .then(function(r){if(!r.ok)throw new Error('http '+r.status);return r.json();})
