@@ -504,6 +504,7 @@ window.addEventListener('DOMContentLoaded',function(){
 <div id="modal-root"></div>
 
 <script src="/lib/address-autocomplete.js"></script>
+<script src="/lib/track.js"></script>
 <script>
 "use strict";
 /* ============================================================
@@ -941,6 +942,7 @@ function selectedDateLabel(){
 // ---------- order modal ----------
 function requestQuote(){
   state.orderPhase='date'; state.orderOpen=true;
+  try{if(window.Roverk)Roverk.track('bestilling_start',{produkt:'Orden'});}catch(e){}
   renderModal();
 }
 function closeOrder(){ state.orderOpen=false; renderModal(); }
@@ -960,7 +962,7 @@ function submitOrder(){
   state.orderPhase='sending';renderModal();
   fetch('/api/order',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(buildOrderPayload())})
     .then(function(r){if(!r.ok)throw new Error('http '+r.status);return r.json();})
-    .then(function(){state.orderPhase='done';renderModal();})
+    .then(function(){try{if(window.Roverk)Roverk.track('bestilling_sendt',{produkt:'Orden',verdi:computeVals().total});}catch(e){}state.orderPhase='done';renderModal();})
     .catch(function(err){if(window.console)console.error('ordre-feil',err);state.orderPhase='error';renderModal();});
 }
 function canProceed(){ return !!state.o_name.trim() && !!state.o_phone.trim() && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(state.o_email.trim()) && !!state.o_address.trim(); }
