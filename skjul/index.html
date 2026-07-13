@@ -10,10 +10,11 @@
 <meta property="og:description" content="Skjul dunkene pent. Åpen front, luftet, levert og montert hjemme hos deg i Trondheim. Betal først etter montering. Ikke søknadspliktig.">
 <meta property="og:type" content="website">
 <link rel="icon" type="image/png" href="/skjul/assets/roverk-favicon.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800;900&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="preload" href="/assets/fonts/archivo.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/hanken-grotesk.woff2" as="font" type="font/woff2" crossorigin>
 <style>
+@font-face{font-family:'Archivo';font-style:normal;font-weight:600 900;font-display:swap;src:url('/assets/fonts/archivo.woff2') format('woff2')}
+@font-face{font-family:'Hanken Grotesk';font-style:normal;font-weight:400 700;font-display:swap;src:url('/assets/fonts/hanken-grotesk.woff2') format('woff2')}
 :root{--bg:#F4F2ED;--card:#FBFAF7;--text:#141310;--muted:#6E685E;--amber:#BE8A48;--amberSoft:#E9DBC1;--green:#17150F;--line:#E4DFD5;--heroBg:#0E0D0B;--wood:#A9743B}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth;scroll-padding-top:76px}
@@ -137,10 +138,10 @@ window.fbq=window.fbq||function(){(window.fbq.q=window.fbq.q||[]).push(arguments
     <p style="text-align:center;color:var(--muted);font-size:12.5px;margin:8px 0 0">Trykk play — og på 🔊 for lyd</p>
   </div>
   <div data-reveal-group style="display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px">
-    <img src="/skjul/assets/galleri-1.jpg" loading="lazy" alt="Roverk Skjul i landlig norsk miljø" style="width:100%;aspect-ratio:2/3;object-fit:cover;border-radius:14px;display:block">
-    <img src="/skjul/assets/galleri-2.jpg" loading="lazy" alt="Roverk Skjul mot falurød husvegg" style="width:100%;aspect-ratio:2/3;object-fit:cover;border-radius:14px;display:block">
-    <img src="/skjul/assets/galleri-3.jpg" loading="lazy" alt="Roverk Skjul inntil lys husvegg" style="width:100%;aspect-ratio:2/3;object-fit:cover;border-radius:14px;display:block">
-    <img src="/skjul/assets/galleri-4.jpg" loading="lazy" alt="Roverk Skjul ved garasjevegg" style="width:100%;aspect-ratio:2/3;object-fit:cover;border-radius:14px;display:block">
+    <picture style="display:contents"><source srcset="/skjul/assets/galleri-1.avif" type="image/avif"><source srcset="/skjul/assets/galleri-1.webp" type="image/webp"><img src="/skjul/assets/galleri-1.jpg" loading="lazy" alt="Roverk Skjul i landlig norsk miljø" style="width:100%;aspect-ratio:2/3;object-fit:cover;border-radius:14px;display:block"></picture>
+    <picture style="display:contents"><source srcset="/skjul/assets/galleri-2.avif" type="image/avif"><source srcset="/skjul/assets/galleri-2.webp" type="image/webp"><img src="/skjul/assets/galleri-2.jpg" loading="lazy" alt="Roverk Skjul mot falurød husvegg" style="width:100%;aspect-ratio:2/3;object-fit:cover;border-radius:14px;display:block"></picture>
+    <picture style="display:contents"><source srcset="/skjul/assets/galleri-3.avif" type="image/avif"><source srcset="/skjul/assets/galleri-3.webp" type="image/webp"><img src="/skjul/assets/galleri-3.jpg" loading="lazy" alt="Roverk Skjul inntil lys husvegg" style="width:100%;aspect-ratio:2/3;object-fit:cover;border-radius:14px;display:block"></picture>
+    <picture style="display:contents"><source srcset="/skjul/assets/galleri-4.avif" type="image/avif"><source srcset="/skjul/assets/galleri-4.webp" type="image/webp"><img src="/skjul/assets/galleri-4.jpg" loading="lazy" alt="Roverk Skjul ved garasjevegg" style="width:100%;aspect-ratio:2/3;object-fit:cover;border-radius:14px;display:block"></picture>
   </div>
   <p style="text-align:center;color:var(--muted);font-size:12px;margin-top:14px;opacity:.7">Illustrasjoner</p>
 </section>

@@ -10,10 +10,11 @@
 <meta property="og:description" content="Mobile trebaserte oppbevaringsrack for garasje og bod. Bygget rundt kassene dine, levert og montert lokalt i Trondheim. Betal først etter montering.">
 <meta property="og:type" content="website">
 <link rel="icon" type="image/png" href="/orden/assets/roverk-favicon.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800;900&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="preload" href="/assets/fonts/archivo.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/hanken-grotesk.woff2" as="font" type="font/woff2" crossorigin>
 <style>
+@font-face{font-family:'Archivo';font-style:normal;font-weight:600 900;font-display:swap;src:url('/assets/fonts/archivo.woff2') format('woff2')}
+@font-face{font-family:'Hanken Grotesk';font-style:normal;font-weight:400 700;font-display:swap;src:url('/assets/fonts/hanken-grotesk.woff2') format('woff2')}
 :root{--bg:#F4F2ED;--card:#FBFAF7;--text:#141310;--muted:#6E685E;--amber:#BE8A48;--amberSoft:#E9DBC1;--green:#17150F;--line:#E4DFD5;--heroBg:#0E0D0B;--wood:#A9743B}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth;scroll-padding-top:80px}
@@ -229,13 +230,13 @@ window.addEventListener('DOMContentLoaded',function(){
       <div data-r="ba" data-reveal-group style="display:grid;grid-template-columns:1fr auto 1fr;gap:20px;align-items:center">
         <div>
           <div style="display:flex;align-items:center;gap:9px;margin-bottom:12px"><span style="font-family:'Archivo';font-weight:900;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:rgba(255,255,255,.6)">Før</span><span style="height:1px;flex:1;background:rgba(255,255,255,.18)"></span></div>
-          <img src="/orden/assets/garasje-for.jpg" alt="Rotete garasje før oppbevaringsrack" loading="lazy" style="width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:18px;display:block;border:1px solid rgba(255,255,255,.08)">
+          <picture style="display:contents"><source srcset="/orden/assets/garasje-for.avif" type="image/avif"><source srcset="/orden/assets/garasje-for.webp" type="image/webp"><img src="/orden/assets/garasje-for.jpg" alt="Rotete garasje før oppbevaringsrack" loading="lazy" style="width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:18px;display:block;border:1px solid rgba(255,255,255,.08)"></picture>
           <p style="font-size:13px;color:rgba(255,255,255,.55);margin:12px 0 0">Rot, lite plass, gulvet fullt.</p>
         </div>
         <div data-r="ba-arrow" style="display:flex;align-items:center;justify-content:center;width:54px;height:54px;border-radius:50%;background:var(--amber);color:var(--heroBg);font-size:26px;font-weight:800;flex:none;align-self:center"><span class="ba-glyph">→</span></div>
         <div>
           <div style="display:flex;align-items:center;gap:9px;margin-bottom:12px"><span style="height:1px;flex:1;background:rgba(255,255,255,.18)"></span><span style="font-family:'Archivo';font-weight:900;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--amber)">Etter</span></div>
-          <img src="/orden/assets/garasje-etter-2.jpg" alt="Ryddig garasje sett fra oppkjørselen med Roverk Orden-rack og sykkel" loading="lazy" style="width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:18px;display:block;border:1px solid rgba(255,255,255,.08)">
+          <picture style="display:contents"><source srcset="/orden/assets/garasje-etter-2.avif" type="image/avif"><source srcset="/orden/assets/garasje-etter-2.webp" type="image/webp"><img src="/orden/assets/garasje-etter-2.jpg" alt="Ryddig garasje sett fra oppkjørselen med Roverk Orden-rack og sykkel" loading="lazy" style="width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:18px;display:block;border:1px solid rgba(255,255,255,.08)"></picture>
           <p data-align-right style="font-size:13px;color:rgba(255,255,255,.55);margin:12px 0 0;text-align:right">Alt på plass, klart til bruk.</p>
         </div>
       </div>
@@ -403,7 +404,7 @@ window.addEventListener('DOMContentLoaded',function(){
       <p style="color:var(--muted);font-size:17px;margin:0">Vi tror på det enkle og ekte: du velger modell, vi bygger den, kjører den hjem til deg og monterer den ferdig i garasjen eller boden din. Den lille aktøren mot de store nettbutikkene.</p>
     </div>
     <div style="border-radius:20px;aspect-ratio:4/3;overflow:hidden">
-      <img src="/orden/assets/om-oss-bil.jpg" alt="Roverk Orden i garasje ved bilen, på hjul" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block">
+      <picture style="display:contents"><source srcset="/orden/assets/om-oss-bil.avif" type="image/avif"><source srcset="/orden/assets/om-oss-bil.webp" type="image/webp"><img src="/orden/assets/om-oss-bil.jpg" alt="Roverk Orden i garasje ved bilen, på hjul" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block"></picture>
     </div>
   </div>
 </section>
@@ -458,10 +459,10 @@ window.addEventListener('DOMContentLoaded',function(){
       <p style="text-align:center;color:var(--muted);font-size:12.5px;margin:8px 0 0">Trykk play — og på 🔊 for lyd</p>
     </div>
     <div data-reveal-group style="display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px">
-      <img src="/orden/assets/galleri-1.jpg" loading="lazy" alt="Roverk Orden i lys bod med hvite vegger" style="width:100%;aspect-ratio:2/3;object-fit:cover;border-radius:14px;display:block">
-      <img src="/orden/assets/galleri-2.jpg" loading="lazy" alt="Roverk Orden på loft med skråtak, bygget opp mot taket" style="width:100%;aspect-ratio:2/3;object-fit:cover;border-radius:14px;display:block">
-      <img src="/orden/assets/galleri-3.jpg" loading="lazy" alt="Roverk Orden i hyttebod med varmt furupanel" style="width:100%;aspect-ratio:2/3;object-fit:cover;border-radius:14px;display:block">
-      <img src="/orden/assets/galleri-4.jpg" loading="lazy" alt="Hånd som drar ut en kasse fra Roverk Orden i garasjen" style="width:100%;aspect-ratio:2/3;object-fit:cover;border-radius:14px;display:block">
+      <picture style="display:contents"><source srcset="/orden/assets/galleri-1.avif" type="image/avif"><source srcset="/orden/assets/galleri-1.webp" type="image/webp"><img src="/orden/assets/galleri-1.jpg" loading="lazy" alt="Roverk Orden i lys bod med hvite vegger" style="width:100%;aspect-ratio:2/3;object-fit:cover;border-radius:14px;display:block"></picture>
+      <picture style="display:contents"><source srcset="/orden/assets/galleri-2.avif" type="image/avif"><source srcset="/orden/assets/galleri-2.webp" type="image/webp"><img src="/orden/assets/galleri-2.jpg" loading="lazy" alt="Roverk Orden på loft med skråtak, bygget opp mot taket" style="width:100%;aspect-ratio:2/3;object-fit:cover;border-radius:14px;display:block"></picture>
+      <picture style="display:contents"><source srcset="/orden/assets/galleri-3.avif" type="image/avif"><source srcset="/orden/assets/galleri-3.webp" type="image/webp"><img src="/orden/assets/galleri-3.jpg" loading="lazy" alt="Roverk Orden i hyttebod med varmt furupanel" style="width:100%;aspect-ratio:2/3;object-fit:cover;border-radius:14px;display:block"></picture>
+      <picture style="display:contents"><source srcset="/orden/assets/galleri-4.avif" type="image/avif"><source srcset="/orden/assets/galleri-4.webp" type="image/webp"><img src="/orden/assets/galleri-4.jpg" loading="lazy" alt="Hånd som drar ut en kasse fra Roverk Orden i garasjen" style="width:100%;aspect-ratio:2/3;object-fit:cover;border-radius:14px;display:block"></picture>
     </div>
     <p data-reveal style="text-align:center;color:var(--muted);font-size:12px;margin-top:14px;opacity:.7">Illustrasjoner</p>
   </div>
