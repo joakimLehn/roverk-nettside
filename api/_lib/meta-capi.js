@@ -26,9 +26,11 @@ function normPhone(p) {
   return d;
 }
 
-export async function sendCapiPurchase(order, ctx, req) {
+export async function sendCapiPurchase(order, ctx, req, opts = {}) {
   const token = process.env.META_CAPI_TOKEN;
   const pixelId = process.env.META_PIXEL_ID || DEFAULT_PIXEL_ID;
+  // Test-kode: rutes til Events Manager → Test-hendelser i stedet for live-data.
+  const testCode = opts.testCode || process.env.META_CAPI_TEST_CODE || null;
 
   if (!token) return { skipped: 'no-token' };
   if (!ctx || ctx.consent !== true) return { skipped: 'no-consent' };
@@ -65,10 +67,13 @@ export async function sendCapiPurchase(order, ctx, req) {
 
   const url = `https://graph.facebook.com/${GRAPH_VERSION}/${pixelId}/events?access_token=${encodeURIComponent(token)}`;
 
+  const payload = { data: [event] };
+  if (testCode) payload.test_event_code = testCode;
+
   const resp = await fetch(url, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ data: [event] })
+    body: JSON.stringify(payload)
   });
 
   const json = await resp.json().catch(() => ({}));
