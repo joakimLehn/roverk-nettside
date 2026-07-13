@@ -4,8 +4,21 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Personvern – Roverk</title>
+  <meta name="description" content="Personvernerklæring for Roverk – hvordan vi behandler personopplysninger.">
   <meta name="robots" content="index,follow">
+  <link rel="canonical" href="https://www.roverk.no/personvern">
+  <meta name="theme-color" content="#0E0D0B">
+  <meta property="og:site_name" content="Roverk">
+  <meta property="og:locale" content="nb_NO">
+  <meta property="og:title" content="Personvern – Roverk">
+  <meta property="og:description" content="Personvernerklæring for Roverk – hvordan vi behandler personopplysninger.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.roverk.no/personvern">
+  <meta property="og:image" content="https://www.roverk.no/assets/og-roverk.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
   <link rel="icon" type="image/png" href="/assets/roverk-favicon.png">
+  <link rel="apple-touch-icon" href="/assets/roverk-favicon.png">
   <style>
     :root{--bg:#F4F2ED;--card:#FBFAF7;--text:#141310;--muted:#6E685E;--line:#E4DFD5;--green:#17150F;}
     *{box-sizing:border-box}
@@ -24,7 +37,7 @@
   <div class="wrap">
     <a class="back" href="/">← Til forsiden</a>
     <h1>Personvernerklæring</h1>
-    <p class="muted">Sist oppdatert: 10. juli 2026</p>
+    <p class="muted">Sist oppdatert: 13. juli 2026</p>
 
     <h2>Behandlingsansvarlig</h2>
     <p>Roverk (en del av Utler Entreprenør AS), org.nr 946 511 277.<br>
@@ -36,15 +49,33 @@
        omtrentlig geografi og enhetstype. Målingen er <strong>anonym og aggregert</strong>:
        vi kan ikke identifisere deg som enkeltperson gjennom den.</p>
     <div class="card">
-      <p style="margin:0"><strong>Ingen informasjonskapsler (cookies).</strong> Vercel Web
-      Analytics setter ingen cookies og lagrer ingen personopplysninger på enheten din.
-      Derfor viser vi heller ingen «cookie-banner» – det er ikke nødvendig.</p>
+      <p style="margin:0"><strong>Denne målingen bruker ingen informasjonskapsler (cookies).</strong>
+      Vercel Web Analytics setter ingen cookies og lagrer ingen personopplysninger på enheten din,
+      og kjører derfor uten at du trenger å samtykke.</p>
     </div>
     <p>I tillegg registrerer vi anonyme hendelser når noen åpner bestillingsskjemaet eller
        fullfører en bestilling, slik at vi kan se hvor godt sidene fungerer. Disse hendelsene
        inneholder ingen navn, kontaktopplysninger eller annen informasjon som kan spores til deg.</p>
     <p>Vercel Inc. er databehandler for denne målingen. Les mer hos
        <a href="https://vercel.com/docs/analytics/privacy-policy" rel="noopener" target="_blank">Vercel</a>.</p>
+
+    <h2>Markedsføring og annonser (Meta)</h2>
+    <p><strong>Kun hvis du samtykker</strong> bruker vi Meta-pixel og Metas API for konverteringer
+       for å måle effekten av annonsene våre på Facebook og Instagram og for å vise deg mer
+       relevante annonser. Dette settes i gang først når du trykker «Godta» i samtykkebanneret,
+       og setter da informasjonskapsler i nettleseren din.</p>
+    <p>Når du samtykker, deles opplysninger med Meta – blant annet hvilke sider du besøker,
+       teknisk informasjon som IP-adresse og nettlesertype, og en <strong>kryptert (hashet)</strong>
+       versjon av opplysningene du oppgir i skjemaet (som e-post, telefon, navn og adresse) slik at
+       Meta kan måle resultatet og matche annonser. Opplysningene krypteres før de sendes, og vi deler
+       ikke sensitiv informasjon som betalings- eller helseopplysninger.
+       Behandlingsgrunnlaget er <strong>samtykke</strong> (personvernforordningen art. 6
+       nr. 1 a). Behandlingsansvarlig er Meta Platforms Ireland Ltd., og opplysninger kan overføres
+       til USA under EUs rammeverk for personvern (Data Privacy Framework). Les mer i
+       <a href="https://www.facebook.com/privacy/policy" rel="noopener" target="_blank">Metas personvernregler</a>.</p>
+    <p>Du kan når som helst trekke tilbake eller endre samtykket ditt:
+       <a href="#" id="reset-consent" style="text-decoration:underline">endre samtykke for markedsføring</a>.
+       Du kan også slette informasjonskapslene i nettleseren din.</p>
 
     <h2>Når du bestiller</h2>
     <p>Når du sender inn en bestilling eller forespørsel, behandler vi opplysningene du oppgir
@@ -59,5 +90,15 @@
        Ta kontakt på <a href="mailto:ordre@roverk.no">ordre@roverk.no</a> hvis du ønsker å bruke
        rettighetene dine.</p>
   </div>
+  <script defer src="/lib/meta.js"></script>
+  <script>
+    document.addEventListener('click', function (e) {
+      var t = e.target.closest && e.target.closest('#reset-consent');
+      if (!t) return;
+      e.preventDefault();
+      if (window.RoverkMeta) RoverkMeta.resetConsent();
+      else { try { localStorage.removeItem('roverk_meta_consent'); } catch (x) {} location.reload(); }
+    });
+  </script>
 </body>
 </html>

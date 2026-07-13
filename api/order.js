@@ -3,6 +3,7 @@ import { handleOrder } from './_lib/order-service.js';
 import { insertOrder, updateNotify } from './_lib/db.js';
 import { sendOwnerEmail, sendCustomerEmail } from './_lib/email.js';
 import { postSlack } from './_lib/slack.js';
+import { sendCapiPurchase } from './_lib/meta-capi.js';
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -25,6 +26,23 @@ export default async function handler(req, res) {
     const result = await handleOrder(v.data, {
       insertOrder, updateNotify, sendOwnerEmail, sendCustomerEmail, postSlack
     });
+
+    // Conversions API (server-side Purchase). Best effort: en feil her
+    // skal aldri velte selve ordren. Meta-felter leses fra rå-body fordi
+    // validateOrder stripper alt utenfor whitelisten.
+    const metaCtx = {
+      event_id: str(body.event_id),
+      fbp: str(body.fbp),
+      fbc: str(body.fbc),
+      consent: body.consent === true,
+      event_source_url: str(body.event_source_url)
+    };
+    try {
+      await sendCapiPurchase(v.data, metaCtx, req);
+    } catch (capiErr) {
+      console.error('CAPI-feil (ignorert):', capiErr);
+    }
+
     res.status(200).json({ ok: true, id: result.id });
   } catch (e) {
     console.error('ordre-feil (DB):', e);
@@ -33,3 +51,4 @@ export default async function handler(req, res) {
 }
 
 function safeJson(s) { try { return JSON.parse(s); } catch { return {}; } }
+function str(v) { return typeof v === 'string' ? v.trim() : ''; }

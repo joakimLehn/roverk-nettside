@@ -1,0 +1,38 @@
+# robots.txt – roverk.no
+# Alle crawlere er velkomne, inkludert AI-crawlere (vi ønsker å bli funnet og oppsummert riktig).
+
+User-agent: *
+Allow: /
+
+# AI-/LLM-crawlere – eksplisitt tillatt
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+Sitemap: https://www.roverk.no/sitemap.xml
