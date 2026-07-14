@@ -388,7 +388,7 @@ function curMont(){return order.montering?MONT[order.count]:0;}
 function curForank(){return order.forankring?FORANK:0;}
 function curPrice(){return curBase()+curMont()+curForank();}
 function curDims(){return DIMS[order.count][order.serie];}
-function openOrder(count){if(count)order.count=count;try{if(window.Roverk)Roverk.track('bestilling_start',{produkt:order.count+'-dunk '+order.serie});}catch(e){}order.phase='form';document.body.style.overflow='hidden';renderModal(true);}
+function openOrder(count){if(count)order.count=count;try{if(window.Roverk)Roverk.track('bestilling_start_skjul',{produkt:order.count+'-dunk '+order.serie});}catch(e){}order.phase='form';document.body.style.overflow='hidden';renderModal(true);}
 function closeOrder(){document.body.style.overflow='';document.getElementById('modal-root').innerHTML='';}
 function canProceed(){return !!order.date&&!!order.name.trim()&&!!order.phone.trim()&&/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(order.email.trim())&&!!order.address.trim();}
 function buildCalendar(){var now=new Date();now.setHours(0,0,0,0);var minDate=new Date(now);minDate.setDate(minDate.getDate()+14);var cy=minDate.getFullYear(),cm=minDate.getMonth();var m=order.calMonth||{y:cy,m:cm};var startWd=(new Date(m.y,m.m,1).getDay()+6)%7,dim=new Date(m.y,m.m+1,0).getDate(),cells=[];for(var i=0;i<startWd;i++)cells.push({blank:true});for(var d=1;d<=dim;d++){var dt=new Date(m.y,m.m,d);var ds=m.y+'-'+String(m.m+1).padStart(2,'0')+'-'+String(d).padStart(2,'0');cells.push({day:d,ds:ds,past:dt<minDate,sel:order.date===ds});}var lbl=NBMONTHS[m.m]+' '+m.y;return{m:m,label:lbl.charAt(0).toUpperCase()+lbl.slice(1),canPrev:!(m.y===cy&&m.m===cm),cells:cells};}
@@ -486,7 +486,7 @@ function submitOrder(){
   order.phase='sending';renderModal();
   fetch('/api/order',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)})
     .then(function(r){if(!r.ok)throw new Error('http '+r.status);return r.json();})
-    .then(function(res){try{if(window.RoverkMeta)RoverkMeta.purchase({value:price,orderId:(res&&res.id)||null,eventId:mctx.event_id});}catch(e){}try{if(window.Roverk)Roverk.track('bestilling_sendt',{produkt:product,verdi:price});}catch(e){}order.phase='done';renderModal();})
+    .then(function(res){try{if(window.RoverkMeta)RoverkMeta.purchase({value:price,orderId:(res&&res.id)||null,eventId:mctx.event_id});}catch(e){}try{if(window.Roverk)Roverk.track('bestilling_sendt_skjul',{produkt:product,verdi:price});}catch(e){}order.phase='done';renderModal();})
     .catch(function(err){if(window.console)console.error('ordre-feil',err);order.phase='error';renderModal();});
 }
 

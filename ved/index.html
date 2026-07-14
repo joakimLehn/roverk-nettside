@@ -440,7 +440,7 @@ function initNav(){var h=document.getElementById('site-header'),b=document.getEl
 /* ---------- ordremodal ---------- */
 var order={size:'medium',date:'',calMonth:null,name:'',phone:'',email:'',address:'',addressMeta:{verified:false},hp:'',phase:'form'};
 function sizeObj(id){return SIZES.filter(function(s){return s.id===id;})[0];}
-function openOrder(sizeId){order.size=sizeId||order.size;try{if(window.Roverk){var _s=sizeObj(order.size);Roverk.track('bestilling_start',{produkt:'Vedskjul '+_s.navn});}}catch(e){}order.phase='form';document.body.style.overflow='hidden';renderModal();}
+function openOrder(sizeId){order.size=sizeId||order.size;try{if(window.Roverk){var _s=sizeObj(order.size);Roverk.track('bestilling_start_ved',{produkt:'Vedskjul '+_s.navn});}}catch(e){}order.phase='form';document.body.style.overflow='hidden';renderModal();}
 function closeOrder(){document.body.style.overflow='';document.getElementById('modal-root').innerHTML='';}
 function canProceed(){return !!order.date&&!!order.name.trim()&&!!order.phone.trim()&&/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(order.email.trim())&&!!order.address.trim();}
 
@@ -538,7 +538,7 @@ function submitOrder(){
   order.phase='sending';renderModal();
   fetch('/api/order',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)})
     .then(function(r){if(!r.ok)throw new Error('http '+r.status);return r.json();})
-    .then(function(res){try{if(window.RoverkMeta)RoverkMeta.purchase({value:s.fra,orderId:(res&&res.id)||null,eventId:mctx.event_id});}catch(e){}try{if(window.Roverk)Roverk.track('bestilling_sendt',{produkt:product,verdi:s.fra});}catch(e){}order.phase='done';renderModal();})
+    .then(function(res){try{if(window.RoverkMeta)RoverkMeta.purchase({value:s.fra,orderId:(res&&res.id)||null,eventId:mctx.event_id});}catch(e){}try{if(window.Roverk)Roverk.track('bestilling_sendt_ved',{produkt:product,verdi:s.fra});}catch(e){}order.phase='done';renderModal();})
     .catch(function(err){if(window.console)console.error('ordre-feil',err);order.phase='error';renderModal();});
 }
 
