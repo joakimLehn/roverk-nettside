@@ -596,7 +596,8 @@ var ORDER=['2x3','2x4','3x3','3x4','3x5','4x4','4x5','5x5'];
 
 var FAQ=[
   { q:'Hvor leverer og monterer dere?', a:'Vi leverer og monterer i Trondheim, Malvik, Melhus, Stjørdal, Klæbu og Heimdal. Bor du litt utenfor? Ta kontakt, så finner vi ut av det.' },
-  { q:'Følger kasser og hjul med?', a:'Kassene er alltid inkludert — racket er bygget for å henge nøyaktig disse kassene i kanten, og det finnes ingen kasser i Norge som passer til dette. Du velger størrelse: Stor (60L) eller Veldig stor (100L). Hjul med brems kan legges til som tilvalg, og prisen beregnes automatisk.' },
+  { q:'Følger kasser og hjul med?', a:'Kassene er alltid inkludert — racket er bygget for å henge nøyaktig disse kassene i kanten, og det finnes ingen kasser i Norge som passer til dette. Du velger størrelse: Stor (60L) eller Veldig stor (100L). Hjul med brems kan legges til som tilvalg på rack med maks 4 kasser i høyden, og prisen beregnes automatisk.' },
+  { q:'Kan jeg få hjul på et høyt rack?', a:'Hjul kan legges til på rack med maks 4 kasser i høyden. Er racket 5 kasser eller høyere, kan du ikke velge hjul — et høyt rack på hjul får høyt tyngdepunkt og kan velte når det trilles eller lastes. Av sikkerhetshensyn står derfor høye rack fast på gulvet. Trenger du å kunne flytte racket, velg maks 4 kasser i høyden.' },
   { q:'Hvor lang er leveringstiden?', a:'Vi opplever svært stor etterspørsel om dagen, og forventet levering er september. Legg inn bestillingen nå for å sikre plassen din i køen — vi tar kontakt og bekrefter et konkret leveringstidspunkt. Du betaler først når alt er levert og ferdig montert.' },
   { q:'Hva er inkludert i prisen?', a:'Prisen inkluderer racket, kassene og levering og montering i leveringsområdet. Hjul kommer eventuelt i tillegg — totalen ser du i planleggeren.' },
   { q:'Kan jeg få en topplate på toppen?', a:'Ja. Du kan legge til en topplate i kryssfinér som tilvalg i planleggeren — en fast, plan flate på toppen til ski, sesongutstyr og annet du vil ha liggende oppe. Prisen beregnes automatisk ut fra bredden på racket.' },
@@ -616,6 +617,10 @@ var state = {
   o_name:'', o_phone:'', o_email:'', o_address:'', o_addressMeta:{verified:false}, o_hp:''
 };
 var SITE_ID='orden';
+
+// Hjul kan kun legges til på rack med maks 4 kasser i høyden (stabilitet).
+var WHEEL_MAX_H = 4;
+function wheelsAllowed(){ return state.h <= WHEEL_MAX_H; }
 
 // ---------- helpers ----------
 function fmt(n){ return n.toLocaleString('nb-NO'); }
@@ -734,7 +739,7 @@ function computeVals(){
     wheelHint:wCount+' stk', topAdd:topAdd, topHint:'+'+fmt(topPrice)+' kr' };
   v.modelKind='Modell'; v.modelName=stdName; v.priceStr=fmt(total)+' kr';
   v.dimStr=dimTriple;
-  v.wheelsLabel = s.withWheels ? (wCount+' hjul') : 'Uten hjul (på gulv)';
+  v.wheelsLabel = !wheelsAllowed() ? 'Ikke tilgjengelig (5+ kasser i høyden)' : (s.withWheels ? (wCount+' hjul') : 'Uten hjul (på gulv)');
   v.topLabel = s.withTop ? 'Med topplate' : 'Uten topplate';
   v.boxesLabel = bCount+' kasser ('+bt+')';
   v.literLabel = fmt(liter)+' liter';
@@ -762,6 +767,7 @@ function readoutHtml(v){
 
 // ---------- configurator render ----------
 function renderConfig(){
+  if(!wheelsAllowed()) state.withWheels = false;   // hjul faller bort ved 5+ kasser i høyden
   var v = computeVals();
   var s = state;
   var html = '';
@@ -795,7 +801,13 @@ function renderConfig(){
 
   // add-ons
   html += '<div style="display:flex;flex-direction:column;gap:10px;margin-bottom:24px">';
-  html += '<div data-act="toggleWheels" style="display:flex;align-items:center;gap:12px;cursor:pointer;padding:13px 15px;border:1.5px solid '+C.line+';border-radius:12px;background:'+C.card+'"><span style="'+chkStyle(s.withWheels)+'">✓</span><span style="flex:1;font-weight:600;font-size:14.5px">Ta med hjul <span style="color:'+C.muted+';font-weight:400">(med brems · tilvalg)</span></span><span style="font-size:13px;color:'+C.muted+';white-space:nowrap">'+v.wheelHint+'</span></div>';
+  if(wheelsAllowed()){
+    html += '<div data-act="toggleWheels" style="display:flex;align-items:center;gap:12px;cursor:pointer;padding:13px 15px;border:1.5px solid '+C.line+';border-radius:12px;background:'+C.card+'"><span style="'+chkStyle(s.withWheels)+'">✓</span><span style="flex:1;font-weight:600;font-size:14.5px">Ta med hjul <span style="color:'+C.muted+';font-weight:400">(med brems · tilvalg)</span></span><span style="font-size:13px;color:'+C.muted+';white-space:nowrap">'+v.wheelHint+'</span></div>';
+  } else {
+    // Hjul ikke tilgjengelig ved 5+ kasser i høyden — vis låst tilvalg + tydelig forklaring
+    html += '<div style="display:flex;align-items:center;gap:12px;padding:13px 15px;border:1.5px solid '+C.line+';border-radius:12px;background:'+C.card+';opacity:.5;cursor:not-allowed"><span style="'+chkStyle(false)+'"></span><span style="flex:1;font-weight:600;font-size:14.5px;text-decoration:line-through;text-decoration-color:'+C.muted+'">Ta med hjul <span style="color:'+C.muted+';font-weight:400">(med brems · tilvalg)</span></span><span style="font-size:12px;color:'+C.muted+';white-space:nowrap;font-weight:700">Ikke tilgjengelig</span></div>';
+    html += '<div style="display:flex;gap:10px;align-items:flex-start;padding:12px 14px;border:1.5px solid '+C.amber+';border-radius:12px;background:'+C.amberSoft+';color:#5A3E15"><span style="font-size:15px;line-height:1.3;flex:none">⚠️</span><span style="font-size:13px;line-height:1.5"><strong>Hjul kan ikke velges når racket er '+s.h+' kasser i høyden.</strong> Et så høyt rack får høyt tyngdepunkt og kan velte når det trilles — av sikkerhetshensyn er hjul kun tilgjengelig på rack med maks '+WHEEL_MAX_H+' kasser i høyden. Reduser høyden til '+WHEEL_MAX_H+' eller lavere for å legge til hjul.</span></div>';
+  }
   html += '<div data-act="toggleTop" style="display:flex;align-items:center;gap:12px;cursor:pointer;padding:13px 15px;border:1.5px solid '+C.line+';border-radius:12px;background:'+C.card+';margin-top:8px"><span style="'+chkStyle(s.withTop)+'">✓</span><span style="flex:1;font-weight:600;font-size:14.5px">Legg til topplate <span style="color:'+C.muted+';font-weight:400">(for ski og sesongutstyr · tilvalg)</span></span><span style="font-size:13px;color:'+C.muted+';white-space:nowrap">'+v.topHint+'</span></div>';
   html += '</div>';
 
@@ -865,7 +877,7 @@ function bindConfig(){
     if(act==='w'){ node.addEventListener('click', function(){ state.w=parseInt(node.getAttribute('data-val'),10); renderConfig(); }); return; }
     if(act==='dec'){ node.addEventListener('click', function(){ stepH(-1); }); return; }
     if(act==='inc'){ node.addEventListener('click', function(){ stepH(1); }); return; }
-    if(act==='toggleWheels'){ node.addEventListener('click', function(){ state.withWheels=!state.withWheels; renderConfig(); }); return; }
+    if(act==='toggleWheels'){ node.addEventListener('click', function(){ if(!wheelsAllowed()) return; state.withWheels=!state.withWheels; renderConfig(); }); return; }
     if(act==='toggleTop'){ node.addEventListener('click', function(){ state.withTop=!state.withTop; renderConfig(); }); return; }
     if(act==='requestQuote'){ node.addEventListener('click', requestQuote); return; }
   });
@@ -874,6 +886,7 @@ function stepH(delta){
   var nv = state.h + delta;
   if(nv<3 || nv>7) return;   // 3–7 kasser i høyden
   state.h = nv;
+  if(!wheelsAllowed()) state.withWheels = false;   // hjul faller bort ved 5+ kasser i høyden
   renderConfig();
 }
 
