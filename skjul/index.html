@@ -392,11 +392,12 @@ function curPrice(){return curBase()+curMont()+curForank();}
 function curDims(){return DIMS[order.count][order.serie];}
 function openOrder(count){if(count)order.count=count;try{if(window.Roverk)Roverk.track('bestilling_start_skjul',{produkt:order.count+'-dunk '+order.serie});}catch(e){}order.phase='form';document.body.style.overflow='hidden';renderModal(true);}
 function closeOrder(){document.body.style.overflow='';document.getElementById('modal-root').innerHTML='';}
-function canProceed(){return !!order.date&&!!order.name.trim()&&!!order.phone.trim()&&/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(order.email.trim())&&!!order.address.trim();}
+function canProceed(){return !!order.name.trim()&&!!order.phone.trim()&&/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(order.email.trim())&&!!order.address.trim();}
+function missingFields(){var m=[];if(!order.name.trim())m.push('navn');if(!order.phone.trim())m.push('telefon');if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(order.email.trim()))m.push('gyldig e-post');if(!order.address.trim())m.push('adresse');return m;}
 function buildCalendar(){var now=new Date();now.setHours(0,0,0,0);var minDate=new Date(now);minDate.setDate(minDate.getDate()+14);var cy=minDate.getFullYear(),cm=minDate.getMonth();var m=order.calMonth||{y:cy,m:cm};var startWd=(new Date(m.y,m.m,1).getDay()+6)%7,dim=new Date(m.y,m.m+1,0).getDate(),cells=[];for(var i=0;i<startWd;i++)cells.push({blank:true});for(var d=1;d<=dim;d++){var dt=new Date(m.y,m.m,d);var ds=m.y+'-'+String(m.m+1).padStart(2,'0')+'-'+String(d).padStart(2,'0');cells.push({day:d,ds:ds,past:dt<minDate,sel:order.date===ds});}var lbl=NBMONTHS[m.m]+' '+m.y;return{m:m,label:lbl.charAt(0).toUpperCase()+lbl.slice(1),canPrev:!(m.y===cy&&m.m===cm),cells:cells};}
 function selDateLabel(){if(!order.date)return'';var p=order.date.split('-').map(Number);var dt=new Date(p[0],p[1]-1,p[2]);return WEEKDAY[dt.getDay()]+' '+p[2]+'. '+NBMONTHS[p[1]-1]+' '+p[0];}
 function calCells(cal){var base='height:34px;border:none;border-radius:8px;font-size:13.5px;font-weight:600;font-family:\'Hanken Grotesk\',sans-serif;display:flex;align-items:center;justify-content:center;padding:0';return cal.cells.map(function(c){if(c.blank)return'<button class="cc" disabled style="'+base+';visibility:hidden"></button>';if(c.past)return'<button class="cc" disabled style="'+base+';color:'+C.muted+';opacity:.3;background:transparent;cursor:default">'+c.day+'</button>';var sel=c.sel;return'<button class="cc" data-date="'+c.ds+'" style="'+base+';cursor:pointer;background:'+(sel?C.green:'transparent')+';color:'+(sel?'#fff':C.text)+';border:'+(sel?'none':'1px solid '+C.line)+'">'+c.day+'</button>';}).join('');}
-function proceedStyle(){var ok=canProceed();return'width:100%;background:'+C.green+';color:#fff;border:none;border-radius:12px;padding:15px;font-size:16px;font-weight:700;cursor:'+(ok?'pointer':'not-allowed')+';opacity:'+(ok?1:.5);}
+function proceedStyle(){return'width:100%;background:'+C.green+';color:#fff;border:none;border-radius:12px;padding:15px;font-size:16px;font-weight:700;cursor:pointer';}
 function pill(active,label,sub){return '<div style="flex:1;padding:10px 6px;border-radius:11px;text-align:center;cursor:pointer;border:'+(active?'2px solid '+C.green:'1.5px solid '+C.line)+';background:'+(active?C.green:'transparent')+';color:'+(active?'#fff':C.text)+';font-family:\'Archivo\';font-weight:800;font-size:14px">'+label+(sub?'<div style="font-family:\'Hanken Grotesk\';font-weight:500;font-size:11px;opacity:.85">'+sub+'</div>':'')+'</div>';}
 function optRow(k,active,title,price,sub){return '<div data-set="'+k+'" data-val="toggle" style="display:flex;align-items:flex-start;gap:12px;border:'+(active?'2px solid '+C.green:'1.5px solid '+C.line)+';border-radius:12px;padding:12px 14px;cursor:pointer;margin-bottom:10px"><span style="flex:none;width:22px;height:22px;margin-top:1px;border-radius:6px;border:2px solid '+(active?C.green:C.line)+';background:'+(active?C.green:'transparent')+';color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900">'+(active?'✓':'')+'</span><div style="flex:1;min-width:0"><div style="font-family:\'Archivo\';font-weight:800;font-size:14.5px">'+title+'</div><div style="font-size:12px;color:'+C.muted+';line-height:1.35">'+sub+'</div></div><div style="font-family:\'Archivo\';font-weight:800;font-size:14px;color:'+C.green+';white-space:nowrap">'+price+'</div></div>';}
 function renderModal(animate){
@@ -404,7 +405,7 @@ function renderModal(animate){
   var _oc=root.querySelector('#mback>div');var _ps=_oc?_oc.scrollTop:0;
   var d=curDims();var price=curPrice();
   var bgA=animate?';animation:modalBg .2s ease':'';var cardA=animate?';animation:modalCard .3s cubic-bezier(.2,.7,.2,1)':'';
-  var steps=[['1','Skur & dato'],['2','Bekreft']];var reached={1:true,2:(order.phase==='confirm'||order.phase==='done')};
+  var steps=[['1','Skur & kontakt'],['2','Bekreft']];var reached={1:true,2:(order.phase==='confirm'||order.phase==='done')};
   var stepsHtml=steps.map(function(st,i){var on=reached[i+1];return '<div style="display:flex;align-items:center;gap:8px;flex:1;min-width:0"><span style="width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;font-family:\'Archivo\';flex:none;background:'+(on?C.green:'transparent')+';color:'+(on?'#fff':C.muted)+';border:'+(on?'none':'1.5px solid '+C.line)+'">'+st[0]+'</span><span style="font-size:12.5px;font-weight:600;color:'+(on?C.text:C.muted)+'">'+st[1]+'</span></div>';}).join('');
   var summary='<div style="padding:14px 26px;background:'+C.card+';border-bottom:1px solid '+C.line+';display:flex;justify-content:space-between;align-items:center;gap:14px"><div><div style="font-family:\'Archivo\';font-weight:900;font-size:20px">'+order.count+'-dunk '+order.serie+'</div><div style="font-size:12.5px;color:'+C.muted+'">'+d[0]+'×'+d[1]+'×'+d[2]+' mm · '+(order.kledning==='royal'?'royalimpregnert':'ubehandlet furu')+' · '+(order.montering?'m/montering':'hentes/selvmont.')+'</div></div><div style="text-align:right"><div style="font-size:11.5px;color:'+C.muted+';text-decoration:line-through;text-decoration-color:'+C.amber+'">'+fmt(ord(price))+' kr</div><div style="font-family:\'Archivo\';font-weight:800;font-size:19px;color:'+C.green+'">'+fmt(price)+' kr</div><div style="display:inline-block;background:'+C.amberSoft+';color:#5A3E15;font-size:10.5px;font-weight:800;padding:2px 8px;border-radius:999px;margin-top:3px">Spar '+fmt(spar(price))+' kr</div></div></div>';
   var body=order.phase==='confirm'?confirmHtml():order.phase==='done'?doneHtml():order.phase==='sending'?sendingHtml():order.phase==='error'?errorHtml():formHtml();
@@ -413,8 +414,6 @@ function renderModal(animate){
   bindModal();
 }
 function formHtml(){
-  var cal=buildCalendar();var navB='width:34px;height:34px;border-radius:9px;border:1px solid '+C.line+';background:transparent;color:'+C.text+';cursor:pointer;font-size:18px;line-height:1';
-  var wd=['Ma','Ti','On','To','Fr','Lø','Sø'].map(function(w){return'<div style="text-align:center;font-size:11px;font-weight:700;color:'+C.muted+';padding:3px 0">'+w+'</div>';}).join('');
   var counts=[2,3,4].map(function(c){return '<div data-set="count" data-val="'+c+'">'+pill(order.count===c,c+' dunker','fra '+fmt(GRUNN[c].Standard.ubeh)+' kr')+'</div>';}).join('');
   var series=['Standard','XL'].map(function(sv){return '<div data-set="serie" data-val="'+sv+'">'+pill(order.serie===sv,sv,sv==='XL'?'≤370 L':'≤240 L')+'</div>';}).join('');
   var kled=[['ubeh','Ubehandlet','furu – rimeligst'],['royal','Royal','royalimpregnert']].map(function(kv){return '<div data-set="kledning" data-val="'+kv[0]+'">'+pill(order.kledning===kv[0],kv[1],kv[2])+'</div>';}).join('');
@@ -427,11 +426,9 @@ function formHtml(){
     optRow('montering',order.montering,'Montering hjemme hos deg <span style="font-family:\'Hanken Grotesk\';font-weight:700;font-size:10.5px;color:'+C.green+';background:var(--amberSoft);padding:1px 7px;border-radius:999px;margin-left:4px">Anbefalt</span>','+'+fmt(MONT[order.count])+' kr','Vi monterer ferdig og retter opp i vater. Uten: du får ferdiglagde vegger, bunn og tak levert – enkel selvmontering.')+
     optRow('forankring',order.forankring,'Forankring mot vind','+'+fmt(FORANK)+' kr','Jordskruer/ekspansjonsbolter. Anbefalt på åpne, vindutsatte tomter.')+
     '<div style="height:6px"></div>'+
-    '<div style="font-weight:700;font-size:14px;margin-bottom:9px">'+(order.montering?'Ønsket monteringsdato':'Ønsket leveringsdato')+'</div>'+
-    '<div style="background:'+C.card+';border:1px solid '+C.line+';border-radius:14px;padding:15px;margin-bottom:16px"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:9px"><button data-act="prev" style="'+(cal.canPrev?navB:navB+';opacity:.3;cursor:default')+'">‹</button><span id="callbl" style="font-weight:700;font-size:15px">'+cal.label+'</span><button data-act="next" style="'+navB+'">›</button></div><div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:4px">'+wd+'</div><div id="calgrid" style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px">'+calCells(cal)+'</div></div>'+
-    '<div id="seldate">'+(order.date?'<div style="font-size:14px;margin-bottom:16px;background:'+C.card+';border:1px solid '+C.line+';border-radius:10px;padding:10px 14px">Valgt dato: <strong>'+selDateLabel()+'</strong></div>':'')+'</div>'+
     '<div style="display:flex;flex-direction:column;gap:11px;margin-bottom:18px"><input data-f="name" value="'+esc(order.name)+'" placeholder="Navn" style="border:1px solid '+C.line+';border-radius:10px;padding:12px 14px;font-size:15px;background:'+C.card+';color:'+C.text+'"><div style="display:grid;grid-template-columns:1fr 1fr;gap:11px"><input data-f="phone" value="'+esc(order.phone)+'" placeholder="Telefon" inputmode="tel" style="border:1px solid '+C.line+';border-radius:10px;padding:12px 14px;font-size:15px;background:'+C.card+';color:'+C.text+'"><input data-f="email" value="'+esc(order.email)+'" placeholder="E-post" type="email" style="border:1px solid '+C.line+';border-radius:10px;padding:12px 14px;font-size:15px;background:'+C.card+';color:'+C.text+'"></div><input data-f="address" value="'+esc(order.address)+'" placeholder="Adresse for montering" style="border:1px solid '+C.line+';border-radius:10px;padding:12px 14px;font-size:15px;background:'+C.card+';color:'+C.text+'"><input data-f="hp" value="'+esc(order.hp)+'" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0"></div>'+
     '<button id="proceed" data-act="proceed" style="'+proceedStyle()+'">Se over bestillingen →</button>'+
+    '<div id="formhint" style="text-align:center;font-size:13px;font-weight:600;color:#B4472F;margin:8px 0 0"></div>'+
     '<p style="text-align:center;font-size:12.5px;color:'+C.muted+';margin:10px 0 0">🔒 Ingen forskudd — du betaler først når skuret står ferdig</p></div>';
 }
 function confirmHtml(){var d=curDims();var lbl=selDateLabel();
@@ -459,13 +456,13 @@ function bindModal(){
     if(a==='close')nn.addEventListener('click',closeOrder);
     else if(a==='prev')nn.addEventListener('click',function(){var c=buildCalendar();if(!c.canPrev)return;var mm=c.m.m-1;order.calMonth=mm<0?{y:c.m.y-1,m:11}:{y:c.m.y,m:mm};refreshCal();});
     else if(a==='next')nn.addEventListener('click',function(){var c=buildCalendar();var mm=c.m.m+1;order.calMonth=mm>11?{y:c.m.y+1,m:0}:{y:c.m.y,m:mm};refreshCal();});
-    else if(a==='proceed')nn.addEventListener('click',function(){if(canProceed()){order.phase='confirm';renderModal();}});
+    else if(a==='proceed')nn.addEventListener('click',function(){if(canProceed()){try{if(window.Roverk)Roverk.track('bestilling_bekreft_skjul',{produkt:order.count+'-dunk '+order.serie});}catch(e){}order.phase='confirm';renderModal();}else{var _h=document.getElementById('formhint');if(_h)_h.textContent='Fyll inn '+missingFields().join(', ')+' for å gå videre.';}});
     else if(a==='confirm')nn.addEventListener('click',submitOrder);
     else if(a==='back')nn.addEventListener('click',function(){order.phase='form';renderModal();});
   });
   root.querySelectorAll('[data-set]').forEach(function(el){el.addEventListener('click',function(){var k=el.getAttribute('data-set'),v=el.getAttribute('data-val');if(v==='toggle'){order[k]=!order[k];}else{order[k]=(k==='count')?parseInt(v,10):v;}renderModal();});});
   root.querySelectorAll('.cc[data-date]').forEach(function(b){b.addEventListener('click',function(){selectDate(b.getAttribute('data-date'));});});
-  root.querySelectorAll('[data-f]').forEach(function(i){i.addEventListener('input',function(){order[i.getAttribute('data-f')]=i.value;var p=document.getElementById('proceed');if(p)p.setAttribute('style',proceedStyle());});});
+  root.querySelectorAll('[data-f]').forEach(function(i){i.addEventListener('input',function(){order[i.getAttribute('data-f')]=i.value;var _h=document.getElementById('formhint');if(_h&&canProceed())_h.textContent='';});});
   var addrEl=root.querySelector('[data-f="address"]');
   if(addrEl&&window.initAddressAutocomplete)initAddressAutocomplete(addrEl,{
     onSelect:function(a){order.address=a.formatted;order.addressMeta={postnummer:a.postnummer,poststed:a.poststed,kommunenummer:a.kommunenummer,kommunenavn:a.kommunenavn,lat:a.lat,lon:a.lon,verified:true};var p=document.getElementById('proceed');if(p)p.setAttribute('style',proceedStyle());},
@@ -480,6 +477,7 @@ function submitOrder(){
   var utm={};try{utm=JSON.parse(localStorage.getItem('ns_utm')||'{}');}catch(e){}
   var product=order.count+'-dunk '+order.serie;
   try{if(window.fbq)fbq('track','Lead',{content_name:product,value:price,currency:'NOK'});}catch(e){}
+  try{if(window.Roverk)Roverk.track('bestilling_send_klikk_skjul',{produkt:product,verdi:price});}catch(e){}
   var payload={site:'skjul',product:product,
     config:{count:order.count,serie:order.serie,kledning:order.kledning,montering:order.montering,forankring:order.forankring},
     preferred_date:order.date||null,name:order.name.trim(),phone:order.phone.trim(),
@@ -489,7 +487,7 @@ function submitOrder(){
   fetch('/api/order',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)})
     .then(function(r){if(!r.ok)throw new Error('http '+r.status);return r.json();})
     .then(function(res){try{if(window.RoverkMeta)RoverkMeta.purchase({value:price,orderId:(res&&res.id)||null,eventId:mctx.event_id});}catch(e){}try{if(window.Roverk)Roverk.track('bestilling_sendt_skjul',{produkt:product,verdi:price});}catch(e){}order.phase='done';renderModal();})
-    .catch(function(err){if(window.console)console.error('ordre-feil',err);order.phase='error';renderModal();});
+    .catch(function(err){if(window.console)console.error('ordre-feil',err);try{if(window.Roverk)Roverk.track('bestilling_feil_skjul',{produkt:product,verdi:price});}catch(e){}order.phase='error';renderModal();});
 }
 
 try{renderSizes();renderFAQ();initReveal();initHeader();initNav();document.addEventListener('keydown',function(e){if(e.key==='Escape'&&document.getElementById('mback'))closeOrder();});window.__init=true;}catch(err){document.querySelectorAll('[data-reveal]').forEach(function(e){e.classList.add('in');});if(window.console)console.error('init-feil',err);}
