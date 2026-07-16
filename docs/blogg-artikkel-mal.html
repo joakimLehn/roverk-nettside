@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<!--
+  ============================================================================
+  ROVERK BLOGG – ARTIKKELMAL   (docs/blogg-artikkel-mal.html)
+  ============================================================================
+  Dette er malen hver bloggartikkel bygges fra. Den er IKKE en publisert side
+  (noindex). Kopier den til:  /{{PRODUCT}}/blogg/{{SLUG}}.html
+  og bytt ut alle {{TOKENS}}. Med cleanUrls serveres filen på /{{PRODUCT}}/blogg/{{SLUG}}
+
+  TOKENS som må byttes ut i HVER artikkel:
+    {{PRODUCT}}            -> "ved" eller "skjul"
+    {{PRODUCT_LABEL}}      -> "Ved" eller "Skjul"        (header-etikett, breadcrumb)
+    {{PRODUCT_NAME}}       -> "Roverk Ved" eller "Roverk Skjul"
+    {{SLUG}}               -> url-slug, f.eks. "slik-lagrer-du-ved-riktig"
+    {{TITLE}}              -> SEO-tittel (H1 og <title>, ~55-60 tegn)
+    {{META_DESCRIPTION}}   -> meta description (~150-160 tegn, med nøkkelord)
+    {{DATE_ISO}}           -> "2026-07-17"  (datePublished)
+    {{DATE_HUMAN}}         -> "17. juli 2026"
+    {{OG_IMAGE}}           -> "https://www.roverk.no/{{PRODUCT}}/assets/og-{{PRODUCT}}.jpg"
+    {{ARTICLE_BODY}}       -> selve artikkelen (h2/h3/p/ul) – se retningslinjer nederst
+
+  PRODUKT-SPESIFIKKE NAV/CTA (bruk riktig sett):
+    VED:   nav = Størrelser(/ved#storrelser) · Se vedskjulet(/ved#galleri) · Slik funker det(/ved#slik) · Spørsmål(/ved#faq)
+           CTA = "Bestill vedskjul" -> /ved#storrelser
+    SKJUL: nav = Se skuret(/skjul#galleri) · Størrelser(/skjul#storrelser) · Slik funker det(/skjul#slik) · Spørsmål(/skjul#faq)
+           CTA = "Bestill skur" -> /skjul#storrelser
+  ============================================================================
+-->
+<html lang="nb">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{TITLE}} | {{PRODUCT_NAME}}</title>
+<meta name="description" content="{{META_DESCRIPTION}}">
+<meta name="theme-color" content="#0E0D0B">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://www.roverk.no/{{PRODUCT}}/blogg/{{SLUG}}">
+<meta property="og:site_name" content="Roverk">
+<meta property="og:locale" content="nb_NO">
+<meta property="og:title" content="{{TITLE}}">
+<meta property="og:description" content="{{META_DESCRIPTION}}">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://www.roverk.no/{{PRODUCT}}/blogg/{{SLUG}}">
+<meta property="og:image" content="{{OG_IMAGE}}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="article:published_time" content="{{DATE_ISO}}">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{TITLE}}">
+<meta name="twitter:description" content="{{META_DESCRIPTION}}">
+<meta name="twitter:image" content="{{OG_IMAGE}}">
+<link rel="icon" type="image/png" href="/{{PRODUCT}}/assets/roverk-favicon.png">
+<link rel="apple-touch-icon" href="/{{PRODUCT}}/assets/roverk-favicon.png">
+<link rel="preload" href="/assets/fonts/archivo.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/hanken-grotesk.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+@font-face{font-family:'Archivo';font-style:normal;font-weight:600 900;font-display:swap;src:url('/assets/fonts/archivo.woff2') format('woff2')}
+@font-face{font-family:'Hanken Grotesk';font-style:normal;font-weight:400 700;font-display:swap;src:url('/assets/fonts/hanken-grotesk.woff2') format('woff2')}
+:root{--bg:#F4F2ED;--card:#FBFAF7;--text:#141310;--muted:#6E685E;--amber:#BE8A48;--amberSoft:#E9DBC1;--green:#17150F;--line:#E4DFD5;--heroBg:#0E0D0B;--wood:#A9743B}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:80px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:'Hanken Grotesk',system-ui,sans-serif;-webkit-font-smoothing:antialiased;line-height:1.65}
+h1,h2,h3,h4{font-family:'Archivo',system-ui,sans-serif;margin:0;line-height:1.12}
+button{cursor:pointer}
+img{max-width:100%}
+a{color:inherit}
+
+.lnk{transition:color .15s ease;position:relative}
+.lnk:hover{color:var(--text)!important}
+.lnk::after{content:"";position:absolute;left:0;bottom:-4px;height:2px;width:100%;background:var(--amber);transform:scaleX(0);transform-origin:left;transition:transform .22s ease}
+.lnk:hover::after,.lnk.active::after{transform:scaleX(1)}
+.hover-dim{transition:opacity .15s ease,transform .12s ease,box-shadow .2s ease}
+.hover-dim:hover{opacity:.92}
+.hover-dim:active{transform:scale(.99)}
+.hover-border:hover{border-color:var(--text)!important}
+.arw{display:inline-block;transition:transform .2s ease}
+.hover-dim:hover .arw{transform:translateX(4px)}
+
+#site-header{transition:box-shadow .25s ease,background .25s ease}
+#site-header.scrolled{box-shadow:0 6px 22px rgba(30,27,24,.07)}
+.hamburger{display:none;background:transparent;border:none;font-size:24px;line-height:1;color:var(--text);padding:4px 6px}
+.mobile-cta{display:none}
+
+/* ===== artikkel-prosa ===== */
+.prose{max-width:720px;margin:0 auto}
+.prose p{font-size:18px;color:#26231d;margin:0 0 20px}
+.prose h2{font-size:clamp(23px,3vw,29px);font-weight:800;letter-spacing:-.01em;margin:44px 0 14px}
+.prose h3{font-size:20px;font-weight:700;margin:30px 0 10px}
+.prose ul,.prose ol{font-size:18px;color:#26231d;margin:0 0 20px;padding-left:22px}
+.prose li{margin:0 0 9px}
+.prose strong{color:var(--text)}
+.prose a{color:var(--wood);text-decoration:underline;text-underline-offset:2px}
+.prose blockquote{margin:24px 0;padding:14px 22px;border-left:3px solid var(--amber);background:var(--card);border-radius:0 10px 10px 0;color:var(--muted);font-size:17px}
+
+.cta-box{max-width:720px;margin:52px auto 0;background:var(--heroBg);color:#fff;border-radius:18px;padding:34px 32px}
+.cta-box h2{font-size:23px;font-weight:800;margin-bottom:10px}
+.cta-box p{color:rgba(255,255,255,.78);font-size:16px;margin:0 0 22px}
+
+.anim [data-reveal]{opacity:0;transform:translateY(16px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1)}
+.anim [data-reveal].in{opacity:1;transform:none}
+
+@media(max-width:860px){
+  .hamburger{display:block}
+  #mainnav{display:none!important;position:absolute;top:100%;left:0;right:0;background:var(--bg);border-bottom:1px solid var(--line);flex-direction:column;align-items:stretch!important;gap:0!important;padding:6px 24px 16px!important;box-shadow:0 12px 24px rgba(30,27,24,.08)}
+  #site-header.nav-open #mainnav{display:flex!important}
+  #mainnav a{padding:13px 0!important;font-size:15px!important}
+  #mainnav a.hover-dim{margin-top:8px;text-align:center;padding:13px 0!important}
+  .mobile-cta{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:60;gap:10px;padding:10px 14px;background:var(--bg);border-top:1px solid var(--line);box-shadow:0 -6px 20px rgba(30,27,24,.08)}
+  body{padding-bottom:74px}
+  .prose p,.prose ul,.prose ol{font-size:17px}
+}
+@media(prefers-reduced-motion:reduce){
+  .anim [data-reveal]{opacity:1!important;transform:none!important;transition:none!important}
+  *{transition-duration:.001ms!important;scroll-behavior:auto!important}
+}
+</style>
+<script>
+document.documentElement.classList.add('anim');
+window.__nsInit=false;
+window.addEventListener('DOMContentLoaded',function(){setTimeout(function(){if(!window.__nsInit){document.querySelectorAll('[data-reveal]').forEach(function(e){e.classList.add('in');});}},1200);});
+</script>
+<script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments);};</script>
+<script defer src="/_vercel/insights/script.js"></script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "@id": "https://www.roverk.no/{{PRODUCT}}/blogg/{{SLUG}}#article",
+      "headline": "{{TITLE}}",
+      "description": "{{META_DESCRIPTION}}",
+      "datePublished": "{{DATE_ISO}}",
+      "dateModified": "{{DATE_ISO}}",
+      "inLanguage": "nb-NO",
+      "image": "{{OG_IMAGE}}",
+      "mainEntityOfPage": { "@type": "WebPage", "@id": "https://www.roverk.no/{{PRODUCT}}/blogg/{{SLUG}}" },
+      "author": { "@type": "Organization", "name": "Roverk", "url": "https://www.roverk.no/" },
+      "publisher": { "@type": "Organization", "name": "Roverk", "@id": "https://www.roverk.no/#organization" },
+      "isPartOf": { "@id": "https://www.roverk.no/{{PRODUCT}}/blogg#blog" }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Roverk", "item": "https://www.roverk.no/" },
+        { "@type": "ListItem", "position": 2, "name": "{{PRODUCT_LABEL}}", "item": "https://www.roverk.no/{{PRODUCT}}" },
+        { "@type": "ListItem", "position": 3, "name": "Blogg", "item": "https://www.roverk.no/{{PRODUCT}}/blogg" },
+        { "@type": "ListItem", "position": 4, "name": "{{TITLE}}", "item": "https://www.roverk.no/{{PRODUCT}}/blogg/{{SLUG}}" }
+      ]
+    }
+  ]
+}
+</script>
+</head>
+<body>
+
+<!-- ===== HEADER (bytt PRODUCT-nav/CTA etter tabellen øverst) ===== -->
+<header id="site-header" style="position:sticky;top:0;z-index:50;background:var(--bg);border-bottom:1px solid var(--line);backdrop-filter:saturate(1.1)">
+  <div class="hbar" style="max-width:1180px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap">
+    <a href="/{{PRODUCT}}" style="display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--text)">
+      <img src="/{{PRODUCT}}/assets/roverk-wordmark-sort.png" alt="Roverk" style="height:19px;width:auto;display:block">
+      <span style="width:1px;height:15px;background:var(--line);display:inline-block"></span>
+      <span style="font-family:'Hanken Grotesk';font-weight:600;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--amber)">{{PRODUCT_LABEL}}</span>
+    </a>
+    <button class="hamburger" id="hamburger" aria-label="Åpne meny" aria-expanded="false">☰</button>
+    <nav class="mainnav" id="mainnav" style="display:flex;gap:22px;align-items:center;flex-wrap:wrap">
+      <!-- VED-NAV (fjern hvis skjul):
+      <a href="/ved#storrelser" class="lnk" style="text-decoration:none;color:var(--muted);font-size:14px;font-weight:500">Størrelser</a>
+      <a href="/ved#galleri" class="lnk" style="text-decoration:none;color:var(--muted);font-size:14px;font-weight:500">Se vedskjulet</a>
+      <a href="/ved#slik" class="lnk" style="text-decoration:none;color:var(--muted);font-size:14px;font-weight:500">Slik funker det</a>
+      <a href="/ved#faq" class="lnk" style="text-decoration:none;color:var(--muted);font-size:14px;font-weight:500">Spørsmål</a> -->
+      <!-- SKJUL-NAV (fjern hvis ved):
+      <a href="/skjul#galleri" class="lnk" style="text-decoration:none;color:var(--muted);font-size:14px;font-weight:500">Se skuret</a>
+      <a href="/skjul#storrelser" class="lnk" style="text-decoration:none;color:var(--muted);font-size:14px;font-weight:500">Størrelser</a>
+      <a href="/skjul#slik" class="lnk" style="text-decoration:none;color:var(--muted);font-size:14px;font-weight:500">Slik funker det</a>
+      <a href="/skjul#faq" class="lnk" style="text-decoration:none;color:var(--muted);font-size:14px;font-weight:500">Spørsmål</a> -->
+      <a href="/{{PRODUCT}}/blogg" class="lnk active" style="text-decoration:none;color:var(--muted);font-size:14px;font-weight:500">Tips</a>
+      <a href="tel:+4790186693" class="lnk" style="text-decoration:none;color:var(--muted);font-size:14px;font-weight:500">Ring oss</a>
+      <a href="/{{PRODUCT}}#storrelser" class="hover-dim" style="background:var(--green);color:#fff;padding:10px 18px;border-radius:999px;text-decoration:none;font-size:14px;font-weight:600">{{CTA_LABEL}}</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ===== ARTIKKEL ===== -->
+<article>
+  <div style="max-width:720px;margin:0 auto;padding:48px 24px 8px">
+    <nav aria-label="Sti" style="font-size:13px;color:var(--muted);margin-bottom:22px">
+      <a href="/{{PRODUCT}}" class="lnk" style="text-decoration:none">{{PRODUCT_LABEL}}</a> ·
+      <a href="/{{PRODUCT}}/blogg" class="lnk" style="text-decoration:none">Tips</a>
+    </nav>
+    <div data-reveal style="display:inline-flex;align-items:center;gap:8px;font-size:12.5px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--amber);margin-bottom:14px"><span style="width:7px;height:7px;border-radius:50%;background:var(--amber)"></span>Tips &amp; guider</div>
+    <h1 data-reveal style="font-size:clamp(29px,4.4vw,44px);font-weight:800;letter-spacing:-.02em;margin-bottom:14px">{{TITLE}}</h1>
+    <time datetime="{{DATE_ISO}}" style="display:block;color:var(--muted);font-size:14.5px;margin-bottom:8px">{{DATE_HUMAN}}</time>
+  </div>
+
+  <div class="prose" style="padding:20px 24px 8px">
+    {{ARTICLE_BODY}}
+  </div>
+
+  <!-- ===== CTA ===== -->
+  <div style="padding:0 24px 64px">
+    <div class="cta-box" data-reveal>
+      <h2>{{CTA_HEADING}}</h2>
+      <p>{{CTA_TEXT}}</p>
+      <a href="/{{PRODUCT}}#storrelser" class="hover-dim" style="display:inline-block;background:var(--amber);color:#141310;padding:13px 24px;border-radius:999px;text-decoration:none;font-size:15px;font-weight:700">{{CTA_LABEL}} <span class="arw">→</span></a>
+    </div>
+    <div style="max-width:720px;margin:26px auto 0">
+      <a href="/{{PRODUCT}}/blogg" class="lnk" style="text-decoration:none;font-weight:600;font-size:15px">← Alle tips</a>
+    </div>
+  </div>
+</article>
+
+<!-- ===== FOOTER ===== -->
+<footer style="background:var(--heroBg);color:rgba(255,255,255,.7)">
+  <div style="max-width:1180px;margin:0 auto;padding:48px 24px;display:flex;justify-content:space-between;gap:28px;flex-wrap:wrap">
+    <div>
+      <div style="margin-bottom:14px"><img src="/{{PRODUCT}}/assets/roverk-ordmerke-hvit.png" alt="Roverk" style="height:56px;width:auto;display:block"></div>
+      <p style="margin:0;font-size:14px;max-width:320px">{{FOOTER_TAGLINE}}</p>
+    </div>
+    <div style="display:flex;gap:56px;flex-wrap:wrap;font-size:14px">
+      <div><div style="color:#fff;font-weight:700;margin-bottom:10px">Kontakt</div><a href="tel:+4790186693" style="color:rgba(255,255,255,.85);text-decoration:none">901 86 693</a><br><a href="mailto:ordre@roverk.no" style="color:rgba(255,255,255,.85);text-decoration:none">ordre@roverk.no</a><br><span style="opacity:.6">Org.nr 946 511 277</span></div>
+      <div><div style="color:#fff;font-weight:700;margin-bottom:10px">Leverer i</div>Trondheim<br>Malvik<br>Melhus<br>Stjørdal<br>Klæbu<br>Heimdal</div>
+    </div>
+  </div>
+  <div style="border-top:1px solid rgba(255,255,255,.12)"><div style="max-width:1180px;margin:0 auto;padding:18px 24px;font-size:12.5px;opacity:.6">© 2026 Roverk – en del av Utler Entreprenør AS · Org.nr 946 511 277 · <a href="/personvern" style="color:inherit">Personvern</a></div></div>
+</footer>
+
+<!-- ===== STICKY MOBIL-CTA ===== -->
+<div class="mobile-cta">
+  <a href="tel:+4790186693" class="hover-border" style="display:flex;align-items:center;justify-content:center;gap:6px;background:transparent;color:var(--text);border:1.5px solid var(--line);border-radius:999px;padding:13px 18px;text-decoration:none;font-size:15px;font-weight:600;white-space:nowrap">Ring oss</a>
+  <a href="/{{PRODUCT}}#storrelser" class="hover-dim" style="flex:1;text-align:center;background:var(--green);color:#fff;border-radius:999px;padding:13px 18px;text-decoration:none;font-size:15px;font-weight:700">{{CTA_LABEL}} →</a>
+</div>
+
+<script>
+"use strict";
+function initHeader(){var h=document.getElementById('site-header');var f=function(){if(window.scrollY>10)h.classList.add('scrolled');else h.classList.remove('scrolled');};window.addEventListener('scroll',f,{passive:true});f();}
+function initMobileNav(){var h=document.getElementById('site-header'),btn=document.getElementById('hamburger'),nav=document.getElementById('mainnav');if(!btn||!nav)return;btn.addEventListener('click',function(){var o=h.classList.toggle('nav-open');btn.setAttribute('aria-expanded',o?'true':'false');});nav.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){h.classList.remove('nav-open');btn.setAttribute('aria-expanded','false');});});}
+function initReveal(){var r=window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches;var els=document.querySelectorAll('[data-reveal]');if(r||!('IntersectionObserver' in window)){els.forEach(function(el){el.classList.add('in');});return;}var io=new IntersectionObserver(function(en){en.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{rootMargin:'0px 0px -8% 0px',threshold:.08});els.forEach(function(el){io.observe(el);});}
+try{initHeader();initMobileNav();initReveal();window.__nsInit=true;}catch(err){document.querySelectorAll('[data-reveal]').forEach(function(e){e.classList.add('in');});}
+</script>
+
+<!--
+  ============================================================================
+  RETNINGSLINJER FOR {{ARTICLE_BODY}}  (SEO + kvalitet)
+  ============================================================================
+  - Lengde: 900–1300 ord. Norsk (bokmål), naturlig og konkret tone.
+  - Struktur: kort intro (uten H2) som setter problemet -> 4–6 <h2> seksjoner
+    -> naturlig avslutning. Bruk <h3>, <ul>/<li> og <strong> der det hjelper.
+  - Nøkkelord: hovednøkkelordet i <title>, H1, første avsnitt og minst én <h2>.
+    Bruk varianter/relaterte søk naturlig, ikke keyword-stuffing.
+  - Lokal SEO: nevn Trondheim/Malvik/Melhus/Stjørdal/Klæbu/Heimdal der det er
+    relevant (typisk 1–2 steder), ikke i hvert avsnitt.
+  - Vinkling: hjelpsom og redaksjonell – løs leserens problem først. Produktet
+    (Roverk {{PRODUCT_LABEL}}) nevnes naturlig mot slutten; hard CTA ligger i cta-box.
+  - Ikke bruk <h1> inne i body (H1 er allerede satt over). Ikke inline-styling i
+    body – prose-CSS styler taggene automatisk.
+  - CTA_HEADING/CTA_TEXT tilpasses artikkelen, men peker alltid til bestilling.
+  ============================================================================
+-->
+</body>
+</html>

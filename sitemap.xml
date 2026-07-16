@@ -31,6 +31,18 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://www.roverk.no/ved/blogg</loc>
+    <lastmod>2026-07-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.roverk.no/skjul/blogg</loc>
+    <lastmod>2026-07-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://www.roverk.no/personvern</loc>
     <lastmod>2026-07-13</lastmod>
     <changefreq>yearly</changefreq>
