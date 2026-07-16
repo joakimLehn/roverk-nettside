@@ -1,0 +1,38 @@
+name: Publiser blogg (datostyrt drypp)
+
+# Kjører daglig og avslører artikler som har nådd publiseringsdatoen sin.
+# Skriptet er idempotent: gjør ingen commit hvis ingenting endres.
+
+on:
+  schedule:
+    - cron: '0 5 * * *'   # 05:00 UTC = 06/07 Oslo
+  workflow_dispatch: {}    # tillat manuell kjøring fra Actions-fanen
+
+permissions:
+  contents: write
+
+concurrency:
+  group: publiser-blogg
+  cancel-in-progress: false
+
+jobs:
+  publiser:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Regenerer listekort, sitemap og robots etter dato
+        run: node scripts/publiser-blogg.mjs
+      - name: Commit og push hvis noe ble avslørt
+        run: |
+          if [ -n "$(git status --porcelain)" ]; then
+            git config user.name "roverk-blogg-bot"
+            git config user.email "actions@github.com"
+            git add -A
+            git commit -m "chore(blogg): auto-publiser dagens artikler [skip ci]"
+            git push
+          else
+            echo "Ingen endringer – ingenting å publisere i dag."
+          fi
