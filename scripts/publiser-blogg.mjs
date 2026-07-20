@@ -96,11 +96,22 @@ for (const product of PRODUCTS) {
   );
   writeFileSync(indexPath, idx);
 
-  // 2) Sett robots-meta i hver artikkel (noindex til publiseringsdato)
+  // 2) Robots-meta + "Les også"-relaterte lenker (kun til publiserte artikler)
   for (const a of all) {
-    const want = a.date <= TODAY ? 'index,follow' : 'noindex,follow';
-    const updated = a.html.replace(/(<meta name="robots" content=")[^"]*(">)/, `$1${want}$2`);
-    if (updated !== a.html) writeFileSync(a.path, updated);
+    let h = a.html;
+    const isLive = a.date <= TODAY;
+    h = h.replace(/(<meta name="robots" content=")[^"]*(">)/, `$1${isLive ? 'index,follow' : 'noindex,follow'}$2`);
+    // fjern ev. eksisterende related-blokk (idempotent)
+    h = h.replace(/\n\s*<!-- RELATED_START -->[\s\S]*?<!-- RELATED_END -->/, '');
+    if (isLive) {
+      const rel = live.filter(x => x.slug !== a.slug).slice(0, 3);
+      if (rel.length) {
+        const items = rel.map(r => `        <li><a href="/${product}/blogg/${r.slug}" style="color:var(--wood);font-weight:600;text-decoration:none">${esc(r.title)} →</a></li>`).join('\n');
+        const block = `\n  <!-- RELATED_START -->\n  <section aria-label="Les også" style="max-width:720px;margin:8px auto 0;padding:0 24px">\n    <h2 style="font-family:'Archivo',system-ui,sans-serif;font-size:20px;font-weight:800;letter-spacing:-.01em;margin:0 0 14px">Les også</h2>\n    <ul style="list-style:none;padding:0;margin:0;display:grid;gap:10px">\n${items}\n    </ul>\n  </section>\n  <!-- RELATED_END -->`;
+        h = h.replace(/(\n\s*<!-- ===== CTA)/, `${block}$1`);
+      }
+    }
+    if (h !== a.html) writeFileSync(a.path, h);
   }
 }
 
