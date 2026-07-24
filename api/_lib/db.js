@@ -21,3 +21,12 @@ export async function insertOrder(o) {
 export async function updateNotify(id, notify) {
   await sql`update orders set notify = ${JSON.stringify(notify)} where id = ${id}`;
 }
+
+export async function insertLead(l) {
+  const rows = await sql`
+    insert into leads (site, kind, email, config, product, price_nok, share_url, consent, utm)
+    values (${l.site}, ${l.kind}, ${l.email}, ${JSON.stringify(l.config)}, ${l.product},
+            ${l.price_nok}, ${l.share_url}, ${l.consent}, ${JSON.stringify(l.utm)})
+    returning id`;
+  return rows[0].id;
+}

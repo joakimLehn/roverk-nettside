@@ -59,3 +59,38 @@ export function validateOrder(input) {
     }
   };
 }
+
+// Myk lead: bruker vil ha konfigurasjonen sin på e-post (og evt. bli kontaktet).
+// Kun e-post er påkrevd — resten er valgfri kontekst.
+export function validateLead(input) {
+  const b = input && typeof input === 'object' ? input : {};
+
+  // Honeypot — samme som ordre.
+  if (str(b.hp) !== '') return { ok: false, spam: true, error: 'spam' };
+
+  const site = str(b.site);
+  if (!SITES.has(site)) return { ok: false, error: 'ugyldig site' };
+
+  const email = str(b.email);
+  if (!email || !EMAIL_RE.test(email)) return { ok: false, error: 'gyldig e-post påkrevd' };
+
+  const priceRaw = Number(b.price_nok);
+  const price_nok = Number.isFinite(priceRaw) && priceRaw >= 0 ? Math.round(priceRaw) : null;
+
+  const share_url = str(b.share_url);
+
+  return {
+    ok: true,
+    data: {
+      site,
+      kind: 'config_share',
+      email,
+      config: obj(b.config),
+      product: str(b.product) || null,
+      price_nok,
+      share_url: share_url || null,
+      consent: b.consent === true,
+      utm: obj(b.utm)
+    }
+  };
+}

@@ -1,5 +1,5 @@
 import { Resend } from 'resend';
-import { ownerEmail, customerEmail } from './templates.js';
+import { ownerEmail, customerEmail, leadEmail } from './templates.js';
 
 // Lazy init: Resend-konstruktøren kaster hvis RESEND_API_KEY mangler. Utsatt til
 // første bruk betyr at modulen kan importeres uten env, OG at en manglende nøkkel
@@ -27,4 +27,14 @@ export async function sendCustomerEmail(order) {
     replyTo: process.env.NOTIFY_EMAIL, subject: m.subject, html: m.html
   });
   if (error) throw new Error(error.message || 'resend-feil (customer)');
+}
+
+// Sender kunden deres egen konfig-lenke (myk lead / «send til deg selv»).
+export async function sendLeadEmail(lead) {
+  const m = leadEmail(lead);
+  const { error } = await resend().emails.send({
+    from: process.env.ORDER_FROM_EMAIL, to: lead.email,
+    replyTo: process.env.NOTIFY_EMAIL, subject: m.subject, html: m.html
+  });
+  if (error) throw new Error(error.message || 'resend-feil (lead)');
 }
