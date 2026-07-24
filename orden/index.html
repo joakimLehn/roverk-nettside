@@ -721,7 +721,7 @@ var FAQ=[
 var state = {
   bt:'60L', w:4, h:4, withWheels:false, withTop:false,
   faqOpen:0,
-  orderOpen:false, orderPhase:'date', orderDate:'', calMonth:null,
+  orderOpen:false, orderPhase:'c1', orderDate:'', calMonth:null,
   o_name:'', o_phone:'', o_email:'', o_address:'', o_addressMeta:{verified:false}, o_hp:''
 };
 var SITE_ID='orden';
@@ -922,13 +922,15 @@ function renderConfig(){
   // readout
   html += '<div id="cfg-readout" style="background:'+C.card+';border:1px solid '+C.line+';border-radius:16px;padding:22px">'+readoutHtml(v)+'</div>';
 
-  // urgency + CTA
+  // urgency + trygghet (over knappen) + CTA
   html += '<div style="display:flex;align-items:center;justify-content:center;gap:7px;margin-top:18px;font-size:12.5px;font-weight:600;color:'+C.amber+'"><span>⏳</span><span>Introduksjonspris nå — vi tar et begrenset antall oppdrag i oppstarten</span></div>';
-  html += '<button id="cfg-cta" data-act="requestQuote" class="hover-dim" style="display:block;width:100%;text-align:center;margin-top:10px;background:'+C.green+';color:#fff;padding:16px;border-radius:14px;border:none;font-size:16px;font-weight:700;cursor:pointer">'+v.quoteLabel+' <span class="arw">→</span></button>';
-  var ctaNote = v.isStandard
-    ? '🔒 Ingen forskudd — du betaler først når alt er levert og montert'
-    : 'Uforpliktende — vi tegner og priser etter dine mål';
-  html += '<p style="text-align:center;font-size:12.5px;color:'+C.muted+';margin:8px 0 0">'+ctaNote+'</p>';
+  // trygghet flyttet OPP, rett over knappen — leses før beslutningen tas
+  html += '<div style="display:flex;align-items:center;justify-content:center;gap:8px;margin-top:12px;background:var(--amberSoft);border:1px solid '+C.amber+';border-radius:12px;padding:11px 14px;font-size:13px;font-weight:600;color:var(--heroBg);text-align:center"><span style="font-size:15px;flex:none">🔒</span><span>Helt uforpliktende — ingen forskudd. Vi ringer og bekrefter alt med deg først.</span></div>';
+  html += '<button id="cfg-cta" data-act="requestQuote" class="hover-dim" style="display:block;width:100%;text-align:center;margin-top:10px;background:'+C.green+';color:#fff;padding:16px;border-radius:14px;border:none;font-size:16px;font-weight:700;cursor:pointer">Reserver plassen din <span class="arw">→</span></button>';
+  html += '<p style="text-align:center;font-size:12.5px;color:'+C.muted+';margin:8px 0 0">Du betaler først når alt er levert og ferdig montert</p>';
+  // #4 — lav-terskel mikrokonvertering: lagre/del konfigurasjonen (ren frontend, ingen forpliktelse)
+  html += '<button id="cfg-share" data-act="shareConfig" class="hover-dim" style="display:block;width:100%;text-align:center;margin-top:10px;background:transparent;color:'+C.text+';padding:13px;border-radius:12px;border:1.5px solid '+C.line+';font-size:14.5px;font-weight:600;cursor:pointer">🔗 Lagre / del konfigurasjonen</button>';
+  html += '<p id="share-hint" style="text-align:center;font-size:12.5px;color:'+C.muted+';margin:8px 0 0;transition:opacity .2s">Ikke klar til å reservere? Send deg selv lenken — så er alt klart når du er det.</p>';
 
   document.getElementById('cfg-controls').innerHTML = html;
   renderViz(v);
@@ -990,6 +992,7 @@ function bindConfig(){
     if(act==='toggleWheels'){ node.addEventListener('click', function(){ if(!wheelsAllowed()) return; cfgTouched(); state.withWheels=!state.withWheels; renderConfig(); }); return; }
     if(act==='toggleTop'){ node.addEventListener('click', function(){ cfgTouched(); state.withTop=!state.withTop; renderConfig(); }); return; }
     if(act==='requestQuote'){ node.addEventListener('click', requestQuote); return; }
+    if(act==='shareConfig'){ node.addEventListener('click', shareConfig); return; }
   });
 }
 function stepH(delta){
@@ -1141,9 +1144,124 @@ function selectedDateLabel(){
   return WEEKDAY[dt.getDay()]+' '+p[2]+'. '+NBMONTHS[p[1]-1]+' '+p[0];
 }
 
+// ---------- #4: lagre / del konfigurasjon (ren frontend, ingen backend) ----------
+function configUrl(){
+  var base = location.origin + location.pathname;
+  var k = [state.bt, state.w, state.h, state.withWheels?1:0, state.withTop?1:0].join('.');
+  return base + '?k=' + encodeURIComponent(k) + '#konfigurator';
+}
+function applyConfigFromUrl(){
+  try{
+    var p = new URLSearchParams(location.search);
+    var k = p.get('k'); if(!k) return;
+    var a = k.split('.');
+    if(a.length < 3) return;
+    if(a[0]==='60L' || a[0]==='100L') state.bt = a[0];
+    var w = parseInt(a[1],10); if(w>=1 && w<=5) state.w = w;
+    var h = parseInt(a[2],10); if(h>=3 && h<=7) state.h = h;
+    state.withTop = a[4]==='1';
+    state.withWheels = (a[3]==='1');
+    if(!wheelsAllowed()) state.withWheels = false;   // hjul ikke lov ved 5+ i høyden
+  }catch(e){}
+}
+function fallbackCopy(text){
+  try{ var ta=document.createElement('textarea'); ta.value=text; ta.style.position='fixed'; ta.style.left='-9999px'; document.body.appendChild(ta); ta.focus(); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); }catch(e){}
+}
+function copyText(text, cb){
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(function(){cb&&cb();}, function(){ fallbackCopy(text); cb&&cb(); });
+  } else { fallbackCopy(text); cb&&cb(); }
+}
+function shareConfig(){
+  try{if(window.Roverk)Roverk.track('konfig_delt_orden',{produkt:'Orden'});}catch(e){}
+  openShareModal();
+}
+function shareKeyHandler(e){ if(e.key==='Escape') closeShareModal(); }
+function closeShareModal(){
+  var m=document.getElementById('share-modal-root'); if(m) m.remove();
+  document.removeEventListener('keydown', shareKeyHandler);
+  if(!state.orderOpen) document.body.style.overflow='';
+}
+function openShareModal(){
+  var url = configUrl();
+  var v = computeVals();
+  var summary = 'Modell '+v.stdName+' · '+v.priceStr;
+  var root = document.createElement('div');
+  root.id = 'share-modal-root';
+  root.innerHTML = ''+
+   '<div id="share-backdrop" style="position:fixed;inset:0;z-index:120;background:rgba(20,16,12,.55);display:flex;align-items:center;justify-content:center;padding:20px;animation:modalBackdropIn .2s ease">'+
+     '<div style="background:'+C.bg+';border-radius:22px;width:100%;max-width:460px;max-height:92vh;overflow:auto;box-shadow:0 30px 80px rgba(0,0,0,.4);animation:modalCardIn .3s cubic-bezier(.2,.7,.2,1)">'+
+       '<div style="padding:22px 26px;border-bottom:1px solid '+C.line+';display:flex;align-items:center;justify-content:space-between">'+
+         '<span style="font-family:\'Archivo\';font-weight:800;font-size:18px">Lagre / del konfigurasjonen</span>'+
+         '<button data-sact="close" style="background:transparent;border:none;font-size:26px;cursor:pointer;color:'+C.muted+';line-height:1">×</button>'+
+       '</div>'+
+       '<div style="padding:24px 26px">'+
+         '<p style="font-size:14px;color:'+C.muted+';margin:0 0 16px">Send lenken til deg selv — eller til noen du vil spørre. Den åpner racket akkurat slik du satte det opp, med samme pris.</p>'+
+         '<div style="background:'+C.card+';border:1px solid '+C.line+';border-radius:12px;padding:12px 14px;margin-bottom:18px;font-size:14px"><span style="color:'+C.muted+'">Din konfigurasjon:</span> <strong>'+esc(summary)+'</strong></div>'+
+         '<label style="display:block;font-size:12px;font-weight:700;letter-spacing:.03em;text-transform:uppercase;color:'+C.muted+';margin-bottom:6px">Delbar lenke</label>'+
+         '<div style="display:flex;gap:8px;margin-bottom:8px">'+
+           '<input id="share-url" readonly value="'+esc(url)+'" style="flex:1;min-width:0;border:1px solid '+C.line+';border-radius:10px;padding:12px 14px;font-size:14px;background:'+C.card+';color:'+C.text+'">'+
+           '<button data-sact="copy" class="hover-dim" style="flex:none;background:'+C.green+';color:#fff;border:none;border-radius:10px;padding:0 18px;font-size:14.5px;font-weight:700;cursor:pointer">Kopier</button>'+
+         '</div>'+
+         '<div id="share-status" role="status" style="font-size:13px;font-weight:600;color:'+C.green+';min-height:18px;margin-bottom:18px"></div>'+
+         '<div style="border-top:1px solid '+C.line+';padding-top:18px">'+
+           '<label style="display:block;font-size:12px;font-weight:700;letter-spacing:.03em;text-transform:uppercase;color:'+C.muted+';margin-bottom:6px">Eller få den på e-post</label>'+
+           '<div style="display:flex;gap:8px;margin-bottom:12px">'+
+             '<input id="share-email" type="email" inputmode="email" autocomplete="email" placeholder="Din e-post" style="flex:1;min-width:0;border:1px solid '+C.line+';border-radius:10px;padding:12px 14px;font-size:16px;background:'+C.card+';color:'+C.text+'">'+
+             '<button data-sact="sendmail" class="hover-dim" style="flex:none;background:'+C.green+';color:#fff;border:none;border-radius:10px;padding:0 20px;font-size:14.5px;font-weight:700;cursor:pointer">Send</button>'+
+           '</div>'+
+           '<label style="display:flex;align-items:flex-start;gap:9px;cursor:pointer;font-size:13px;color:'+C.muted+'">'+
+             '<input id="share-consent" type="checkbox" style="margin-top:2px;flex:none;width:16px;height:16px;accent-color:'+C.green+'">'+
+             '<span>Roverk kan kontakte meg om denne konfigurasjonen — helt uforpliktende.</span>'+
+           '</label>'+
+           '<input id="share-hp" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">'+
+           '<div id="sendmail-status" role="status" style="font-size:13px;font-weight:600;min-height:18px;margin-top:10px"></div>'+
+         '</div>'+
+       '</div>'+
+     '</div>'+
+   '</div>';
+  document.body.appendChild(root);
+  document.body.style.overflow='hidden';
+  document.addEventListener('keydown', shareKeyHandler);
+  var bd = document.getElementById('share-backdrop');
+  if(bd) bd.addEventListener('mousedown', function(e){ if(e.target===bd) closeShareModal(); });
+  root.querySelectorAll('[data-sact]').forEach(function(n){
+    var a = n.getAttribute('data-sact');
+    if(a==='close'){ n.addEventListener('click', closeShareModal); }
+    else if(a==='copy'){ n.addEventListener('click', function(){
+      var inp=document.getElementById('share-url'); if(inp){ inp.focus(); inp.select(); }
+      copyText(url, function(){ var s=document.getElementById('share-status'); if(s) s.textContent='Lenke kopiert ✓'; });
+    }); }
+    else if(a==='sendmail'){ n.addEventListener('click', function(){ submitShareEmail(url); }); }
+  });
+}
+function submitShareEmail(url){
+  var emailEl=document.getElementById('share-email');
+  var email=((emailEl&&emailEl.value)||'').trim();
+  var statusEl=document.getElementById('sendmail-status');
+  var setStatus=function(txt,color){ if(statusEl){ statusEl.textContent=txt; statusEl.style.color=color||C.muted; } };
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ setStatus('Fyll inn en gyldig e-post.', '#B4472F'); if(emailEl)emailEl.focus(); return; }
+  var consent=!!(document.getElementById('share-consent')||{}).checked;
+  var hp=((document.getElementById('share-hp')||{}).value)||'';
+  var v=computeVals();
+  var utm={}; try{ utm=JSON.parse(localStorage.getItem('ns_utm')||'{}'); }catch(e){}
+  var payload={ site:SITE_ID, email:email, product:('Orden '+v.stdName).trim(),
+    config:{bt:state.bt,w:state.w,h:state.h,withWheels:state.withWheels,withTop:state.withTop},
+    price_nok:(typeof v.total==='number'?v.total:null), share_url:url, consent:consent, utm:utm, hp:hp };
+  var btn=document.querySelector('#share-modal-root [data-sact="sendmail"]');
+  if(btn){ btn.disabled=true; btn.textContent='Sender…'; }
+  try{if(window.Roverk)Roverk.track('konfig_epost_orden',{produkt:'Orden',samtykke:consent});}catch(e){}
+  setStatus('Sender…', C.muted);
+  fetch('/api/lead',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)})
+    .then(function(r){ if(!r.ok) throw new Error('http '+r.status); return r.json(); })
+    .then(function(){ setStatus('Sendt! Sjekk innboksen din ✓', C.green); if(emailEl)emailEl.value=''; })
+    .catch(function(err){ if(window.console)console.error('lead-feil',err); setStatus('Kunne ikke sende akkurat nå. Prøv igjen, eller kopier lenken over.', '#B4472F'); })
+    .then(function(){ if(btn){ btn.disabled=false; btn.textContent='Send'; } });
+}
+
 // ---------- order modal ----------
 function requestQuote(){
-  state.orderPhase='date'; state.orderOpen=true;
+  state.orderPhase='c1'; state.orderOpen=true;
   try{if(window.Roverk)Roverk.track('bestilling_start_orden',{produkt:'Orden'});}catch(e){}
   renderModal();
 }
@@ -1188,7 +1306,8 @@ function renderModal(){
 
   // step indicator: 1 Mål & utstyr, 2 Dato & kontakt, 3 Bekreft/Forespørsel
   var step3Label = 'Bekreft';
-  var reached = { 1:true, 2:(phase==='date'||phase==='confirm'||phase==='done'), 3:(phase==='confirm'||phase==='done') };
+  var inContact = (phase==='c1'||phase==='c2');
+  var reached = { 1:true, 2:(inContact||phase==='confirm'||phase==='done'), 3:(phase==='confirm'||phase==='done') };
   var stepsHtml = [[1,'Mål & utstyr'],[2,'Kontakt'],[3,step3Label]].map(function(st){
     var on = reached[st[0]];
     return '<div style="display:flex;align-items:center;gap:9px;flex:1;min-width:0">'+
@@ -1203,8 +1322,10 @@ function renderModal(){
   '</div>';
 
   var body = '';
-  if(phase==='date'){
-    body = phaseDateHtml();
+  if(phase==='c1'){
+    body = phaseContact1Html();
+  } else if(phase==='c2'){
+    body = phaseContact2Html();
   } else if(phase==='confirm'){
     body = phaseConfirmHtml(v, orderModel, orderTotal);
   } else if(phase==='sending'){
@@ -1215,7 +1336,7 @@ function renderModal(){
     body = phaseDoneHtml(orderModel);
   }
 
-  var titleTxt = 'Bestill rack';
+  var titleTxt = 'Reserver plassen din';
   root.innerHTML = ''+
   '<div id="modal-backdrop" style="position:fixed;inset:0;z-index:100;background:rgba(20,16,12,.55);display:flex;align-items:center;justify-content:center;padding:20px;animation:modalBackdropIn .2s ease">'+
     '<div style="background:'+C.bg+';border-radius:22px;width:100%;max-width:540px;max-height:92vh;overflow:auto;box-shadow:0 30px 80px rgba(0,0,0,.4);animation:modalCardIn .3s cubic-bezier(.2,.7,.2,1)">'+
@@ -1231,25 +1352,39 @@ function renderModal(){
   bindModal();
 }
 
-function phaseDateHtml(){
-  var proceedLabel = 'Se over bestillingen →';
-  var intro = 'Legg igjen kontaktinfoen din, så ringer vi og bekrefter alt med deg — helt uforpliktende. Ingen forskudd; du betaler først når alt er levert og montert.';
+// Steg 2a — kun det aller viktigste (navn + telefon), så det ikke møter en 4-felts vegg
+function phaseContact1Html(){
+  var intro = 'Vi trenger bare navn og telefon for å ta kontakt og bekrefte alt med deg — helt uforpliktende.';
   return ''+
   '<div style="padding:24px 28px">'+
-    '<h3 style="font-size:18px;font-weight:800;margin-bottom:4px;font-family:\'Archivo\'">Din kontaktinfo</h3>'+
+    '<h3 style="font-size:18px;font-weight:800;margin-bottom:4px;font-family:\'Archivo\'">Hvem skal vi kontakte?</h3>'+
     '<p style="font-size:13.5px;color:'+C.muted+';margin:0 0 16px">'+intro+'</p>'+
     '<div style="display:flex;align-items:flex-start;gap:11px;background:var(--amberSoft);border:1px solid '+C.amber+';border-radius:12px;padding:14px 16px;margin-bottom:18px">'+
       '<span style="font-size:18px;line-height:1.2">📦</span>'+
-      '<div style="font-size:13.5px;color:var(--heroBg)"><strong>Forventet levering: september.</strong> Svært stor etterspørsel om dagen — legg inn bestillingen nå for å sikre plassen din i køen, så gir vi deg et konkret leveringstidspunkt når vi tar kontakt.</div>'+
+      '<div style="font-size:13.5px;color:var(--heroBg)"><strong>Forventet levering: september.</strong> Svært stor etterspørsel om dagen — reserver plassen din i køen nå, så gir vi deg et konkret leveringstidspunkt når vi tar kontakt.</div>'+
     '</div>'+
     '<div style="display:flex;flex-direction:column;gap:11px;margin-bottom:20px">'+
       '<input data-field="o_name" value="'+esc(state.o_name)+'" placeholder="Navn" autocomplete="name" style="border:1px solid '+C.line+';border-radius:10px;padding:12px 14px;font-size:16px;background:'+C.card+';color:'+C.text+'">'+
       '<input data-field="o_phone" value="'+esc(state.o_phone)+'" placeholder="Telefon" inputmode="tel" autocomplete="tel" style="border:1px solid '+C.line+';border-radius:10px;padding:12px 14px;font-size:16px;background:'+C.card+';color:'+C.text+'">'+
-      '<input data-field="o_email" value="'+esc(state.o_email)+'" placeholder="E-post" type="email" inputmode="email" autocomplete="email" style="border:1px solid '+C.line+';border-radius:10px;padding:12px 14px;font-size:16px;background:'+C.card+';color:'+C.text+'">'+
-      '<input data-field="o_address" value="'+esc(state.o_address)+'" placeholder="Adresse for montering" autocomplete="street-address" style="border:1px solid '+C.line+';border-radius:10px;padding:12px 14px;font-size:16px;background:'+C.card+';color:'+C.text+'">'+
       '<input data-field="o_hp" value="" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">'+
     '</div>'+
-    '<button id="proceed-btn" data-act="proceed" style="'+proceedBtnStyle()+'">'+proceedLabel+'</button>'+
+    '<button id="c1-next" data-act="toC2" style="'+proceedBtnStyle()+'">Neste <span class="arw">→</span></button>'+
+    '<div id="formhint" style="text-align:center;font-size:13px;font-weight:600;color:#B4472F;margin:8px 0 0"></div>'+
+  '</div>';
+}
+// Steg 2b — e-post + adresse for montering
+function phaseContact2Html(){
+  var intro = 'Sånn — nesten i mål. Legg igjen e-post og hvor racket skal monteres.';
+  return ''+
+  '<div style="padding:24px 28px">'+
+    '<h3 style="font-size:18px;font-weight:800;margin-bottom:4px;font-family:\'Archivo\'">E-post og monteringsadresse</h3>'+
+    '<p style="font-size:13.5px;color:'+C.muted+';margin:0 0 16px">'+intro+'</p>'+
+    '<div style="display:flex;flex-direction:column;gap:11px;margin-bottom:20px">'+
+      '<input data-field="o_email" value="'+esc(state.o_email)+'" placeholder="E-post" type="email" inputmode="email" autocomplete="email" style="border:1px solid '+C.line+';border-radius:10px;padding:12px 14px;font-size:16px;background:'+C.card+';color:'+C.text+'">'+
+      '<input data-field="o_address" value="'+esc(state.o_address)+'" placeholder="Adresse for montering" autocomplete="street-address" style="border:1px solid '+C.line+';border-radius:10px;padding:12px 14px;font-size:16px;background:'+C.card+';color:'+C.text+'">'+
+    '</div>'+
+    '<button id="proceed-btn" data-act="proceed" style="'+proceedBtnStyle()+'">Se over bestillingen <span class="arw">→</span></button>'+
+    '<button data-act="backToC1" style="width:100%;background:transparent;color:'+C.muted+';border:none;padding:12px;font-size:14px;font-weight:600;cursor:pointer;margin-top:4px">‹ Tilbake</button>'+
     '<div id="formhint" style="text-align:center;font-size:13px;font-weight:600;color:#B4472F;margin:8px 0 0"></div>'+
   '</div>';
 }
@@ -1341,9 +1476,11 @@ function bindModal(){
     if(act==='close'){ node.addEventListener('click', closeOrder); }
     else if(act==='prevMonth'){ node.addEventListener('click', prevMonth); }
     else if(act==='nextMonth'){ node.addEventListener('click', nextMonth); }
+    else if(act==='toC2'){ node.addEventListener('click', toC2); }
+    else if(act==='backToC1'){ node.addEventListener('click', backToC1); }
     else if(act==='proceed'){ node.addEventListener('click', proceed); }
     else if(act==='confirmOrder'){ node.addEventListener('click', submitOrder); }
-    else if(act==='backToDate'){ node.addEventListener('click', function(){ state.orderPhase='date'; renderModal(); }); }
+    else if(act==='backToDate'){ node.addEventListener('click', function(){ state.orderPhase='c2'; renderModal(); }); }
   });
   // calendar cells (in-place update, no full re-render → keeps input focus)
   root.querySelectorAll('.cal-cell[data-date]').forEach(function(btn){
@@ -1409,6 +1546,17 @@ function refreshCalendar(){
     prevBtn.setAttribute('style', cal.canPrev ? navBase : navBase+';opacity:.3;cursor:default');
   }
 }
+// Steg 2a → 2b: valider kun navn + telefon her (progressiv avdekking)
+function toC2(){
+  var miss=[];
+  if(!state.o_name.trim())miss.push('navn');
+  if(!state.o_phone.trim())miss.push('telefon');
+  if(miss.length){ var _h=document.getElementById('formhint'); if(_h)_h.textContent='Fyll inn '+miss.join(' og ')+' for å gå videre.'; return; }
+  try{if(window.Roverk)Roverk.track('bestilling_kontakt_orden',{produkt:'Orden'});}catch(e){}
+  state.orderPhase='c2';
+  renderModal();
+}
+function backToC1(){ state.orderPhase='c1'; renderModal(); }
 function proceed(){
   if(!canProceed()){ var _h=document.getElementById('formhint'); if(_h)_h.textContent='Fyll inn '+missingFields().join(', ')+' for å gå videre.'; return; }
   try{if(window.Roverk)Roverk.track('bestilling_bekreft_orden',{produkt:'Orden'});}catch(e){}
@@ -1476,6 +1624,7 @@ function initMobileNav(){
 // ---------- init ----------
 try {
   // hero viser nå en videoløkke (/orden/assets/hero-loop.mp4) i stedet for SVG-rack
+  applyConfigFromUrl();   // #4: gjenopprett konfig fra delt lenke (?k=...)
   renderConfig();
   renderModels();
   renderCompare();

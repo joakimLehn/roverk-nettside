@@ -24,3 +24,23 @@ alter table orders add column if not exists address_meta jsonb not null default 
 
 create index if not exists orders_created_at_idx on orders (created_at desc);
 create index if not exists orders_site_idx on orders (site);
+
+-- Myke leads: bruker deler/lagrer konfigurasjonen sin (ikke en full bestilling).
+-- Kun e-post er påkrevd. consent styrer om Roverk kan følge opp (markedsføring).
+create table if not exists leads (
+  id          uuid primary key default gen_random_uuid(),
+  created_at  timestamptz not null default now(),
+  site        text not null,
+  kind        text not null default 'config_share',
+  email       text not null,
+  config      jsonb not null default '{}'::jsonb,
+  product     text,
+  price_nok   integer,
+  share_url   text,
+  consent     boolean not null default false,
+  utm         jsonb not null default '{}'::jsonb,
+  notify      jsonb not null default '{}'::jsonb
+);
+
+create index if not exists leads_created_at_idx on leads (created_at desc);
+create index if not exists leads_site_idx on leads (site);

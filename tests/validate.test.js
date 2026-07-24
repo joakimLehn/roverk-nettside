@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { validateOrder } from '../api/_lib/validate.js';
+import { validateOrder, validateLead } from '../api/_lib/validate.js';
 
 const valid = {
   site: 'skjul', product: '3-dunk Standard', config: { count: 3 },
@@ -78,4 +78,36 @@ test('address_meta.verified tvinges til boolean', () => {
     address_meta: { verified: 'ja' }
   });
   assert.equal(r.data.address_meta.verified, false);
+});
+
+// ---------- validateLead ----------
+const validLead = { site: 'orden', email: 'kari@example.com', config: { bt: '60L', w: 4, h: 4 }, price_nok: 8390, share_url: 'https://www.roverk.no/orden?k=60L.4.4.0.0', consent: true, utm: { utm_source: 'meta' }, hp: '' };
+
+test('lead: godtar gyldig payload og normaliserer', () => {
+  const r = validateLead(validLead);
+  assert.equal(r.ok, true);
+  assert.equal(r.data.kind, 'config_share');
+  assert.equal(r.data.email, 'kari@example.com');
+  assert.equal(r.data.price_nok, 8390);
+  assert.equal(r.data.consent, true);
+});
+
+test('lead: krever gyldig e-post', () => {
+  assert.equal(validateLead({ site: 'orden', email: '', hp: '' }).ok, false);
+  assert.equal(validateLead({ site: 'orden', email: 'ikke-epost', hp: '' }).ok, false);
+});
+
+test('lead: ukjent site avvises', () => {
+  assert.equal(validateLead({ site: 'tull', email: 'k@x.no', hp: '' }).ok, false);
+});
+
+test('lead: honeypot utfylt => spam', () => {
+  const r = validateLead({ ...validLead, hp: 'bot' });
+  assert.equal(r.ok, false);
+  assert.equal(r.spam, true);
+});
+
+test('lead: consent tvinges til boolean, mangler blir false', () => {
+  assert.equal(validateLead({ site: 'orden', email: 'k@x.no', hp: '' }).data.consent, false);
+  assert.equal(validateLead({ site: 'orden', email: 'k@x.no', consent: 'ja', hp: '' }).data.consent, false);
 });
