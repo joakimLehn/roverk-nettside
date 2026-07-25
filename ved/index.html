@@ -223,7 +223,7 @@ window.fbq = window.fbq || function(){ (window.fbq.q=window.fbq.q||[]).push(argu
       <a href="#slik" class="lnk">Slik funker det</a>
       <a href="#faq" class="lnk">Spørsmål</a>
       <a href="/ved/blogg" class="lnk">Tips</a>
-      <a href="#storrelser" class="hover-dim" data-order style="background:var(--green);color:#fff;padding:10px 18px;border-radius:999px;text-decoration:none;font-size:14px;font-weight:600">Bestill vedskjul</a>
+      <a href="#storrelser" class="hover-dim" data-order style="background:var(--green);color:#fff;padding:10px 18px;border-radius:999px;text-decoration:none;font-size:14px;font-weight:600">Se priser</a>
     </nav>
   </div>
 </header>
@@ -237,7 +237,7 @@ window.fbq = window.fbq || function(){ (window.fbq.q=window.fbq.q||[]).push(argu
       <h1 class="hero-in d2" style="font-size:clamp(36px,6vw,64px);font-weight:900;letter-spacing:-.025em;color:#fff;margin-bottom:20px">Tørr ved hele vinteren.<br>Ferdig montert — uten søknad.</h1>
       <p class="hero-in d3" style="font-size:18.5px;color:rgba(255,255,255,.8);max-width:520px;margin:0 0 28px">Håndbygde vedskjul i ekte tre, levert og montert hjemme hos deg i Trondheimsområdet. Du betaler først når det står ferdig.</p>
       <div class="hero-in d4" style="display:flex;gap:13px;flex-wrap:wrap;margin-bottom:22px">
-        <a href="#storrelser" class="hover-dim" data-order style="background:var(--amber);color:var(--heroBg);padding:15px 26px;border-radius:999px;text-decoration:none;font-size:16px;font-weight:700">Bestill vedskjul <span class="arw">→</span></a>
+        <a href="#storrelser" class="hover-dim" data-order style="background:var(--amber);color:var(--heroBg);padding:15px 26px;border-radius:999px;text-decoration:none;font-size:16px;font-weight:700">Se størrelser og priser <span class="arw">→</span></a>
         <a href="#storrelser" class="hover-dim" style="background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.35);padding:15px 26px;border-radius:999px;text-decoration:none;font-size:16px;font-weight:600">Se størrelser</a>
       </div>
       <div class="hero-in d4" style="display:flex;gap:20px;flex-wrap:wrap;font-size:13.5px;color:rgba(255,255,255,.72)">
@@ -376,7 +376,7 @@ window.fbq = window.fbq || function(){ (window.fbq.q=window.fbq.q||[]).push(argu
 <!-- ===== STICKY MOBIL-CTA ===== -->
 <div class="mobile-cta">
   <a href="tel:+4790186693" class="hover-dim" style="display:flex;align-items:center;justify-content:center;background:transparent;color:var(--text);border:1.5px solid var(--line);border-radius:999px;padding:13px 18px;text-decoration:none;font-size:15px;font-weight:600;white-space:nowrap">Ring oss</a>
-  <a href="#storrelser" data-order class="hover-dim" style="flex:1;text-align:center;background:var(--green);color:#fff;border-radius:999px;padding:13px 18px;text-decoration:none;font-size:15px;font-weight:700">Bestill vedskjul →</a>
+  <a href="#storrelser" data-order class="hover-dim" style="flex:1;text-align:center;background:var(--green);color:#fff;border-radius:999px;padding:13px 18px;text-decoration:none;font-size:15px;font-weight:700">Se priser →</a>
 </div>
 
 <div id="modal-root"></div>
@@ -472,8 +472,9 @@ function renderSizes(){
     html+='<div style="font-size:13px;color:var(--muted);margin-bottom:8px">'+s.B+' × '+s.H+' × '+s.D+' mm</div>';
     html+='<div style="margin-top:auto">'+anchorPrice(s.fra,'fra ')+'';
     html+='<div style="font-size:12px;color:var(--muted);margin:2px 0 14px">ordinær pris etter lansering · inkl. levering og montering</div>';
-    html+='<button class="hover-dim" data-size="'+s.id+'" style="width:100%;background:var(--green);color:#fff;border:none;border-radius:12px;padding:14px;font-size:15px;font-weight:700;cursor:pointer">Bestill '+s.navn+' <span class="arw">→</span></button>';
-    html+='<div style="text-align:center;font-size:12px;color:var(--muted);margin-top:8px">🔒 Ingen forskudd — betal etter montering</div>';
+    html+='<div style="text-align:center;font-size:12px;font-weight:600;color:var(--heroBg);background:var(--amberSoft);border-radius:8px;padding:7px 10px;margin-bottom:8px">🔒 Uforpliktende — ingen forskudd</div>';
+    html+='<button class="hover-dim" data-size="'+s.id+'" style="width:100%;background:var(--green);color:#fff;border:none;border-radius:12px;padding:14px;font-size:15px;font-weight:700;cursor:pointer">Reserver '+s.navn+' <span class="arw">→</span></button>';
+    html+='<div style="text-align:center;font-size:12px;color:var(--muted);margin-top:8px">Du betaler først etter montering</div>';
     html+='</div></div></div>';
   });
   g.innerHTML=html;
@@ -527,22 +528,45 @@ function proceedStyle(){return'width:100%;background:'+C.green+';color:#fff;bord
 
 function renderModal(){
   var root=document.getElementById('modal-root');var s=sizeObj(order.size);
-  var steps=[['1','Størrelse & kontakt'],['2','Bekreft']];
-  var reached={1:true,2:(order.phase==='confirm'||order.phase==='done')};
+  var steps=[['1','Størrelse'],['2','Kontakt'],['3','Bekreft']];
+  var reached={1:true,2:(order.phase==='c2'||order.phase==='confirm'||order.phase==='done'),3:(order.phase==='confirm'||order.phase==='done')};
   var stepsHtml=steps.map(function(st,i){var on=reached[i+1];return '<div style="display:flex;align-items:center;gap:8px;flex:1;min-width:0"><span style="width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;font-family:\'Archivo\';flex:none;background:'+(on?C.green:'transparent')+';color:'+(on?'#fff':C.muted)+';border:'+(on?'none':'1.5px solid '+C.line)+'">'+st[0]+'</span><span style="font-size:12.5px;font-weight:600;color:'+(on?C.text:C.muted)+'">'+st[1]+'</span></div>';}).join('');
   var summary='<div style="padding:14px 26px;background:'+C.card+';border-bottom:1px solid '+C.line+';display:flex;justify-content:space-between;align-items:center;gap:14px"><div><div style="font-family:\'Archivo\';font-weight:900;font-size:20px">Vedskjul '+s.navn+'</div><div style="font-size:12.5px;color:'+C.muted+'">~'+fmt(s.liter)+' L · '+s.B+'×'+s.H+'×'+s.D+' mm</div></div><div style="text-align:right"><div style="font-size:11.5px;color:'+C.muted+';text-decoration:line-through;text-decoration-color:'+C.amber+'">'+fmt(ord(s.fra))+' kr</div><div style="font-family:\'Archivo\';font-weight:800;font-size:19px;color:'+C.green+'">fra '+fmt(s.fra)+' kr</div><div style="display:inline-block;background:'+C.amberSoft+';color:#5A3E15;font-size:10.5px;font-weight:800;padding:2px 8px;border-radius:999px;margin-top:3px">Spar '+fmt(spar(s.fra))+' kr</div></div></div>';
-  var body=order.phase==='confirm'?confirmHtml(s):order.phase==='done'?doneHtml(s):order.phase==='sending'?sendingHtml():order.phase==='error'?errorHtml():formHtml(s);
-  root.innerHTML='<div id="mback" style="position:fixed;inset:0;z-index:100;background:rgba(20,16,12,.55);display:flex;align-items:center;justify-content:center;padding:18px;animation:modalBg .2s ease"><div style="background:'+C.bg+';border-radius:22px;width:100%;max-width:540px;max-height:92vh;overflow:auto;box-shadow:0 30px 80px rgba(0,0,0,.4);animation:modalCard .3s cubic-bezier(.2,.7,.2,1)"><div style="padding:20px 26px;border-bottom:1px solid '+C.line+';display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:'+C.bg+';z-index:2"><span style="font-family:\'Archivo\';font-weight:800;font-size:18px">Bestill vedskjul</span><button data-act="close" style="background:transparent;border:none;font-size:26px;cursor:pointer;color:'+C.muted+';line-height:1">×</button></div><div style="padding:18px 26px;display:flex;align-items:center;gap:8px;border-bottom:1px solid '+C.line+'">'+stepsHtml+'</div>'+summary+body+'</div></div>';
+  var body=order.phase==='confirm'?confirmHtml(s):order.phase==='done'?doneHtml(s):order.phase==='sending'?sendingHtml():order.phase==='error'?errorHtml():order.phase==='c2'?contact2Html():formHtml(s);
+  root.innerHTML='<div id="mback" style="position:fixed;inset:0;z-index:100;background:rgba(20,16,12,.55);display:flex;align-items:center;justify-content:center;padding:18px;animation:modalBg .2s ease"><div style="background:'+C.bg+';border-radius:22px;width:100%;max-width:540px;max-height:92vh;overflow:auto;box-shadow:0 30px 80px rgba(0,0,0,.4);animation:modalCard .3s cubic-bezier(.2,.7,.2,1)"><div style="padding:20px 26px;border-bottom:1px solid '+C.line+';display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:'+C.bg+';z-index:2"><span style="font-family:\'Archivo\';font-weight:800;font-size:18px">Reserver vedskjul</span><button data-act="close" style="background:transparent;border:none;font-size:26px;cursor:pointer;color:'+C.muted+';line-height:1">×</button></div><div style="padding:18px 26px;display:flex;align-items:center;gap:8px;border-bottom:1px solid '+C.line+'">'+stepsHtml+'</div>'+summary+body+'</div></div>';
   bindModal();
 }
 function formHtml(s){
   var pills=SIZES.map(function(o){var on=o.id===order.size;return'<button data-pick="'+o.id+'" style="flex:1;padding:11px 6px;border-radius:11px;cursor:pointer;border:'+(on?'2px solid '+C.green:'1.5px solid '+C.line)+';background:'+(on?C.green:'transparent')+';color:'+(on?'#fff':C.text)+';font-family:\'Archivo\';font-weight:800;font-size:14px">'+o.navn+'<div style="font-family:\'Hanken Grotesk\';font-weight:500;font-size:11px;opacity:.85">'+fmt(o.liter)+' L</div></button>';}).join('');
   return '<div style="padding:22px 26px">'+
     '<div style="font-weight:700;font-size:14px;margin-bottom:9px">Størrelse</div><div style="display:flex;gap:8px;margin-bottom:20px">'+pills+'</div>'+
-    '<div style="display:flex;flex-direction:column;gap:11px;margin-bottom:18px"><input data-f="name" value="'+esc(order.name)+'" placeholder="Navn" autocomplete="name" style="border:1px solid '+C.line+';border-radius:10px;padding:12px 14px;font-size:16px;background:'+C.card+';color:'+C.text+'"><input data-f="phone" value="'+esc(order.phone)+'" placeholder="Telefon" inputmode="tel" autocomplete="tel" style="border:1px solid '+C.line+';border-radius:10px;padding:12px 14px;font-size:16px;background:'+C.card+';color:'+C.text+'"><input data-f="email" value="'+esc(order.email)+'" placeholder="E-post" type="email" inputmode="email" autocomplete="email" style="border:1px solid '+C.line+';border-radius:10px;padding:12px 14px;font-size:16px;background:'+C.card+';color:'+C.text+'"><input data-f="address" value="'+esc(order.address)+'" placeholder="Adresse for montering" autocomplete="street-address" style="border:1px solid '+C.line+';border-radius:10px;padding:12px 14px;font-size:16px;background:'+C.card+';color:'+C.text+'"><input data-f="hp" value="'+esc(order.hp)+'" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0"></div>'+
-    '<button id="proceed" data-act="proceed" style="'+proceedStyle()+'">Se over bestillingen →</button>'+
-    '<div id="formhint" style="text-align:center;font-size:13px;font-weight:600;color:#B4472F;margin:8px 0 0"></div>'+
-    '<p style="text-align:center;font-size:12.5px;color:'+C.muted+';margin:10px 0 0">🔒 Uforpliktende & ingen forskudd — vi bekrefter alt med deg først</p></div>';
+    '<div style="display:flex;flex-direction:column;gap:11px;margin-bottom:18px">'+
+      '<input data-f="name" value="'+esc(order.name)+'" placeholder="Navn" autocomplete="name" style="'+fieldStyle()+'">'+
+      '<input data-f="phone" value="'+esc(order.phone)+'" placeholder="Telefon" inputmode="tel" autocomplete="tel" style="'+fieldStyle()+'">'+
+      '<input data-f="hp" value="'+esc(order.hp)+'" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">'+
+    '</div>'+
+    trustBox()+
+    '<button id="proceed" data-act="toC2" style="'+proceedStyle()+'">Neste <span class="arw">→</span></button>'+
+    '<div id="formhint" style="text-align:center;font-size:13px;font-weight:600;color:#B4472F;margin:8px 0 0"></div></div>';
+}
+// #2 — trygghet vises OVER knappen, ikke som liten grå tekst under
+function trustBox(){
+  return '<div style="display:flex;align-items:center;justify-content:center;gap:8px;background:var(--amberSoft);border:1px solid '+C.amber+';border-radius:12px;padding:11px 14px;margin-bottom:12px;font-size:13px;font-weight:600;color:var(--heroBg);text-align:center"><span style="font-size:15px;flex:none">🔒</span><span>Helt uforpliktende — ingen forskudd. Vi bekrefter alt med deg først.</span></div>';
+}
+function fieldStyle(){return 'border:1px solid '+C.line+';border-radius:10px;padding:12px 14px;font-size:16px;background:'+C.card+';color:'+C.text;}
+// Steg 2 — e-post + monteringsadresse (delt ut av steg 1 for å unngå 4-felts vegg)
+function contact2Html(){
+  return '<div style="padding:22px 26px">'+
+    '<h3 style="font-size:18px;font-weight:800;margin:0 0 4px;font-family:\'Archivo\'">E-post og monteringsadresse</h3>'+
+    '<p style="font-size:13.5px;color:'+C.muted+';margin:0 0 16px">Sånn — nesten i mål. Legg igjen e-post og hvor vedskjulet skal monteres.</p>'+
+    '<div style="display:flex;flex-direction:column;gap:11px;margin-bottom:18px">'+
+      '<input data-f="email" value="'+esc(order.email)+'" placeholder="E-post" type="email" inputmode="email" autocomplete="email" style="'+fieldStyle()+'">'+
+      '<input data-f="address" value="'+esc(order.address)+'" placeholder="Adresse for montering" autocomplete="street-address" style="'+fieldStyle()+'">'+
+    '</div>'+
+    trustBox()+
+    '<button id="proceed" data-act="proceed" style="'+proceedStyle()+'">Se over bestillingen <span class="arw">→</span></button>'+
+    '<button data-act="backToForm" style="width:100%;background:transparent;color:'+C.muted+';border:none;padding:12px;font-size:14px;font-weight:600;cursor:pointer;margin-top:4px">‹ Tilbake</button>'+
+    '<div id="formhint" style="text-align:center;font-size:13px;font-weight:600;color:#B4472F;margin:8px 0 0"></div></div>';
 }
 function confirmHtml(s){
   var lbl=selDateLabel();
@@ -571,13 +595,19 @@ function bindModal(){
     if(a==='close')n.addEventListener('click',closeOrder);
     else if(a==='prev')n.addEventListener('click',function(){var c=buildCalendar();if(!c.canPrev)return;var mm=c.m.m-1;order.calMonth=mm<0?{y:c.m.y-1,m:11}:{y:c.m.y,m:mm};refreshCal();});
     else if(a==='next')n.addEventListener('click',function(){var c=buildCalendar();var mm=c.m.m+1;order.calMonth=mm>11?{y:c.m.y+1,m:0}:{y:c.m.y,m:mm};refreshCal();});
+    else if(a==='toC2')n.addEventListener('click',function(){
+      var miss=[];if(!order.name.trim())miss.push('navn');if(!order.phone.trim())miss.push('telefon');
+      if(miss.length){var _h=document.getElementById('formhint');if(_h)_h.textContent='Fyll inn '+miss.join(' og ')+' for å gå videre.';return;}
+      try{if(window.Roverk){var _s=sizeObj(order.size);Roverk.track('bestilling_kontakt_ved',{produkt:'Vedskjul '+_s.navn});}}catch(e){}
+      order.phase='c2';renderModal();});
+    else if(a==='backToForm')n.addEventListener('click',function(){order.phase='form';renderModal();});
     else if(a==='proceed')n.addEventListener('click',function(){if(canProceed()){try{if(window.Roverk){var _s=sizeObj(order.size);Roverk.track('bestilling_bekreft_ved',{produkt:'Vedskjul '+_s.navn});}}catch(e){}order.phase='confirm';renderModal();}else{var _h=document.getElementById('formhint');if(_h)_h.textContent='Fyll inn '+missingFields().join(', ')+' for å gå videre.';}});
     else if(a==='confirm')n.addEventListener('click',submitOrder);
-    else if(a==='back')n.addEventListener('click',function(){order.phase='form';renderModal();});
+    else if(a==='back')n.addEventListener('click',function(){order.phase='c2';renderModal();});
   });
   root.querySelectorAll('[data-pick]').forEach(function(b){b.addEventListener('click',function(){order.size=b.getAttribute('data-pick');renderModal();});});
   root.querySelectorAll('.cc[data-date]').forEach(function(b){b.addEventListener('click',function(){selectDate(b.getAttribute('data-date'));});});
-  root.querySelectorAll('[data-f]').forEach(function(i){i.addEventListener('input',function(){order[i.getAttribute('data-f')]=i.value;var _h=document.getElementById('formhint');if(_h&&canProceed())_h.textContent='';});});
+  root.querySelectorAll('[data-f]').forEach(function(i){i.addEventListener('input',function(){order[i.getAttribute('data-f')]=i.value;var _h=document.getElementById('formhint');if(_h)_h.textContent='';});});
   var addrEl=root.querySelector('[data-f="address"]');
   if(addrEl&&window.initAddressAutocomplete)initAddressAutocomplete(addrEl,{
     onSelect:function(a){order.address=a.formatted;order.addressMeta={postnummer:a.postnummer,poststed:a.poststed,kommunenummer:a.kommunenummer,kommunenavn:a.kommunenavn,lat:a.lat,lon:a.lon,verified:true};var p=document.getElementById('proceed');if(p)p.setAttribute('style',proceedStyle());},
