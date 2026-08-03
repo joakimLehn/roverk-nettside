@@ -14,12 +14,14 @@ function setupEnv(opts = {}) {
     consent = null,
     preexistingFbq = null,
     hasBody = true,
+    utm = null,
   } = opts;
 
   const inserted = [];
   const store = new Map();
   const session = new Map();
   if (consent !== null) store.set('roverk_meta_consent', consent);
+  if (utm) store.set('ns_utm', JSON.stringify(utm));
 
   const makeEl = () => ({
     style: {}, dataset: {}, children: [],
@@ -292,6 +294,41 @@ test('writes _fbc from a stored fbclid when consent is already granted', async (
   await loadMeta();
   assert.ok(env.doc.cookie.includes('_fbc=fb.1.'), 'expected _fbc cookie');
   assert.ok(env.doc.cookie.includes('TEST123'));
+});
+
+/* The ad click and the consent click can happen in different sessions. When
+   sessionStorage is gone, the fbclid already stored in localStorage `ns_utm`
+   by the existing UTM capture is the only remaining source. Without this,
+   `fbc` coverage stays at 0 % for those visitors and EMQ is capped. */
+test('falls back to the fbclid stored in ns_utm when the session is gone', async () => {
+  const env = setupEnv({ consent: 'granted', utm: { utm_source: 'facebook', fbclid: 'LATERSESSION42' } });
+  await loadMeta();
+  assert.ok(env.doc.cookie.includes('_fbc=fb.1.'), 'expected _fbc from the ns_utm fallback');
+  assert.ok(env.doc.cookie.includes('LATERSESSION42'));
+});
+
+test('prefers this session’s fbclid over the older ns_utm one', async () => {
+  const env = setupEnv({
+    search: '?fbclid=FRESH1', consent: 'granted',
+    utm: { fbclid: 'STALE0' },
+  });
+  await loadMeta();
+  assert.ok(env.doc.cookie.includes('FRESH1'));
+  assert.equal(env.doc.cookie.includes('STALE0'), false);
+});
+
+test('does not invent an _fbc when no click id exists anywhere', async () => {
+  const env = setupEnv({ consent: 'granted', utm: { utm_source: 'google' } });
+  await loadMeta();
+  assert.equal(env.doc.cookie.includes('_fbc'), false);
+});
+
+test('never overwrites an _fbc the pixel already set', async () => {
+  const env = setupEnv({ consent: 'granted', utm: { fbclid: 'FALLBACK9' } });
+  env.doc.cookie = '_fbc=fb.1.1700000000.REAL_FROM_PIXEL';
+  await loadMeta();
+  assert.ok(env.doc.cookie.includes('REAL_FROM_PIXEL'));
+  assert.equal(env.doc.cookie.includes('FALLBACK9'), false);
 });
 
 test('orderCtx returns the shared event_id and consent flag', async () => {
