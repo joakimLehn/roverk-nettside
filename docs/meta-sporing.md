@@ -75,6 +75,18 @@ sporing er ikke en omvei rundt kravet. «Endre samtykke» ligger på `/personver
 skrives til `_fbc`-cookien først ved samtykke. Uten dette mistes attribusjonen,
 fordi pixelen typisk lastes på en senere sidevisning der `fbclid` er borte.
 
+Skjer annonseklikket og samtykket i **ulike økter**, er sessionStorage borte.
+Da faller `ensureFbcCookie()` tilbake på `fbclid` som den eksisterende
+UTM-fangsten allerede har lagret i localStorage `ns_utm` (kun lesing – ingenting
+nytt lagres). En `_fbc` pixelen selv har satt overskrives aldri.
+
+**`fbc` = 0 % dekning i Events Manager er normalt for testhendelser.** `_fbc`
+kan bare finnes for besøkende som faktisk kom fra et annonseklikk med `fbclid`
+i URL-en. Går du selv rett til `www.roverk.no/skjul` finnes det ingen klikk-ID,
+og feltet blir tomt. Det er **ikke** et redirect-problem: `fbclid` er verifisert
+å overleve hele kjeden `http://roverk.no/x` → `https://roverk.no/x` →
+`https://www.roverk.no/x`, også med trailing slash.
+
 ## Miljøguard
 
 Pixelen fyrer bare på `roverk.no` / `www.roverk.no`. På localhost og
