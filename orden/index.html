@@ -979,7 +979,7 @@ function renderViz(v){
 }
 
 var _cfgTracked=false;
-function cfgTouched(){if(_cfgTracked)return;_cfgTracked=true;try{if(window.Roverk)Roverk.track('konfig_endret_orden',{});}catch(e){}}
+function cfgTouched(){if(_cfgTracked)return;_cfgTracked=true;try{if(window.Roverk)Roverk.track('konfig_endret_orden',{});}catch(e){}try{if(window.RoverkMeta){var _v=computeVals();if(_v.isStandard)RoverkMeta.customizeProduct({value:_v.total,content_name:('Orden '+_v.stdName).trim()});}}catch(e){}}
 function bindConfig(){
   var root = document.getElementById('cfg-controls');
   // buttons / toggles
@@ -1245,16 +1245,19 @@ function submitShareEmail(url){
   var hp=((document.getElementById('share-hp')||{}).value)||'';
   var v=computeVals();
   var utm={}; try{ utm=JSON.parse(localStorage.getItem('ns_utm')||'{}'); }catch(e){}
+  var mctx=(window.RoverkMeta&&RoverkMeta.orderCtx)?RoverkMeta.orderCtx():{};
   var payload={ site:SITE_ID, email:email, product:('Orden '+v.stdName).trim(),
     config:{bt:state.bt,w:state.w,h:state.h,withWheels:state.withWheels,withTop:state.withTop},
-    price_nok:(typeof v.total==='number'?v.total:null), share_url:url, consent:consent, utm:utm, hp:hp };
+    price_nok:(typeof v.total==='number'?v.total:null), share_url:url, consent:consent, utm:utm, hp:hp,
+    /* meta_consent er sporingssamtykket – `consent` over er samtykke til oppfølging. Ikke bland. */
+    event_id:mctx.event_id, fbp:mctx.fbp, fbc:mctx.fbc, meta_consent:mctx.consent, event_source_url:mctx.event_source_url };
   var btn=document.querySelector('#share-modal-root [data-sact="sendmail"]');
   if(btn){ btn.disabled=true; btn.textContent='Sender…'; }
   try{if(window.Roverk)Roverk.track('konfig_epost_orden',{produkt:'Orden',samtykke:consent});}catch(e){}
   setStatus('Sender…', C.muted);
   fetch('/api/lead',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)})
     .then(function(r){ if(!r.ok) throw new Error('http '+r.status); return r.json(); })
-    .then(function(){ setStatus('Sendt! Sjekk innboksen din ✓', C.green); if(emailEl)emailEl.value=''; })
+    .then(function(){ try{if(window.RoverkMeta)RoverkMeta.completeRegistration({value:v.total,content_name:('Orden '+v.stdName).trim(),eventId:mctx.event_id,user:{email:email}});}catch(e){} setStatus('Sendt! Sjekk innboksen din ✓', C.green); if(emailEl)emailEl.value=''; })
     .catch(function(err){ if(window.console)console.error('lead-feil',err); setStatus('Kunne ikke sende akkurat nå. Prøv igjen, eller kopier lenken over.', '#B4472F'); })
     .then(function(){ if(btn){ btn.disabled=false; btn.textContent='Send'; } });
 }
@@ -1263,6 +1266,7 @@ function submitShareEmail(url){
 function requestQuote(){
   state.orderPhase='c1'; state.orderOpen=true;
   try{if(window.Roverk)Roverk.track('bestilling_start_orden',{produkt:'Orden'});}catch(e){}
+  try{if(window.RoverkMeta){var _v=computeVals();RoverkMeta.initiateCheckout({value:_v.total,content_name:('Orden '+_v.stdName).trim()});}}catch(e){}
   renderModal();
 }
 function closeOrder(){ state.orderOpen=false; renderModal(); }
@@ -1280,14 +1284,14 @@ function buildOrderPayload(){
 function submitOrder(){
   var mctx=(window.RoverkMeta&&RoverkMeta.orderCtx)?RoverkMeta.orderCtx():{};
   var total=computeVals().total;
-  try{if(window.fbq)fbq('track','Lead',{content_name:'Orden',value:total,currency:'NOK'});}catch(e){}
+  /* Meta Lead fyres i suksess-callbacken under, ikke her – ellers telles avbrutte skjemaer som konverteringer. */
   try{if(window.Roverk)Roverk.track('bestilling_send_klikk_orden',{produkt:'Orden',verdi:total});}catch(e){}
   state.orderPhase='sending';renderModal();
   var payload=buildOrderPayload();
   payload.event_id=mctx.event_id;payload.fbp=mctx.fbp;payload.fbc=mctx.fbc;payload.consent=mctx.consent;payload.event_source_url=mctx.event_source_url;
   fetch('/api/order',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)})
     .then(function(r){if(!r.ok)throw new Error('http '+r.status);return r.json();})
-    .then(function(res){try{if(window.RoverkMeta)RoverkMeta.purchase({value:total,orderId:(res&&res.id)||null,eventId:mctx.event_id});}catch(e){}try{if(window.Roverk)Roverk.track('bestilling_sendt_orden',{produkt:'Orden',verdi:total});}catch(e){}state.orderPhase='done';renderModal();})
+    .then(function(res){try{if(window.RoverkMeta)RoverkMeta.lead({value:total,content_name:payload.product,eventId:mctx.event_id,user:{name:state.o_name,email:state.o_email,phone:state.o_phone,zip:(state.o_addressMeta||{}).postnummer,city:(state.o_addressMeta||{}).poststed}});}catch(e){}try{if(window.Roverk)Roverk.track('bestilling_sendt_orden',{produkt:'Orden',verdi:total});}catch(e){}state.orderPhase='done';renderModal();})
     .catch(function(err){if(window.console)console.error('ordre-feil',err);try{if(window.Roverk)Roverk.track('bestilling_feil_orden',{produkt:'Orden',verdi:total});}catch(e){}state.orderPhase='error';renderModal();});
 }
 function canProceed(){ return !!state.o_name.trim() && !!state.o_phone.trim() && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(state.o_email.trim()) && !!state.o_address.trim(); }

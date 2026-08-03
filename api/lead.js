@@ -3,6 +3,7 @@ import { handleLead } from './_lib/lead-service.js';
 import { insertLead } from './_lib/db.js';
 import { sendLeadEmail } from './_lib/email.js';
 import { postLeadSlack } from './_lib/slack.js';
+import { sendCapiRegistration } from './_lib/meta-capi.js';
 
 // Myk lead: kunden vil ha konfigurasjonen sin på e-post (og evt. bli kontaktet).
 // Samme Node-funksjon-mønster som api/order.js.
@@ -24,6 +25,24 @@ export default async function handler(req, res) {
 
   try {
     await handleLead(v.data, { sendLeadEmail, insertLead, postLeadSlack });
+
+    // Conversions API. NB: `consent` i payloaden er samtykke til markedsførings-
+    // oppfølging, ikke til sporing – tracking-samtykket kommer separat som
+    // `meta_consent` fra RoverkMeta.orderCtx(). Ikke bland dem.
+    // Meta-felter leses fra rå-body fordi validateLead stripper alt utenfor whitelisten.
+    const metaCtx = {
+      event_id: str(body.event_id),
+      fbp: str(body.fbp),
+      fbc: str(body.fbc),
+      consent: body.meta_consent === true,
+      event_source_url: str(body.event_source_url)
+    };
+    try {
+      await sendCapiRegistration(v.data, metaCtx, req);
+    } catch (capiErr) {
+      console.error('CAPI-feil (ignorert):', capiErr);
+    }
+
     res.status(200).json({ ok: true });
   } catch (e) {
     console.error('lead-feil (e-post):', e);
@@ -32,3 +51,4 @@ export default async function handler(req, res) {
 }
 
 function safeJson(s) { try { return JSON.parse(s); } catch { return {}; } }
+function str(v) { return typeof v === 'string' ? v.trim() : ''; }
