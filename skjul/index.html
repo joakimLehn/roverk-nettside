@@ -72,9 +72,9 @@ document.documentElement.classList.add('anim');
 window.__init=false;
 addEventListener('DOMContentLoaded',function(){setTimeout(function(){if(!window.__init)document.querySelectorAll('[data-reveal]').forEach(function(e){e.classList.add('in')});},1200);});
 try{var qs=new URLSearchParams(location.search),u={};['utm_source','utm_medium','utm_campaign','utm_content','utm_term','fbclid'].forEach(function(k){if(qs.get(k))u[k]=qs.get(k)});if(Object.keys(u).length)localStorage.setItem('ns_utm',JSON.stringify(u));}catch(e){}
-/* ===== Meta Pixel (PLASSHOLDER) – sett inn ekte Pixel-ID for å aktivere =====
-   window.NS_PIXEL_ID="DIN_PIXEL_ID"; !function(f,b,e,v,n,t,s){...}(...); fbq('init',NS_PIXEL_ID); fbq('track','PageView'); */
-window.fbq=window.fbq||function(){(window.fbq.q=window.fbq.q||[]).push(arguments);};
+/* Meta Pixel lastes samtykkestyrt av /lib/meta.js – bruk RoverkMeta.*, ikke fbq direkte.
+   IKKE gjeninnfør en `window.fbq = window.fbq || …`-stub her: Metas snippet starter med
+   `if (f.fbq) return;`, så en stub hindrer fbevents.js fra å laste og dreper all sporing. */
 </script>
   <!-- Vercel Web Analytics (cookieless, ingen PII) -->
   <script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments);};</script>
@@ -485,7 +485,7 @@ function curMont(){return order.montering?MONT[order.count]:0;}
 function curForank(){return order.forankring?FORANK:0;}
 function curPrice(){return curBase()+curMont()+curForank();}
 function curDims(){return DIMS[order.count][order.serie];}
-function openOrder(count){if(count)order.count=count;try{if(window.Roverk)Roverk.track('bestilling_start_skjul',{produkt:order.count+'-dunk '+order.serie});}catch(e){}order.phase='form';document.body.style.overflow='hidden';renderModal(true);}
+function openOrder(count){if(count)order.count=count;try{if(window.Roverk)Roverk.track('bestilling_start_skjul',{produkt:order.count+'-dunk '+order.serie});}catch(e){}try{if(window.RoverkMeta)RoverkMeta.initiateCheckout({value:curPrice(),content_name:order.count+'-dunk '+order.serie});}catch(e){}order.phase='form';document.body.style.overflow='hidden';renderModal(true);}
 function closeOrder(){document.body.style.overflow='';document.getElementById('modal-root').innerHTML='';}
 function canProceed(){return !!order.name.trim()&&!!order.phone.trim()&&/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(order.email.trim())&&!!order.address.trim();}
 function missingFields(){var m=[];if(!order.name.trim())m.push('navn');if(!order.phone.trim())m.push('telefon');if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(order.email.trim()))m.push('gyldig e-post');if(!order.address.trim())m.push('adresse');return m;}
@@ -613,7 +613,7 @@ function submitOrder(){
   var price=curPrice();
   var utm={};try{utm=JSON.parse(localStorage.getItem('ns_utm')||'{}');}catch(e){}
   var product=order.count+'-dunk '+order.serie;
-  try{if(window.fbq)fbq('track','Lead',{content_name:product,value:price,currency:'NOK'});}catch(e){}
+  /* Meta Lead fyres i suksess-callbacken under, ikke her – ellers telles avbrutte skjemaer som konverteringer. */
   try{if(window.Roverk)Roverk.track('bestilling_send_klikk_skjul',{produkt:product,verdi:price});}catch(e){}
   var payload={site:'skjul',product:product,
     config:{count:order.count,serie:order.serie,kledning:order.kledning,montering:order.montering,forankring:order.forankring},
@@ -623,7 +623,7 @@ function submitOrder(){
   order.phase='sending';renderModal();
   fetch('/api/order',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)})
     .then(function(r){if(!r.ok)throw new Error('http '+r.status);return r.json();})
-    .then(function(res){try{if(window.RoverkMeta)RoverkMeta.purchase({value:price,orderId:(res&&res.id)||null,eventId:mctx.event_id});}catch(e){}try{if(window.Roverk)Roverk.track('bestilling_sendt_skjul',{produkt:product,verdi:price});}catch(e){}order.phase='done';renderModal();})
+    .then(function(res){try{if(window.RoverkMeta)RoverkMeta.lead({value:price,content_name:product,eventId:mctx.event_id,user:{name:order.name,email:order.email,phone:order.phone,zip:(order.addressMeta||{}).postnummer,city:(order.addressMeta||{}).poststed}});}catch(e){}try{if(window.Roverk)Roverk.track('bestilling_sendt_skjul',{produkt:product,verdi:price});}catch(e){}order.phase='done';renderModal();})
     .catch(function(err){if(window.console)console.error('ordre-feil',err);try{if(window.Roverk)Roverk.track('bestilling_feil_skjul',{produkt:product,verdi:price});}catch(e){}order.phase='error';renderModal();});
 }
 

@@ -3,7 +3,7 @@ import { handleOrder } from './_lib/order-service.js';
 import { insertOrder, updateNotify } from './_lib/db.js';
 import { sendOwnerEmail, sendCustomerEmail } from './_lib/email.js';
 import { postSlack } from './_lib/slack.js';
-import { sendCapiPurchase } from './_lib/meta-capi.js';
+import { sendCapiLead } from './_lib/meta-capi.js';
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -27,9 +27,10 @@ export default async function handler(req, res) {
       insertOrder, updateNotify, sendOwnerEmail, sendCustomerEmail, postSlack
     });
 
-    // Conversions API (server-side Purchase). Best effort: en feil her
-    // skal aldri velte selve ordren. Meta-felter leses fra rå-body fordi
-    // validateOrder stripper alt utenfor whitelisten.
+    // Conversions API (server-side Lead – hovedkonverteringen). Kunden betaler
+    // etter montering, så det finnes ingen Purchase å sende herfra.
+    // Best effort: en feil her skal aldri velte selve ordren. Meta-felter leses
+    // fra rå-body fordi validateOrder stripper alt utenfor whitelisten.
     const metaCtx = {
       event_id: str(body.event_id),
       fbp: str(body.fbp),
@@ -38,7 +39,7 @@ export default async function handler(req, res) {
       event_source_url: str(body.event_source_url)
     };
     try {
-      await sendCapiPurchase(v.data, metaCtx, req);
+      await sendCapiLead(v.data, metaCtx, req);
     } catch (capiErr) {
       console.error('CAPI-feil (ignorert):', capiErr);
     }

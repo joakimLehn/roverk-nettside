@@ -90,15 +90,9 @@ window.__init=false;
 addEventListener('DOMContentLoaded',function(){setTimeout(function(){if(!window.__init)document.querySelectorAll('[data-reveal]').forEach(function(e){e.classList.add('in')});},1200);});
 /* UTM-fangst (persisteres for annonseattribusjon) */
 try{var qs=new URLSearchParams(location.search),u={};['utm_source','utm_medium','utm_campaign','utm_content','utm_term','fbclid'].forEach(function(k){if(qs.get(k))u[k]=qs.get(k)});if(Object.keys(u).length)localStorage.setItem('ns_utm',JSON.stringify(u));}catch(e){}
-/* ===== Meta Pixel (PLASSHOLDER) =====
-   TODO: sett inn ekte Pixel-ID og fjern kommentaren under for å aktivere.
-   window.NS_PIXEL_ID = "DIN_PIXEL_ID";
-   !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-   if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
-   t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
-   fbq('init', window.NS_PIXEL_ID); fbq('track','PageView');
-*/
-window.fbq = window.fbq || function(){ (window.fbq.q=window.fbq.q||[]).push(arguments); };  // trygg stub til pixel aktiveres
+/* Meta Pixel lastes samtykkestyrt av /lib/meta.js – bruk RoverkMeta.*, ikke fbq direkte.
+   IKKE gjeninnfør en `window.fbq = window.fbq || …`-stub her: Metas snippet starter med
+   `if (f.fbq) return;`, så en stub hindrer fbevents.js fra å laste og dreper all sporing. */
 </script>
   <!-- Vercel Web Analytics (cookieless, ingen PII) -->
   <script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments);};</script>
@@ -509,7 +503,7 @@ function initNav(){var h=document.getElementById('site-header'),b=document.getEl
 /* ---------- ordremodal ---------- */
 var order={size:'medium',date:'',calMonth:null,name:'',phone:'',email:'',address:'',addressMeta:{verified:false},hp:'',phase:'form'};
 function sizeObj(id){return SIZES.filter(function(s){return s.id===id;})[0];}
-function openOrder(sizeId){order.size=sizeId||order.size;try{if(window.Roverk){var _s=sizeObj(order.size);Roverk.track('bestilling_start_ved',{produkt:'Vedskjul '+_s.navn});}}catch(e){}order.phase='form';document.body.style.overflow='hidden';renderModal();}
+function openOrder(sizeId){order.size=sizeId||order.size;try{if(window.Roverk){var _s=sizeObj(order.size);Roverk.track('bestilling_start_ved',{produkt:'Vedskjul '+_s.navn});}}catch(e){}try{if(window.RoverkMeta){var _m=sizeObj(order.size);RoverkMeta.initiateCheckout({value:_m.fra,content_name:'Vedskjul '+_m.navn});}}catch(e){}order.phase='form';document.body.style.overflow='hidden';renderModal();}
 function closeOrder(){document.body.style.overflow='';document.getElementById('modal-root').innerHTML='';}
 function canProceed(){return !!order.name.trim()&&!!order.phone.trim()&&/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(order.email.trim())&&!!order.address.trim();}
 function missingFields(){var m=[];if(!order.name.trim())m.push('navn');if(!order.phone.trim())m.push('telefon');if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(order.email.trim()))m.push('gyldig e-post');if(!order.address.trim())m.push('adresse');return m;}
@@ -624,7 +618,7 @@ function submitOrder(){
   var mctx=(window.RoverkMeta&&RoverkMeta.orderCtx)?RoverkMeta.orderCtx():{};
   var utm={};try{utm=JSON.parse(localStorage.getItem('ns_utm')||'{}');}catch(e){}
   var product='Vedskjul '+s.navn;
-  try{if(window.fbq)fbq('track','Lead',{content_name:product,value:s.fra,currency:'NOK'});}catch(e){}
+  /* Meta Lead fyres i suksess-callbacken under, ikke her – ellers telles avbrutte skjemaer som konverteringer. */
   try{if(window.Roverk)Roverk.track('bestilling_send_klikk_ved',{produkt:product,verdi:s.fra});}catch(e){}
   var payload={site:'ved',product:product,
     config:{size:order.size,navn:s.navn,liter:s.liter},
@@ -634,7 +628,7 @@ function submitOrder(){
   order.phase='sending';renderModal();
   fetch('/api/order',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)})
     .then(function(r){if(!r.ok)throw new Error('http '+r.status);return r.json();})
-    .then(function(res){try{if(window.RoverkMeta)RoverkMeta.purchase({value:s.fra,orderId:(res&&res.id)||null,eventId:mctx.event_id});}catch(e){}try{if(window.Roverk)Roverk.track('bestilling_sendt_ved',{produkt:product,verdi:s.fra});}catch(e){}order.phase='done';renderModal();})
+    .then(function(res){try{if(window.RoverkMeta)RoverkMeta.lead({value:s.fra,content_name:product,eventId:mctx.event_id,user:{name:order.name,email:order.email,phone:order.phone,zip:(order.addressMeta||{}).postnummer,city:(order.addressMeta||{}).poststed}});}catch(e){}try{if(window.Roverk)Roverk.track('bestilling_sendt_ved',{produkt:product,verdi:s.fra});}catch(e){}order.phase='done';renderModal();})
     .catch(function(err){if(window.console)console.error('ordre-feil',err);try{if(window.Roverk)Roverk.track('bestilling_feil_ved',{produkt:product,verdi:s.fra});}catch(e){}order.phase='error';renderModal();});
 }
 
