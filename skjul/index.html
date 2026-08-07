@@ -135,7 +135,7 @@ try{var qs=new URLSearchParams(location.search),u={};['utm_source','utm_medium',
       "name": "Kan jeg åpne dunklokket når dunken står inni skuret?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Ja. Skuret er bygget høyt nok (ca. 1,65 m) til at du åpner lokket helt opp med dunken stående – du trenger ikke å trekke den ut for å kaste søppel. Fronten er helt åpen med bare en lav terskel (2–3 cm) som hjulstopp, så dunkene ruller rett inn og ut når de skal tømmes."
+        "text": "Ja. Skuret er bygget høyt nok (1,93 m foran på Standard, 2,04 m på XL) til at du åpner lokket helt opp med dunken stående – du trenger ikke å trekke den ut for å kaste søppel. Fronten er helt åpen med bare en lav terskel (2–3 cm) som hjulstopp, så dunkene ruller rett inn og ut når de skal tømmes."
       }
     },
     {
@@ -380,14 +380,14 @@ try{var qs=new URLSearchParams(location.search),u={};['utm_source','utm_medium',
 var C={text:"#141310",muted:"#6E685E",amber:"#BE8A48",amberSoft:"#E9DBC1",green:"#17150F",line:"#E4DFD5",card:"#FBFAF7",bg:"#F4F2ED",dark:"#0E0D0B",wood:"#A9743B",woodd:"#C6975A",woodin:"#5a4327",bin:"#3a3a3a"};
 var NBMONTHS=['januar','februar','mars','april','mai','juni','juli','august','september','oktober','november','desember'];
 var WEEKDAY=['søndag','mandag','tirsdag','onsdag','torsdag','fredag','lørdag'];
-var DIMS={2:{Standard:[1600,850,1650],XL:[1700,1000,1750]},3:{Standard:[2350,850,1650],XL:[2500,1000,1750]},4:{Standard:[3100,850,1650],XL:[3300,1000,1750]}};
+var DIMS={2:{Standard:[1350,850,1930],XL:[1750,1000,2040]},3:{Standard:[2000,850,1930],XL:[2550,1000,2040]},4:{Standard:[2650,850,1930],XL:[3350,1000,2040]}};
 var GRUNN={2:{Standard:{ubeh:5390,royal:8050},XL:{ubeh:5820,royal:9130}},3:{Standard:{ubeh:7120,royal:10360},XL:{ubeh:7690,royal:11580}},4:{Standard:{ubeh:8920,royal:12590},XL:{ubeh:9640,royal:14030}}};
 var MONT={2:1290,3:1760,4:2110};
 /* Forankring prises ikke på nett – avhenger av underlag, plassering og valgt løsning.
    order.forankring er derfor en forespørsel, ikke en priset linje. */
 var FAQ=[
  {q:'Må jeg søke kommunen om å sette det opp?',a:'Nei, i de aller fleste tilfeller ikke. Skuret er frittstående, langt under 50 m² og lavt nok til å falle inn under «bygg uten å søke». Hold minst 1 meter til nabogrense og sjekk lokal reguleringsplan – vi hjelper deg gjerne med en rask vurdering.'},
- {q:'Kan jeg åpne dunklokket når dunken står inni skuret?',a:'Ja. Skuret er bygget høyt nok (ca. 1,65 m) til at du åpner lokket helt opp med dunken stående – du trenger ikke å trekke den ut for å kaste søppel. Fronten er helt åpen med bare en lav terskel (2–3 cm) som hjulstopp, så dunkene ruller rett inn og ut når de skal tømmes.'},
+ {q:'Kan jeg åpne dunklokket når dunken står inni skuret?',a:'Ja. Skuret er bygget høyt nok (1,93 m foran på Standard, 2,04 m på XL) til at du åpner lokket helt opp med dunken stående – du trenger ikke å trekke den ut for å kaste søppel. Fronten er helt åpen med bare en lav terskel (2–3 cm) som hjulstopp, så dunkene ruller rett inn og ut når de skal tømmes.'},
  {q:'Hva er forskjellen på impregnert treverk og «Royal»?',a:'«Royal» er royalimpregnert furu – trykkbehandlet med brun farge og voks helt inn i treverket. Den gir en mørk, moderne tone, tåler vær og vind godt og er så godt som vedlikeholdsfri (ingen beising). Impregnert treverk er trykkimpregnert kledning i naturlig lys tone som er rimeligere. Den er beskyttet mot råte og fukt, og du kan male eller beise den i ønsket farge når treverket har tørket ut.'},
  {q:'Er levering og montering inkludert i prisen?',a:'Levering i Trondheimsområdet er inkludert i alle priser. Montering hjemme hos deg er et tilvalg – velger du det, monterer vi ferdig, retter opp i vater og rydder etter oss. Uten montering får du ferdiglagde vegger, bunn og tak levert til enkel selvmontering. Forankring mot vind er ikke priset på nett, fordi prisen avhenger av underlag, plassering og hvilken forankring du velger – du kan forespørre pris i bestillingen, eller forankre selv.'},
  {q:'Hva koster forankring mot vind?',a:'Det gir vi deg pris på etter en kort vurdering. Du velger mellom to alternativer: ekspansjonsbolter, som bolter skuret rett ned i fast dekke som betong, asfalt eller belegningsstein, eller betongplate, der vi støper et fundament å feste skuret i – aktuelt når underlaget er jord, grus eller plen. Prisen avhenger av underlaget, hvor utsatt plasseringen er og hvilket av alternativene du velger. Kryss av for «Forespør pris på forankring» i bestillingen, så tar vi det med når vi ringer. Du kan også forankre skuret selv.'},
@@ -413,7 +413,7 @@ function prefersReduced(){return window.matchMedia&&window.matchMedia('(prefers-
 function cardShed(n){
   // front-elevation, open front, width scaled by count (visual size difference)
   var W=300,hh=210, maxW=250; var Wmm=DIMS[n].Standard[0];
-  var wpx=maxW*(Wmm/3100), hpx=150, cx=150, x0=cx-wpx/2, by=hh-30, top=by-hpx;
+  var wpx=maxW*(Wmm/DIMS[4].Standard[0]), hpx=150, cx=150, x0=cx-wpx/2, by=hh-30, top=by-hpx;
   var o='<svg viewBox="0 0 '+W+' '+hh+'" style="width:100%;max-width:210px;height:auto;display:block;margin:0 auto" xmlns="http://www.w3.org/2000/svg" font-family="Arial">';
   // roof
   o+='<rect x="'+(x0-6).toFixed(0)+'" y="'+(top-8).toFixed(0)+'" width="'+(wpx+12).toFixed(0)+'" height="8" fill="#2b2b2b"/>';
