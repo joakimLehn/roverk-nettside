@@ -335,7 +335,7 @@ try{var qs=new URLSearchParams(location.search),u={};['utm_source','utm_medium',
     <div data-reveal style="text-align:center;max-width:640px;margin:0 auto 40px">
       <div style="display:inline-flex;align-items:center;gap:8px;font-size:12.5px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--amber);margin-bottom:12px">Velg størrelse</div>
       <h2 style="font-size:clamp(26px,3.8vw,40px);font-weight:900;letter-spacing:-.02em;margin-bottom:10px">Plass til 2, 3 eller 4 dunker</h2>
-      <p style="color:var(--muted);font-size:17px;margin:0">Begge tallene står på hvert kort: pris levert til døra, og pris ferdig montert hjemme hos deg. Forankring kan du forespørre pris på. Du betaler først når det står ferdig.</p>
+      <p style="color:var(--muted);font-size:17px;margin:0">Prisen på kortet er levert til døra — montering legger du til i bestillingen. Forankring kan du forespørre pris på. Du betaler først når det står ferdig.</p>
     </div>
     <div id="size-grid" data-reveal-group style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;align-items:stretch"></div>
     <p data-reveal style="text-align:center;color:var(--muted);font-size:13.5px;margin:22px 0 0">Standard passer 140 L og 240 L dunker · XL tar opptil 370 L · velg kledning i bestillingen</p>
@@ -436,13 +436,9 @@ function ord(n){return Math.round(n*1.25/100)*100-10;}
 function spar(n){return ord(n)-n;}
 /* To priser side om side (levert / ferdig montert) – samme mønster som i heroen,
    slik at monteringen aldri først dukker opp som et prishopp inne i modalen. */
-function twoPrices(levert,montert){
-  return '<div style="display:flex;align-items:flex-end;gap:14px;flex-wrap:wrap">'+
-    '<div><div style="font-family:\'Archivo\';font-weight:900;font-size:24px;color:var(--amber);letter-spacing:-.02em">fra '+fmt(levert)+' kr</div>'+
-    '<div style="font-size:12px;color:var(--muted);margin-top:1px">levert</div></div>'+
-    '<div style="width:1px;height:38px;background:var(--line)"></div>'+
-    '<div><div style="font-family:\'Archivo\';font-weight:900;font-size:24px;color:var(--green);letter-spacing:-.02em">fra '+fmt(montert)+' kr</div>'+
-    '<div style="font-size:12px;color:var(--muted);margin-top:1px">ferdig montert</div></div></div>';
+function anchorPrice(n,prefix){var o=ord(n),s=spar(n);prefix=prefix||'fra ';
+  return '<div style="display:flex;align-items:baseline;gap:9px;flex-wrap:wrap"><span style="font-size:15px;color:var(--muted);text-decoration:line-through;text-decoration-color:var(--amber)">'+fmt(o)+' kr</span><span style="display:inline-block;background:var(--amberSoft);color:#5A3E15;font-size:12px;font-weight:800;padding:3px 9px;border-radius:999px">Spar '+fmt(s)+' kr</span></div>'+
+    '<div style="font-family:\'Archivo\';font-weight:900;font-size:26px;color:var(--green);letter-spacing:-.02em">'+prefix+fmt(n)+' kr</div>';
 }
 function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
 function prefersReduced(){return window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;}
@@ -499,11 +495,12 @@ function renderSizes(){
     html+='<div style="font-family:\'Archivo\';font-weight:900;font-size:24px;letter-spacing:-.02em">'+n+' dunker</div>';
     html+='<div style="font-size:14px;color:var(--muted)">Standard: '+d[0]+' × '+d[1]+' × '+d[2]+' mm</div>';
     html+='<div style="font-size:13px;color:var(--muted);margin-bottom:8px">Passer 140–240 L (XL opptil 370 L)</div>';
-    html+='<div style="margin-top:auto">'+twoPrices(fra,fra+MONT[n]);
-    /* Ingen gjennomstreket «ordinært»-tall her: ord(fra) for «levert» lander få kroner fra
-       den ekte «ferdig montert»-prisen (3-dunk: 11 890 vs 11 860), og leses da som at
-       monteringsprisen er førprisen. Rabatten står i badgen øverst på kortet i stedet. */
-    html+='<div style="font-size:12px;color:var(--muted);margin:8px 0 14px">Levering er inkludert i begge prisene. Montering kan du velge bort i bestillingen.</div>';
+    html+='<div style="margin-top:auto">'+anchorPrice(fra,'fra ');
+    /* Én pris på kortet: fra-pris levert. Montering nevnes i tekst, ikke som et andre stort
+       tall – to tall side om side ble uleselig her, og ord(fra) for «levert» lander dessuten
+       få kroner fra den ekte «ferdig montert»-prisen (3-dunk: 11 890 mot 11 860). Begge
+       tallene står i heroen. */
+    html+='<div style="font-size:12px;color:var(--muted);margin:2px 0 14px">ordinær pris etter lansering · prisen er levert til døra, montering legges til i bestillingen</div>';
     html+='<div style="text-align:center;font-size:12px;font-weight:600;color:var(--heroBg);background:var(--amberSoft);border-radius:8px;padding:7px 10px;margin-bottom:8px">🔒 Uforpliktende — ingen forskudd</div>';
     html+='<button class="hover-dim" data-count="'+n+'" style="width:100%;background:var(--green);color:#fff;border:none;border-radius:12px;padding:14px;font-size:15px;font-weight:700;cursor:pointer">Reserver '+n+'-dunk <span class="arw">→</span></button>';
     html+='<div style="text-align:center;font-size:12px;color:var(--muted);margin-top:8px">Du betaler først når alt står ferdig</div>';
