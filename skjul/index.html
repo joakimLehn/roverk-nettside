@@ -110,6 +110,7 @@ try{var qs=new URLSearchParams(location.search),u={};['utm_source','utm_medium',
           "lowPrice": "7190",
           "highPrice": "18710",
           "offerCount": "12",
+          "priceValidUntil": "2026-09-13",
           "availability": "https://schema.org/InStock",
           "areaServed": "Trondheimsområdet",
           "seller": { "@type": "Organization", "name": "Roverk", "@id": "https://www.roverk.no/#organization" }
@@ -264,7 +265,7 @@ try{var qs=new URLSearchParams(location.search),u={};['utm_source','utm_medium',
             <div style="font-size:13.5px;color:rgba(255,255,255,.6);margin-top:2px">ferdig montert hos deg</div>
           </div>
         </div>
-        <div style="font-size:13.5px;color:rgba(255,255,255,.66);margin-top:11px">Introduksjonspris — rundt 20 % under ordinær pris. Du betaler først når det står ferdig.</div>
+        <div style="font-size:13.5px;color:rgba(255,255,255,.66);margin-top:11px"><span data-intro-only>Introduksjonspris til <strong style="color:#fff;font-weight:700">13. september</strong> — rundt 20 % under ordinær pris. </span>Du betaler først når det står ferdig.</div>
       </div>
       <div class="hero-in d4" style="display:flex;gap:13px;flex-wrap:wrap;margin-bottom:22px">
         <a href="#storrelser" class="hover-dim" data-order style="background:var(--amber);color:var(--heroBg);padding:15px 26px;border-radius:999px;text-decoration:none;font-size:16px;font-weight:700">Se størrelser og priser <span class="arw">→</span></a>
@@ -377,8 +378,8 @@ try{var qs=new URLSearchParams(location.search),u={};['utm_source','utm_medium',
       <div style="border-top:2px solid var(--amber);padding-top:16px"><h3 style="font-size:17px;font-weight:800;margin-bottom:7px;font-family:'Archivo';color:#fff">Lokalt, fra Trondheim</h3><p style="color:rgba(255,255,255,.75);font-size:14.5px;margin:0">Håndbygd i norske materialer av en lokal aktør som stiller opp.</p></div>
       <div style="border-top:2px solid var(--amber);padding-top:16px"><h3 style="font-size:17px;font-weight:800;margin-bottom:7px;font-family:'Archivo';color:#fff">Uten risiko for deg</h3><p style="color:rgba(255,255,255,.75);font-size:14.5px;margin:0">Fast pris uten skjulte kostnader, og du betaler først når alt står ferdig.</p></div>
     </div>
-    <div data-reveal style="margin-top:34px;background:var(--amber);color:var(--heroBg);border-radius:18px;padding:22px 26px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap">
-      <div><div style="font-family:'Archivo';font-weight:900;font-size:22px;margin-bottom:5px;letter-spacing:-.01em">Bestill nå — spar 20% på introduksjonspris</div><div style="font-size:14.5px;opacity:.9;max-width:540px">Vi tar et begrenset antall oppdrag i oppstarten. Bestiller du nå, låser du en pris som er rundt 20% lavere enn den ordinære prisen etter lansering.</div></div>
+    <div id="introbanner" data-reveal style="margin-top:34px;background:var(--amber);color:var(--heroBg);border-radius:18px;padding:22px 26px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap">
+      <div><div style="font-family:'Archivo';font-weight:900;font-size:22px;margin-bottom:5px;letter-spacing:-.01em">Introduksjonsprisen gjelder til 13. september</div><div style="font-size:14.5px;opacity:.9;max-width:540px">Bestiller du innen 13. september, låser du en pris som er rundt 20 % lavere enn ordinær pris — og du betaler fortsatt først når skuret står ferdig.</div></div>
       <a href="#storrelser" class="hover-dim" data-order style="background:var(--heroBg);color:#fff;padding:14px 24px;border-radius:999px;text-decoration:none;font-size:15px;font-weight:700;white-space:nowrap">Sikre din plass <span class="arw">→</span></a>
     </div>
   </div>
@@ -440,12 +441,22 @@ var FAQ=[
  {q:'Hvor lenge varer det?',a:'Bygget i impregnert treverk med flatt, tett tak – laget for å stå ute i norske vintre i årevis. Impregneringen beskytter mot råte og fukt. Velg royalimpregnert for minst vedlikehold.'}
 ];
 
+/* Introduksjonsprisen har én sluttdato, definert her og bare her. Alt annet på siden
+   rendres fra disse to konstantene, så det ikke går an å oppdatere ett sted og glemme
+   de andre. Når datoen er passert slutter siden å påstå at prisen er en introduksjonspris
+   – prisene i GRUNN endres ikke av seg selv, det er en beslutning som må tas manuelt. */
+var INTRO_SLUTT='2026-09-13';
+var INTRO_DATO='13. september';
+function introAktiv(){
+  try{ return new Date() <= new Date(INTRO_SLUTT+'T23:59:59+02:00'); }catch(e){ return true; }
+}
 function fmt(n){return n.toLocaleString('nb-NO');}
 function ord(n){return Math.round(n*1.25/100)*100-10;}
 function spar(n){return ord(n)-n;}
 /* To priser side om side (levert / ferdig montert) – samme mønster som i heroen,
    slik at monteringen aldri først dukker opp som et prishopp inne i modalen. */
 function anchorPrice(n,prefix){var o=ord(n),s=spar(n);prefix=prefix||'fra ';
+  if(!introAktiv()) return '<div style="font-family:\'Archivo\';font-weight:900;font-size:26px;color:var(--green);letter-spacing:-.02em">'+prefix+fmt(n)+' kr</div>';
   return '<div style="display:flex;align-items:baseline;gap:9px;flex-wrap:wrap"><span style="font-size:15px;color:var(--muted);text-decoration:line-through;text-decoration-color:var(--amber)">'+fmt(o)+' kr</span><span style="display:inline-block;background:var(--amberSoft);color:#5A3E15;font-size:12px;font-weight:800;padding:3px 9px;border-radius:999px">Spar '+fmt(s)+' kr</span></div>'+
     '<div style="font-family:\'Archivo\';font-weight:900;font-size:26px;color:var(--green);letter-spacing:-.02em">'+prefix+fmt(n)+' kr</div>';
 }
@@ -497,7 +508,7 @@ function renderSizes(){
   [2,3,4].forEach(function(n){
     var pop=n===4; var d=DIMS[n].Standard; var fra=GRUNN[n].Standard.ubeh;
     html+='<div class="card-lift" style="position:relative;background:var(--bg);border:'+(pop?'2px solid var(--green)':'1px solid var(--line)')+';border-radius:20px;overflow:hidden;display:flex;flex-direction:column">';
-    html+='<div style="background:var(--amber);color:#3B2A12;font-size:11px;font-weight:800;letter-spacing:.07em;padding:7px 14px;text-transform:uppercase;text-align:center">Introduksjonspris · spar 20%</div>';
+    if(introAktiv()) html+='<div style="background:var(--amber);color:#3B2A12;font-size:11px;font-weight:800;letter-spacing:.07em;padding:7px 14px;text-transform:uppercase;text-align:center">Introduksjonspris til '+INTRO_DATO+'</div>';
     if(pop) html+='<div style="position:absolute;top:44px;right:14px;background:var(--green);color:#fff;font-size:11.5px;font-weight:700;padding:5px 11px;border-radius:999px;letter-spacing:.03em">MEST POPULÆR</div>';
     html+='<div style="background:var(--card);border-bottom:1px solid var(--line);padding:14px 18px 8px;display:flex;align-items:center;justify-content:center">'+cardShed(n)+'</div>';
     html+='<div style="padding:20px 22px 22px;display:flex;flex-direction:column;gap:4px;flex:1">';
@@ -509,7 +520,7 @@ function renderSizes(){
        tall – to tall side om side ble uleselig her, og ord(fra) for «levert» lander dessuten
        få kroner fra den ekte «ferdig montert»-prisen (3-dunk: 11 890 mot 11 860). Begge
        tallene står i heroen. */
-    html+='<div style="font-size:12px;color:var(--muted);margin:2px 0 14px">ordinær pris etter lansering · prisen er levert til døra, montering legges til i bestillingen</div>';
+    html+='<div style="font-size:12px;color:var(--muted);margin:2px 0 14px">'+(introAktiv()?'ordinær pris fra 14. september · ':'')+'prisen er levert til døra, montering legges til i bestillingen</div>';
     html+='<div style="text-align:center;font-size:12px;font-weight:600;color:var(--heroBg);background:var(--amberSoft);border-radius:8px;padding:7px 10px;margin-bottom:8px">🔒 Uforpliktende — ingen forskudd</div>';
     html+='<button class="hover-dim" data-count="'+n+'" style="width:100%;background:var(--green);color:#fff;border:none;border-radius:12px;padding:14px;font-size:15px;font-weight:700;cursor:pointer">Reserver '+n+'-dunk <span class="arw">→</span></button>';
     html+='<div style="text-align:center;font-size:12px;color:var(--muted);margin-top:8px">Du betaler først når alt står ferdig</div>';
@@ -524,6 +535,13 @@ function renderFAQ(){
     html+='<div class="faq-item'+(open?' open':'')+'" data-faq="'+i+'" style="background:var(--bg);border:1px solid var(--line);border-radius:14px;overflow:hidden"><button class="faq-q" style="width:100%;text-align:left;cursor:pointer;background:transparent;border:none;padding:17px 20px;display:flex;align-items:center;justify-content:space-between;gap:16px;font-size:16px;font-weight:700;color:var(--text)"><span>'+esc(f.q)+'</span><span class="faq-icon">+</span></button><div class="faq-a"><div style="padding:0 20px 18px;color:var(--muted);font-size:15px">'+esc(f.a)+'</div></div></div>';});
   list.innerHTML=html;
   list.querySelectorAll('.faq-item').forEach(function(it){it.querySelector('.faq-q').addEventListener('click',function(){var o=it.classList.contains('open');list.querySelectorAll('.faq-item').forEach(function(x){x.classList.remove('open');});if(!o)it.classList.add('open');});});
+}
+function applyIntro(){
+  if(introAktiv()) return;
+  /* Fristen er passert: fjern påstandene om introduksjonspris. Prisene står,
+     men vi slutter å kalle dem et tilbud. */
+  document.querySelectorAll('[data-intro-only]').forEach(function(el){el.remove();});
+  var b=document.getElementById('introbanner'); if(b)b.style.display='none';
 }
 function initReveal(){
   if(prefersReduced()||!('IntersectionObserver' in window)){document.querySelectorAll('[data-reveal-group]').forEach(function(g){Array.prototype.forEach.call(g.children,function(c){c.classList.add('in');});});document.querySelectorAll('[data-reveal]').forEach(function(e){e.classList.add('in');});return;}
@@ -559,7 +577,7 @@ function renderModal(animate){
   var _inContact=(order.phase==='c1'||order.phase==='c2');
   var steps=[['1','Skur'],['2','Kontakt'],['3','Bekreft']];var reached={1:true,2:(_inContact||order.phase==='confirm'||order.phase==='done'),3:(order.phase==='confirm'||order.phase==='done')};
   var stepsHtml=steps.map(function(st,i){var on=reached[i+1];return '<div style="display:flex;align-items:center;gap:8px;flex:1;min-width:0"><span style="width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;font-family:\'Archivo\';flex:none;background:'+(on?C.green:'transparent')+';color:'+(on?'#fff':C.muted)+';border:'+(on?'none':'1.5px solid '+C.line)+'">'+st[0]+'</span><span style="font-size:12.5px;font-weight:600;color:'+(on?C.text:C.muted)+'">'+st[1]+'</span></div>';}).join('');
-  var summary='<div style="padding:14px 26px;background:'+C.card+';border-bottom:1px solid '+C.line+';display:flex;justify-content:space-between;align-items:center;gap:14px"><div><div style="font-family:\'Archivo\';font-weight:900;font-size:20px">'+order.count+'-dunk '+order.serie+'</div><div style="font-size:12.5px;color:'+C.muted+'">'+d[0]+'×'+d[1]+'×'+d[2]+' mm · '+(order.kledning==='royal'?'royalimpregnert':'impregnert treverk')+' · '+(order.montering?'m/montering':'hentes/selvmont.')+'</div></div><div style="text-align:right"><div style="font-size:11.5px;color:'+C.muted+';text-decoration:line-through;text-decoration-color:'+C.amber+'">'+fmt(ord(price))+' kr</div><div style="font-family:\'Archivo\';font-weight:800;font-size:19px;color:'+C.green+'">'+fmt(price)+' kr</div><div style="display:inline-block;background:'+C.amberSoft+';color:#5A3E15;font-size:10.5px;font-weight:800;padding:2px 8px;border-radius:999px;margin-top:3px">Spar '+fmt(spar(price))+' kr</div></div></div>';
+  var summary='<div style="padding:14px 26px;background:'+C.card+';border-bottom:1px solid '+C.line+';display:flex;justify-content:space-between;align-items:center;gap:14px"><div><div style="font-family:\'Archivo\';font-weight:900;font-size:20px">'+order.count+'-dunk '+order.serie+'</div><div style="font-size:12.5px;color:'+C.muted+'">'+d[0]+'×'+d[1]+'×'+d[2]+' mm · '+(order.kledning==='royal'?'royalimpregnert':'impregnert treverk')+' · '+(order.montering?'m/montering':'hentes/selvmont.')+'</div></div><div style="text-align:right">'+(introAktiv()?'<div style="font-size:11.5px;color:'+C.muted+';text-decoration:line-through;text-decoration-color:'+C.amber+'">'+fmt(ord(price))+' kr</div>':'')+'<div style="font-family:\'Archivo\';font-weight:800;font-size:19px;color:'+C.green+'">'+fmt(price)+' kr</div>'+(introAktiv()?'<div style="display:inline-block;background:'+C.amberSoft+';color:#5A3E15;font-size:10.5px;font-weight:800;padding:2px 8px;border-radius:999px;margin-top:3px">Spar '+fmt(spar(price))+' kr</div>':'')+'</div></div>';
   var body=order.phase==='confirm'?confirmHtml():order.phase==='done'?doneHtml():order.phase==='sending'?sendingHtml():order.phase==='error'?errorHtml():order.phase==='c1'?contact1Html():order.phase==='c2'?contact2Html():formHtml();
   root.innerHTML='<div id="mback" style="position:fixed;inset:0;z-index:100;background:rgba(20,16,12,.55);display:flex;align-items:center;justify-content:center;padding:18px'+bgA+'"><div style="background:'+C.bg+';border-radius:22px;width:100%;max-width:540px;max-height:92vh;overflow:auto;box-shadow:0 30px 80px rgba(0,0,0,.4)'+cardA+'"><div style="padding:20px 26px;border-bottom:1px solid '+C.line+';display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:'+C.bg+';z-index:2"><span style="font-family:\'Archivo\';font-weight:800;font-size:18px">Reserver søppelkasseskur</span><button data-act="close" style="background:transparent;border:none;font-size:26px;cursor:pointer;color:'+C.muted+';line-height:1">×</button></div><div style="padding:18px 26px;display:flex;align-items:center;gap:8px;border-bottom:1px solid '+C.line+'">'+stepsHtml+'</div>'+summary+body+'</div></div>';
   var _nc=root.querySelector('#mback>div');if(_nc&&_ps)_nc.scrollTop=_ps;
@@ -619,7 +637,7 @@ function contact2Html(){
 function confirmHtml(){var d=curDims();var lbl=selDateLabel();
   function row(k,v){return'<div style="display:flex;justify-content:space-between;gap:16px;font-size:14px"><span style="color:'+C.muted+'">'+k+'</span><span style="text-align:right">'+v+'</span></div>';}
   return '<div style="padding:22px 26px"><h3 style="font-size:18px;font-weight:800;margin-bottom:4px;font-family:\'Archivo\'">Bekreft bestillingen</h3><p style="font-size:13.5px;color:'+C.muted+';margin:0 0 16px">Se over at alt stemmer. Vi ringer deg for å bekrefte detaljer og avtale tidspunkt — helt uforpliktende.</p>'+
-    '<div style="background:'+C.card+';border:1px solid '+C.line+';border-radius:14px;padding:16px;margin-bottom:16px;display:flex;flex-direction:column;gap:9px">'+row('Modell',order.count+'-dunk '+order.serie)+row('Kledning',order.kledning==='royal'?'Royalimpregnert':'Impregnert treverk')+row('Mål',d[0]+'×'+d[1]+'×'+d[2]+' mm')+row('Grunnpris (levert)',fmt(curBase())+' kr')+row('Montering',order.montering?('+ '+fmt(curMont())+' kr'):'Nei – selvmontering')+row('Forankring',order.forankring?'Ønsker pris – kommer i tilbud':'Nei – jeg ordner selv')+(lbl?row(order.montering?'Ønsket montering':'Ønsket levering',lbl):'')+'<div style="display:flex;justify-content:space-between;align-items:center;font-size:13px;color:'+C.muted+';border-top:1px solid '+C.line+';padding-top:10px"><span>Ordinær pris etter lansering</span><span style="text-decoration:line-through;text-decoration-color:'+C.amber+'">'+fmt(ord(curPrice()))+' kr</span></div><div style="display:flex;justify-content:space-between;align-items:center;font-size:16px;font-weight:800;margin-top:6px"><span>Din introduksjonspris</span><span style="color:'+C.green+'">'+fmt(curPrice())+' kr</span></div><div style="text-align:right;margin-top:5px"><span style="display:inline-block;background:'+C.amberSoft+';color:#5A3E15;font-size:11.5px;font-weight:800;padding:3px 9px;border-radius:999px">Du sparer '+fmt(spar(curPrice()))+' kr</span></div></div>'+
+    '<div style="background:'+C.card+';border:1px solid '+C.line+';border-radius:14px;padding:16px;margin-bottom:16px;display:flex;flex-direction:column;gap:9px">'+row('Modell',order.count+'-dunk '+order.serie)+row('Kledning',order.kledning==='royal'?'Royalimpregnert':'Impregnert treverk')+row('Mål',d[0]+'×'+d[1]+'×'+d[2]+' mm')+row('Grunnpris (levert)',fmt(curBase())+' kr')+row('Montering',order.montering?('+ '+fmt(curMont())+' kr'):'Nei – selvmontering')+row('Forankring',order.forankring?'Ønsker pris – kommer i tilbud':'Nei – jeg ordner selv')+(lbl?row(order.montering?'Ønsket montering':'Ønsket levering',lbl):'')+''+(introAktiv()?'<div style="display:flex;justify-content:space-between;align-items:center;font-size:13px;color:'+C.muted+';border-top:1px solid '+C.line+';padding-top:10px"><span>Ordinær pris fra 14. september</span><span style="text-decoration:line-through;text-decoration-color:'+C.amber+'">'+fmt(ord(curPrice()))+' kr</span></div>':'')+'<div style="display:flex;justify-content:space-between;align-items:center;font-size:16px;font-weight:800;margin-top:6px"><span>'+(introAktiv()?'Din introduksjonspris':'Totalpris')+'</span><span style="color:'+C.green+'">'+fmt(curPrice())+' kr</span></div><div style="text-align:right;margin-top:5px"><span style="display:inline-block;background:'+C.amberSoft+';color:#5A3E15;font-size:11.5px;font-weight:800;padding:3px 9px;border-radius:999px">Du sparer '+fmt(spar(curPrice()))+' kr</span></div></div>'+
     '<div style="display:flex;gap:11px;background:var(--amberSoft);border-radius:12px;padding:14px 16px;margin-bottom:18px"><span style="font-size:18px">🔒</span><div style="font-size:13.5px;color:'+C.dark+'"><strong>Helt uforpliktende.</strong> Vi ringer og bekrefter alt med deg før vi setter i gang — ingen forskudd. Fast pris, levering inkludert; du betaler først når skuret er levert'+(order.montering?' og ferdig montert':'')+'.'+(order.forankring?' Pris på forankring avtaler vi før vi setter i gang – den kommer i tillegg til summen over.':'')+'</div></div>'+
     '<button data-act="confirm" class="hover-dim" style="width:100%;background:'+C.green+';color:#fff;border:none;border-radius:12px;padding:15px;font-size:16px;font-weight:700;cursor:pointer">Send bestilling</button>'+
     '<button data-act="back" style="width:100%;background:transparent;color:'+C.muted+';border:none;padding:12px;font-size:14px;font-weight:600;cursor:pointer;margin-top:4px">‹ Tilbake</button></div>';
@@ -683,7 +701,7 @@ function submitOrder(){
     .catch(function(err){if(window.console)console.error('ordre-feil',err);try{if(window.Roverk)Roverk.track('bestilling_feil_skjul',{produkt:product,verdi:price});}catch(e){}order.phase='error';renderModal();});
 }
 
-try{renderSizes();renderFAQ();initReveal();initHeader();initNav();document.addEventListener('keydown',function(e){if(e.key==='Escape'&&document.getElementById('mback'))closeOrder();});window.__init=true;}catch(err){document.querySelectorAll('[data-reveal]').forEach(function(e){e.classList.add('in');});if(window.console)console.error('init-feil',err);}
+try{renderSizes();renderFAQ();applyIntro();initReveal();initHeader();initNav();document.addEventListener('keydown',function(e){if(e.key==='Escape'&&document.getElementById('mback'))closeOrder();});window.__init=true;}catch(err){document.querySelectorAll('[data-reveal]').forEach(function(e){e.classList.add('in');});if(window.console)console.error('init-feil',err);}
 </script>
 </body>
 </html>
