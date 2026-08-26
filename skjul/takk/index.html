@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="nb">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Takk for bestillingen | Roverk Skjul</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#0E0D0B">
+<link rel="icon" type="image/png" href="/skjul/assets/roverk-favicon.png">
+<link rel="preload" href="/assets/fonts/archivo.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/hanken-grotesk.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+@font-face{font-family:'Archivo';font-style:normal;font-weight:600 900;font-display:swap;src:url('/assets/fonts/archivo.woff2') format('woff2')}
+@font-face{font-family:'Hanken Grotesk';font-style:normal;font-weight:400 700;font-display:swap;src:url('/assets/fonts/hanken-grotesk.woff2') format('woff2')}
+:root{--bg:#F4F2ED;--card:#FBFAF7;--text:#141310;--muted:#6E685E;--amber:#BE8A48;--amberSoft:#E9DBC1;--green:#17150F;--line:#E4DFD5;--heroBg:#0E0D0B}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:'Hanken Grotesk',system-ui,sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:'Archivo',system-ui,sans-serif;margin:0;line-height:1.06}
+a{color:var(--amber);text-decoration:none}a:hover{color:#8F6531}
+@keyframes drawRing{to{stroke-dashoffset:0}}
+@keyframes drawCheck{to{stroke-dashoffset:0}}
+@keyframes rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.rise{animation:rise .6s cubic-bezier(.2,.7,.2,1) both}
+.d1{animation-delay:.1s}.d2{animation-delay:.2s}.d3{animation-delay:.3s}
+</style>
+</head>
+<body>
+
+<header style="background:var(--bg);border-bottom:1px solid var(--line)">
+  <div style="max-width:820px;margin:0 auto;padding:14px 22px;display:flex;align-items:center;justify-content:space-between;gap:20px">
+    <a href="/skjul" style="display:flex;align-items:center;gap:11px;text-decoration:none">
+      <img src="/skjul/assets/roverk-wordmark-sort.png" alt="Roverk Skjul" style="height:26px;width:auto;display:block">
+    </a>
+    <a href="tel:+4790186693" style="font-size:14.5px;font-weight:600;color:var(--text)">901 86 693</a>
+  </div>
+</header>
+
+<main style="max-width:820px;margin:0 auto;padding:52px 22px 70px">
+
+  <div style="text-align:center;margin-bottom:38px">
+    <svg width="62" height="62" viewBox="0 0 52 52" style="margin:0 auto 18px;display:block" aria-hidden="true">
+      <circle cx="26" cy="26" r="24" fill="none" stroke="#17150F" stroke-width="3" stroke-dasharray="151" stroke-dashoffset="151" style="animation:drawRing .5s ease forwards"/>
+      <path d="M16 27 l7 7 l14 -16" fill="none" stroke="#17150F" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="40" stroke-dashoffset="40" style="animation:drawCheck .4s ease .45s forwards"/>
+    </svg>
+    <h1 class="rise d1" style="font-size:clamp(30px,5vw,44px);font-weight:900;letter-spacing:-.025em;margin-bottom:12px" id="tittel">Bestillingen er registrert</h1>
+    <p class="rise d2" style="font-size:17.5px;color:var(--muted);margin:0 auto;max-width:520px" id="ingress">
+      Takk! Vi har mottatt bestillingen din, og sender en bekreftelse på e-post nå.
+    </p>
+  </div>
+
+  <div class="rise d2" id="ordrekort" style="display:none;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px 24px;margin-bottom:34px">
+    <div style="font-size:12px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--amber);margin-bottom:10px">Din bestilling</div>
+    <div style="display:flex;justify-content:space-between;align-items:baseline;gap:18px;flex-wrap:wrap">
+      <div style="font-family:'Archivo';font-weight:900;font-size:22px" id="modell"></div>
+      <div style="font-family:'Archivo';font-weight:800;font-size:20px;color:var(--green)" id="pris"></div>
+    </div>
+  </div>
+
+  <div class="rise d3" style="background:var(--card);border:1px solid var(--line);border-radius:18px;padding:28px 28px 24px;margin-bottom:30px">
+    <h2 style="font-size:21px;font-weight:900;letter-spacing:-.015em;margin-bottom:22px">Slik går vi fram nå</h2>
+
+    <div style="display:flex;gap:16px;margin-bottom:20px">
+      <span style="flex:none;width:30px;height:30px;border-radius:50%;background:var(--green);color:#fff;display:flex;align-items:center;justify-content:center;font-family:'Archivo';font-weight:800;font-size:14px">1</span>
+      <div><div style="font-family:'Archivo';font-weight:800;font-size:16.5px;margin-bottom:3px">Bekreftelse på e-post</div>
+      <p style="margin:0;color:var(--muted);font-size:15px">Den kommer nå. Finner du den ikke, sjekk søppelpost — og si fra til oss.</p></div>
+    </div>
+
+    <div style="display:flex;gap:16px;margin-bottom:20px">
+      <span style="flex:none;width:30px;height:30px;border-radius:50%;background:var(--green);color:#fff;display:flex;align-items:center;justify-content:center;font-family:'Archivo';font-weight:800;font-size:14px">2</span>
+      <div><div style="font-family:'Archivo';font-weight:800;font-size:16.5px;margin-bottom:3px">Vi bygger skuret ferdig</div>
+      <p style="margin:0;color:var(--muted);font-size:15px">Håndbygd på verkstedet vårt i ekte tre, klart til rask montering.</p></div>
+    </div>
+
+    <div style="display:flex;gap:16px;margin-bottom:20px">
+      <span style="flex:none;width:30px;height:30px;border-radius:50%;background:var(--amber);color:#3B2A12;display:flex;align-items:center;justify-content:center;font-family:'Archivo';font-weight:800;font-size:14px">3</span>
+      <div><div style="font-family:'Archivo';font-weight:800;font-size:16.5px;margin-bottom:3px">Vi tar kontakt ca. én uke før levering</div>
+      <p style="margin:0;color:var(--muted);font-size:15px">Da bekrefter vi tidspunkt med deg, og går gjennom hvor skuret skal stå. Passer det dårlig, finner vi en annen dag.</p></div>
+    </div>
+
+    <div style="display:flex;gap:16px">
+      <span style="flex:none;width:30px;height:30px;border-radius:50%;background:var(--green);color:#fff;display:flex;align-items:center;justify-content:center;font-family:'Archivo';font-weight:800;font-size:14px">4</span>
+      <div><div style="font-family:'Archivo';font-weight:800;font-size:16.5px;margin-bottom:3px">Vi leverer, monterer og rydder</div>
+      <p style="margin:0;color:var(--muted);font-size:15px">Du betaler først når skuret står ferdig. Fast pris, ingen forskudd.</p></div>
+    </div>
+  </div>
+
+  <div class="rise d3" style="background:var(--heroBg);color:#fff;border-radius:18px;padding:24px 28px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap">
+    <div>
+      <div style="font-family:'Archivo';font-weight:800;font-size:18px;margin-bottom:4px">Lurer du på noe i mellomtiden?</div>
+      <div style="font-size:15px;color:rgba(255,255,255,.7)">Ring eller send en e-post — du snakker med den som bygger skuret.</div>
+    </div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap">
+      <a href="tel:+4790186693" style="background:var(--amber);color:var(--heroBg);padding:12px 22px;border-radius:999px;font-weight:700;font-size:15px">901 86 693</a>
+      <a href="mailto:ordre@roverk.no" style="border:1.5px solid rgba(255,255,255,.3);color:#fff;padding:12px 22px;border-radius:999px;font-weight:600;font-size:15px">ordre@roverk.no</a>
+    </div>
+  </div>
+
+  <p style="text-align:center;margin:30px 0 0;font-size:14.5px;color:var(--muted)">
+    Skal du ha vedskjul også? Vi kan ta det i samme leveringstur — <a href="/ved">se Roverk Ved</a>.
+  </p>
+
+</main>
+
+<footer style="border-top:1px solid var(--line);margin-top:20px">
+  <div style="max-width:820px;margin:0 auto;padding:22px;text-align:center;color:var(--muted);font-size:13px">
+    © 2026 Roverk AS · Org.nr 938 247 811 · <a href="/personvern">Personvern</a>
+  </div>
+</footer>
+
+<script>
+/* Ordredetaljene bæres over fra bestillingsmodalen via sessionStorage.
+   Siden fungerer også uten dem – da vises bare den generelle teksten. */
+(function(){
+  var d=null;
+  try{ d=JSON.parse(sessionStorage.getItem('roverk_takk')||'null'); }catch(e){}
+  if(!d) return;
+  if(d.navn){
+    var fornavn=String(d.navn).trim().split(/\s+/)[0];
+    if(fornavn) document.getElementById('tittel').textContent='Takk, '+fornavn+'!';
+  }
+  if(d.produkt){
+    document.getElementById('modell').textContent=d.produkt;
+    document.getElementById('pris').textContent=(typeof d.pris==='number')
+      ? d.pris.toLocaleString('nb-NO')+' kr' : '';
+    document.getElementById('ordrekort').style.display='block';
+  }
+  try{ sessionStorage.removeItem('roverk_takk'); }catch(e){}
+})();
+</script>
+
+</body>
+</html>
