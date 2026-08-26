@@ -131,17 +131,15 @@ a{color:var(--amber);text-decoration:none}a:hover{color:#8F6531}
      basistaggen over. Setter du KONV_ETIKETT til etiketten fra
      Google Ads → Mål → Konverteringer, sendes også ordreverdi og -id,
      som gir riktigere budgivning enn en ren sidevisning. */
-  var KONV_ETIKETT = '';   // f.eks. 'AbC-D_efG-h12_34-567'
-  if (KONV_ETIKETT) {
-    /* Fyres uavhengig av samtykke – Consent Mode avgjør hva som følger med.
-       google.js lastes med defer, så vent til den finnes. */
-    var fyr = function(){
-      if (window.RoverkGoogle) window.RoverkGoogle.conversion(
-        { label: KONV_ETIKETT, value: d.pris, id: d.ordreId });
-    };
-    if (window.RoverkGoogle) fyr();
-    else window.addEventListener('DOMContentLoaded', fyr, { once: true });
-  }
+  /* Google Ads-konvertering: hendelsen `sign_up`, som konverteringshandlingen
+     i kontoen lytter etter. Fyres uavhengig av samtykke – Consent Mode
+     avgjør hva som følger med. google.js lastes med defer, så vent til den
+     finnes. Kjører kun når ordredata finnes, så en refresh ikke dobbelteller. */
+  var fyr = function(){
+    if (window.RoverkGoogle) window.RoverkGoogle.conversion({ value: d.pris });
+  };
+  if (window.RoverkGoogle) fyr();
+  else window.addEventListener('DOMContentLoaded', fyr, { once: true });
   try{ sessionStorage.removeItem('roverk_takk'); }catch(e){}
 })();
 </script>
