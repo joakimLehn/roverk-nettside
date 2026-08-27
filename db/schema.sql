@@ -44,3 +44,13 @@ create table if not exists leads (
 
 create index if not exists leads_created_at_idx on leads (created_at desc);
 create index if not exists leads_site_idx on leads (site);
+
+-- «Ring meg opp»-leads (kind = 'callback'): navn og telefon i stedet for e-post.
+-- Kjør disse FØR ring-meg-opp-modulen går i prod, ellers feiler lagringen og
+-- leadet overlever bare i Slack.
+alter table leads add column if not exists name          text;
+alter table leads add column if not exists phone         text;
+alter table leads add column if not exists callback_time text;
+alter table leads alter column email drop not null;
+
+create index if not exists leads_kind_idx on leads (kind);

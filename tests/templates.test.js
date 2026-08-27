@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { ownerEmail, customerEmail, slackMessage } from '../api/_lib/templates.js';
+import { ownerEmail, customerEmail, slackMessage, leadSlackMessage, leadEmail } from '../api/_lib/templates.js';
 
 const order = {
   site: 'skjul', product: '3-dunk Standard', preferred_date: '2026-08-15',
@@ -71,4 +71,57 @@ test('slackMessage viser postnr/poststed og uverifisert-markør', () => {
   assert.doesNotMatch(okMsg.text, /uverifisert/i);
   const unv = slackMessage({ ...order, address_meta: { verified: false } }, { email_owner: 'ok', email_customer: 'ok' });
   assert.match(unv.text, /uverifisert/i);
+});
+
+test('slack: callback setter navn og nummer først', () => {
+  const m = leadSlackMessage({ site: 'skjul', kind: 'callback', name: 'Kristin Berg', phone: '90186693', callback_time: 'kveld', product: '3-dunk Standard', email: null });
+  assert.match(m.text, /Ring meg opp/);
+  assert.match(m.text, /\*Kristin Berg\* · \*90186693\*/);
+  assert.match(m.text, /etter kl\. 16/);
+  assert.doesNotMatch(m.text, /E-post/);
+});
+
+test('slack: callback uten tidspunkt faller tilbake til «når som helst»', () => {
+  const m = leadSlackMessage({ site: 'skjul', kind: 'callback', name: 'Ola', phone: '99887766', callback_time: null, product: null, email: 'ola@example.com' });
+  assert.match(m.text, /når som helst/);
+  assert.match(m.text, /ola@example\.com/);
+});
+
+test('slack: config_share-lead er uendret', () => {
+  const m = leadSlackMessage({ site: 'orden', kind: 'config_share', email: 'k@x.no', product: 'Orden 60L', price_nok: 8390, config: {}, consent: true });
+  assert.match(m.text, /Ny lead \(delt konfig\)/);
+  assert.match(m.text, /k@x\.no/);
+});
+
+// ---------- prisoversikt på e-post (/skjul) ----------
+const oversikt = { site: 'skjul', kind: 'config_share', email: 'k@x.no', product: 'Roverk Skjul', price_nok: null, share_url: null, consent: true, config: { intro_aktiv: true, intro_til: '13. september', storrelser: [ { dunker: 2, mal: '1350×850×1930 mm', mal_xl: '1750×1000×2040 mm', levert: 7190, montert: 8920 }, { dunker: 4, mal: '2650×850×1930 mm', mal_xl: '3350×1000×2040 mm', levert: 11910, montert: 14720 } ] } };
+
+test('leadEmail: skjul-oversikt erstatter konfig-lenkemalen', () => {
+  const m = leadEmail(oversikt);
+  assert.match(m.subject, /Mål og priser/);
+  assert.match(m.html, /2 dunker/);
+  assert.match(m.html, /1350×850×1930 mm/);
+  assert.match(m.html, /13\. september/);
+  assert.doesNotMatch(m.html, /racket du satte sammen/);
+});
+
+test('leadEmail: uten storrelser brukes fortsatt konfig-lenkemalen', () => {
+  const m = leadEmail({ site: 'orden', email: 'k@x.no', product: 'Orden 60L', price_nok: 8390, share_url: 'https://www.roverk.no/orden?k=1', config: {} });
+  assert.match(m.html, /racket du satte sammen/);
+});
+
+test('leadEmail: tullete pris i oversikten blir en strek, ikke NaN', () => {
+  const m = leadEmail({ ...oversikt, config: { ...oversikt.config, storrelser: [{ dunker: 2, mal: 'x', mal_xl: 'y', levert: 'gratis', montert: -5 }] } });
+  assert.doesNotMatch(m.html, /NaN/);
+  assert.match(m.html, /—/);
+});
+
+test('leadEmail: oversikten escaper felt fra klienten', () => {
+  const m = leadEmail({ ...oversikt, config: { ...oversikt.config, storrelser: [{ dunker: '<script>x</script>', mal: 'a', mal_xl: 'b', levert: 1, montert: 2 }] } });
+  assert.doesNotMatch(m.html, /<script>x<\/script>/);
+});
+
+test('leadEmail: utløpt intropris viser ingen frist', () => {
+  const m = leadEmail({ ...oversikt, config: { ...oversikt.config, intro_aktiv: false } });
+  assert.doesNotMatch(m.html, /13\. september/);
 });

@@ -111,3 +111,52 @@ test('lead: consent tvinges til boolean, mangler blir false', () => {
   assert.equal(validateLead({ site: 'orden', email: 'k@x.no', hp: '' }).data.consent, false);
   assert.equal(validateLead({ site: 'orden', email: 'k@x.no', consent: 'ja', hp: '' }).data.consent, false);
 });
+
+// ---------- validateLead: kind === 'callback' ----------
+const validCallback = { site: 'skjul', kind: 'callback', name: 'Kristin Berg', phone: '901 86 693', callback_time: 'dag', product: '3-dunk Standard', utm: { utm_source: 'google' }, hp: '' };
+
+test('callback: godtar navn + telefon uten e-post', () => {
+  const r = validateLead(validCallback);
+  assert.equal(r.ok, true);
+  assert.equal(r.data.kind, 'callback');
+  assert.equal(r.data.name, 'Kristin Berg');
+  assert.equal(r.data.phone, '901 86 693');
+  assert.equal(r.data.email, null);
+  assert.equal(r.data.callback_time, 'dag');
+});
+
+test('callback: samtykke er implisitt — de ba jo om å bli ringt', () => {
+  assert.equal(validateLead({ ...validCallback, consent: false }).data.consent, true);
+});
+
+test('callback: krever navn', () => {
+  assert.equal(validateLead({ ...validCallback, name: '  ' }).ok, false);
+});
+
+test('callback: krever telefon med minst 8 siffer', () => {
+  assert.equal(validateLead({ ...validCallback, phone: '' }).ok, false);
+  assert.equal(validateLead({ ...validCallback, phone: '9018' }).ok, false);
+  assert.equal(validateLead({ ...validCallback, phone: '+47 901 86 693' }).ok, true);
+});
+
+test('callback: ugyldig tidspunkt faller tilbake til «når som helst»', () => {
+  assert.equal(validateLead({ ...validCallback, callback_time: 'natt' }).data.callback_time, 'nar');
+  assert.equal(validateLead({ ...validCallback, callback_time: undefined }).data.callback_time, 'nar');
+});
+
+test('callback: tar med e-post når den er fylt ut og gyldig', () => {
+  assert.equal(validateLead({ ...validCallback, email: 'kristin@example.com' }).data.email, 'kristin@example.com');
+  assert.equal(validateLead({ ...validCallback, email: 'ikke-epost' }).data.email, null);
+});
+
+test('callback: honeypot og ukjent site avvises som ellers', () => {
+  assert.equal(validateLead({ ...validCallback, hp: 'bot' }).spam, true);
+  assert.equal(validateLead({ ...validCallback, site: 'hacker' }).ok, false);
+});
+
+test('config_share påvirkes ikke av kind-utvidelsen', () => {
+  const r = validateLead(validLead);
+  assert.equal(r.data.kind, 'config_share');
+  assert.equal(r.data.name, null);
+  assert.equal(r.data.phone, null);
+});

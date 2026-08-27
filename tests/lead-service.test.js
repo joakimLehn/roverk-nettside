@@ -54,3 +54,44 @@ test('DB-feil ved samtykke velter ikke svaret; Slack kjører fortsatt', async ()
   assert.equal(calls.slack, 1);
   assert.match(r.notify.lead_saved, /feil:/);
 });
+
+// ---------- kind === 'callback' ----------
+// Ingen konfigurasjon å sende kunden, så kunde-e-posten faller bort. Da er
+// lagring og Slack de eneste sporene av nummeret — minst én av dem må lykkes.
+const callback = { site: 'skjul', kind: 'callback', name: 'Kristin Berg', phone: '90186693', email: null, callback_time: 'dag', config: {}, product: '3-dunk Standard', price_nok: null, share_url: null, consent: true, utm: {} };
+
+test('callback: sender ingen kunde-e-post, men lagrer og varsler', async () => {
+  const { calls, deps } = baseDeps();
+  const r = await handleLead(callback, deps);
+  assert.equal(r.ok, true);
+  assert.equal(calls.email, 0);
+  assert.equal(calls.insert, 1);
+  assert.equal(calls.slack, 1);
+  assert.equal(r.notify.email_lead, undefined);
+  assert.equal(r.notify.lead_saved, 'ok');
+  assert.equal(r.notify.slack, 'ok');
+});
+
+test('callback: DB nede — Slack redder nummeret, kallet lykkes', async () => {
+  const { calls, deps } = baseDeps({ insertLead: async () => { throw new Error('db nede'); } });
+  const r = await handleLead(callback, deps);
+  assert.equal(r.ok, true);
+  assert.equal(calls.slack, 1);
+  assert.match(r.notify.lead_saved, /feil:/);
+});
+
+test('callback: Slack nede — lagringen holder, kallet lykkes', async () => {
+  const { calls, deps } = baseDeps({ postLeadSlack: async () => { throw new Error('slack nede'); } });
+  const r = await handleLead(callback, deps);
+  assert.equal(r.ok, true);
+  assert.equal(calls.insert, 1);
+  assert.match(r.notify.slack, /feil:/);
+});
+
+test('callback: begge nede => feil, så kunden får beskjed om å ringe selv', async () => {
+  const { deps } = baseDeps({
+    insertLead: async () => { throw new Error('db nede'); },
+    postLeadSlack: async () => { throw new Error('slack nede'); }
+  });
+  await assert.rejects(() => handleLead(callback, deps));
+});
