@@ -65,6 +65,8 @@ button,input{font-family:inherit}button{cursor:pointer}img{max-width:100%}
   #mainnav a{padding:13px 0!important;font-size:15px!important}#mainnav a.hover-dim{margin-top:8px;text-align:center}
   .mobile-cta{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:60;gap:10px;padding:10px 14px;background:var(--bg);border-top:1px solid var(--line);box-shadow:0 -6px 20px rgba(30,27,24,.09)}
   body{padding-bottom:74px}
+  [data-r=ringmeg]{grid-template-columns:1fr!important;padding:26px!important;gap:26px!important}
+  [data-r=epost]{grid-template-columns:1fr!important;padding:24px!important;gap:20px!important}
 }
 </style>
 <script>
@@ -353,6 +355,62 @@ try{var qs=new URLSearchParams(location.search),u={};['utm_source','utm_medium',
   </div>
 </section>
 
+<!-- Ring meg opp. Ligger rett etter størrelseskortene med vilje: det er her tvilen om
+     størrelse er ferskest. Hele blokken (seksjon + skriptet merket «ring meg opp»)
+     kan fjernes i ett stykke uten å røre resten av siden. -->
+<section id="ringmeg" style="scroll-margin-top:76px;max-width:1160px;margin:0 auto;padding:58px 22px 8px">
+  <div data-reveal data-r="ringmeg" style="background:var(--card);border:1px solid var(--line);border-radius:22px;padding:34px;display:grid;grid-template-columns:minmax(0,1fr) 396px;gap:40px;align-items:start">
+
+    <div>
+      <div style="display:inline-flex;align-items:center;gap:8px;font-size:12.5px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--amber);margin-bottom:14px"><span style="width:7px;height:7px;border-radius:50%;background:var(--amber);flex:none"></span>Usikker på mål eller plassering?</div>
+      <h2 style="font-size:clamp(26px,3.4vw,34px);font-weight:900;letter-spacing:-.02em;margin-bottom:12px;text-wrap:balance">Vi ringer deg og hjelper deg å måle opp.</h2>
+      <p style="color:var(--muted);font-size:16px;margin:0 0 20px;max-width:44ch">De fleste er i tvil om størrelsen før de bestiller. Legg igjen navn og nummer, så tar vi en kort prat om dunkene dine, plassen du har og hva som passer. Ingen forpliktelser.</p>
+
+      <div style="display:flex;flex-direction:column;gap:11px">
+        <div style="display:flex;align-items:flex-start;gap:11px"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none;margin-top:3px"><path d="M20 6L9 17l-5-5"/></svg><span style="font-size:15px">Vi regner ut om 2, 3 eller 4 dunker passer — ut fra dunkene du faktisk har.</span></div>
+        <div style="display:flex;align-items:flex-start;gap:11px"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none;margin-top:3px"><path d="M20 6L9 17l-5-5"/></svg><span style="font-size:15px">Du får eksakt pris levert og ferdig montert, før du bestemmer deg.</span></div>
+        <div style="display:flex;align-items:flex-start;gap:11px"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none;margin-top:3px"><path d="M20 6L9 17l-5-5"/></svg><span style="font-size:15px">Vi sier fra hvis underlaget ditt trenger forankring — og hva det koster.</span></div>
+      </div>
+
+      <div style="border-top:1px solid var(--line);padding-top:16px;margin-top:22px;font-size:14.5px;color:var(--muted)">Har du dårlig tid? Ring oss direkte på <a href="tel:+4790186693" style="color:var(--text);font-weight:700;text-decoration:none;border-bottom:1.5px solid var(--amberSoft)">901 86 693</a>.</div>
+    </div>
+
+    <div id="rm-panel" style="background:var(--bg);border:1px solid var(--line);border-radius:18px;padding:24px">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.4-1.2a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg>
+        <h3 style="font-size:19px;font-weight:800;font-family:'Archivo'">Ring meg opp</h3>
+      </div>
+      <p style="font-size:13.5px;color:var(--muted);margin:0 0 16px">To felter. Så tar vi resten på telefon.</p>
+
+      <div style="display:flex;flex-direction:column;gap:11px;margin-bottom:16px">
+        <label for="rm-navn" style="position:absolute;left:-9999px">Navn</label>
+        <input id="rm-navn" type="text" placeholder="Navn" autocomplete="name" style="width:100%;box-sizing:border-box;border:1px solid var(--line);border-radius:10px;padding:13px 14px;font-size:16px;background:var(--card);color:var(--text)">
+        <label for="rm-tlf" style="position:absolute;left:-9999px">Telefon</label>
+        <input id="rm-tlf" type="tel" placeholder="Telefon" inputmode="tel" autocomplete="tel" style="width:100%;box-sizing:border-box;border:1px solid var(--line);border-radius:10px;padding:13px 14px;font-size:16px;background:var(--card);color:var(--text)">
+      </div>
+
+      <div style="font-weight:700;font-size:13.5px;margin-bottom:9px">Når passer det?</div>
+      <div id="rm-tider" style="display:flex;gap:8px;margin-bottom:18px">
+        <button type="button" data-tid="nar" style="flex:1;padding:10px 6px;border-radius:11px;font-family:'Archivo';font-weight:800;font-size:13.5px">Når som helst</button>
+        <button type="button" data-tid="dag" style="flex:1;padding:10px 6px;border-radius:11px;font-family:'Archivo';font-weight:800;font-size:13.5px">På dagtid</button>
+        <button type="button" data-tid="kveld" style="flex:1;padding:10px 6px;border-radius:11px;font-family:'Archivo';font-weight:800;font-size:13.5px">Etter 16</button>
+      </div>
+
+      <input id="rm-hp" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
+
+      <button id="rm-send" type="button" class="hover-dim" style="width:100%;background:var(--green);color:#fff;border:none;border-radius:12px;padding:15px;font-size:16px;font-weight:700">Ring meg opp <span class="arw">→</span></button>
+      <div id="rm-status" role="status" aria-live="polite" style="font-size:13px;font-weight:600;min-height:18px;margin-top:10px"></div>
+
+      <div style="display:flex;align-items:center;justify-content:center;gap:8px;background:var(--amberSoft);border:1px solid var(--amber);border-radius:12px;padding:11px 14px;margin-top:6px;font-size:13px;font-weight:600;color:var(--heroBg);text-align:center"><span style="font-size:15px;flex:none">🔒</span><span>Helt uforpliktende — ingen forskudd.</span></div>
+
+      <p style="font-size:12px;color:var(--muted);margin:12px 0 0;line-height:1.45">Vi bruker nummeret kun til å ringe deg om denne henvendelsen. Se <a href="/personvern" style="color:var(--muted);text-decoration:underline">personvern</a>.</p>
+    </div>
+
+  </div>
+
+  <div data-intro-only style="margin-top:20px;font-size:13.5px;color:var(--muted);text-align:center"><span>Introduksjonsprisen gjelder til <strong style="color:var(--text);font-weight:700" data-intro-dato>13. september</strong> — vi låser den for deg i samtalen.</span></div>
+</section>
+
 <section id="slik" style="scroll-margin-top:76px;background:var(--green);color:#fff">
   <div style="max-width:1160px;margin:0 auto;padding:60px 22px">
     <h2 data-reveal style="font-size:clamp(24px,3.4vw,36px);font-weight:800;letter-spacing:-.02em;margin-bottom:38px;color:#fff">Slik funker det</h2>
@@ -380,7 +438,7 @@ try{var qs=new URLSearchParams(location.search),u={};['utm_source','utm_medium',
       <div style="border-top:2px solid var(--amber);padding-top:16px"><h3 style="font-size:17px;font-weight:800;margin-bottom:7px;font-family:'Archivo';color:#fff">Uten risiko for deg</h3><p style="color:rgba(255,255,255,.75);font-size:14.5px;margin:0">Fast pris uten skjulte kostnader, og du betaler først når alt står ferdig.</p></div>
     </div>
     <div id="introbanner" data-reveal style="margin-top:34px;background:var(--amber);color:var(--heroBg);border-radius:18px;padding:22px 26px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap">
-      <div><div style="font-family:'Archivo';font-weight:900;font-size:22px;margin-bottom:5px;letter-spacing:-.01em">Introduksjonsprisen gjelder til 13. september</div><div style="font-size:14.5px;opacity:.9;max-width:540px">Bestiller du innen 13. september, låser du en pris som er rundt 20 % lavere enn ordinær pris — og du betaler fortsatt først når skuret står ferdig.</div></div>
+      <div><div style="font-family:'Archivo';font-weight:900;font-size:22px;margin-bottom:5px;letter-spacing:-.01em">Introduksjonsprisen gjelder til <span data-intro-dato>13. september</span></div><div style="font-size:14.5px;opacity:.9;max-width:540px">Bestiller du innen <span data-intro-dato>13. september</span>, låser du en pris som er rundt 20 % lavere enn ordinær pris — og du betaler fortsatt først når skuret står ferdig.</div></div>
       <a href="#storrelser" class="hover-dim" data-order style="background:var(--heroBg);color:#fff;padding:14px 24px;border-radius:999px;text-decoration:none;font-size:15px;font-weight:700;white-space:nowrap">Sikre din plass <span class="arw">→</span></a>
     </div>
   </div>
@@ -390,6 +448,33 @@ try{var qs=new URLSearchParams(location.search),u={};['utm_source','utm_medium',
   <div style="max-width:800px;margin:0 auto;padding:58px 22px">
     <h2 data-reveal style="font-size:clamp(24px,3.4vw,36px);font-weight:800;letter-spacing:-.02em;margin-bottom:28px">Ofte stilte spørsmål</h2>
     <div id="faq-list" data-reveal style="display:flex;flex-direction:column;gap:12px"></div>
+  </div>
+</section>
+
+<!-- Siste utvei: den som har lest ferdig FAQ og fortsatt ikke er klar. Ett felt.
+     Mørk bakgrunn så den ikke leses som «enda et skjema» etter ring-meg-opp lenger opp.
+     Kan fjernes i ett stykke sammen med skriptet merket «få oversikten på e-post». -->
+<section id="epostoversikt" style="scroll-margin-top:76px;background:var(--card);border-top:1px solid var(--line);padding:0 0 58px">
+  <div style="max-width:800px;margin:0 auto;padding:0 22px">
+    <div data-reveal data-r="epost" style="background:var(--heroBg);border-radius:20px;padding:30px 32px;display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:34px;align-items:center">
+      <div>
+        <h3 style="font-size:clamp(21px,2.6vw,25px);font-weight:900;letter-spacing:-.02em;color:#fff;margin-bottom:9px;font-family:'Archivo';text-wrap:balance">Ikke klar til å bestemme deg?</h3>
+        <p style="font-size:15px;color:rgba(255,255,255,.72);margin:0">Få alle mål, kledningsvalg og priser samlet på e-post — så kan du måle opp i fred og ta det opp igjen når det passer.</p>
+      </div>
+      <div>
+        <div style="display:flex;gap:8px;margin-bottom:12px">
+          <label for="eo-epost" style="position:absolute;left:-9999px">Din e-post</label>
+          <input id="eo-epost" type="email" placeholder="Din e-post" inputmode="email" autocomplete="email" style="flex:1;min-width:0;border:1px solid rgba(255,255,255,.22);border-radius:10px;padding:13px 14px;font-size:16px;background:rgba(255,255,255,.06);color:#fff">
+          <button id="eo-send" type="button" class="hover-dim" style="flex:none;background:var(--amber);color:var(--heroBg);border:none;border-radius:10px;padding:0 22px;font-size:15px;font-weight:700">Send</button>
+        </div>
+        <label style="display:flex;align-items:flex-start;gap:9px;cursor:pointer;font-size:13px;color:rgba(255,255,255,.72)">
+          <input id="eo-samtykke" type="checkbox" style="margin-top:3px;flex:none;width:16px;height:16px;accent-color:var(--amber)">
+          <span>Roverk kan kontakte meg om denne henvendelsen — helt uforpliktende.</span>
+        </label>
+        <input id="eo-hp" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
+        <div id="eo-status" role="status" aria-live="polite" style="font-size:13px;font-weight:600;min-height:18px;margin-top:10px;color:#fff"></div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -538,6 +623,8 @@ function renderFAQ(){
   list.querySelectorAll('.faq-item').forEach(function(it){it.querySelector('.faq-q').addEventListener('click',function(){var o=it.classList.contains('open');list.querySelectorAll('.faq-item').forEach(function(x){x.classList.remove('open');});if(!o)it.classList.add('open');});});
 }
 function applyIntro(){
+  /* INTRO_DATO er eneste kilde til datoen — fyll alle stedene som viser den. */
+  document.querySelectorAll('[data-intro-dato]').forEach(function(el){el.textContent=INTRO_DATO;});
   if(introAktiv()) return;
   /* Fristen er passert: fjern påstandene om introduksjonspris. Prisene står,
      men vi slutter å kalle dem et tilbud. */
@@ -702,7 +789,121 @@ function submitOrder(){
     .catch(function(err){if(window.console)console.error('ordre-feil',err);try{if(window.Roverk)Roverk.track('bestilling_feil_skjul',{produkt:product,verdi:price});}catch(e){}order.phase='error';renderModal();});
 }
 
-try{renderSizes();renderFAQ();applyIntro();initReveal();initHeader();initNav();document.addEventListener('keydown',function(e){if(e.key==='Escape'&&document.getElementById('mback'))closeOrder();});window.__init=true;}catch(err){document.querySelectorAll('[data-reveal]').forEach(function(e){e.classList.add('in');});if(window.console)console.error('init-feil',err);}
+/* ============================================================
+   «Ring meg opp» — navn + telefon, ikke en bestilling.
+   Fyrer med vilje ANDRE hendelser enn en fullført ordre: Contact hos Meta
+   og ring_meg_opp hos Google, aldri Lead/sign_up. Et telefonnummer er ikke
+   et solgt skur, og skal ikke fortynne signalet kampanjene byr på.
+   ============================================================ */
+var RM_TEKST={nar:'så snart vi kan',dag:'på dagtid',kveld:'etter kl. 16'};
+function initRingMeg(){
+  var panel=document.getElementById('rm-panel');if(!panel)return;
+  var tider=document.getElementById('rm-tider'),status=document.getElementById('rm-status'),send=document.getElementById('rm-send');
+  var valgt='nar';
+
+  function tegnTider(){Array.prototype.forEach.call(tider.children,function(b){var on=b.getAttribute('data-tid')===valgt;b.style.cursor='pointer';b.style.border=on?'2px solid '+C.green:'1.5px solid '+C.line;b.style.background=on?C.green:'transparent';b.style.color=on?'#fff':C.text;b.setAttribute('aria-pressed',on?'true':'false');});}
+  Array.prototype.forEach.call(tider.children,function(b){b.addEventListener('click',function(){valgt=b.getAttribute('data-tid');tegnTider();});});
+  tegnTider();
+
+  function si(tekst,farge){status.textContent=tekst;status.style.color=farge||C.muted;}
+
+  send.addEventListener('click',function(){
+    var fNavn=document.getElementById('rm-navn'),fTlf=document.getElementById('rm-tlf');
+    var navn=(fNavn.value||'').trim(),tlf=(fTlf.value||'').trim();
+    if(!navn){si('Fyll inn navn, så vet vi hvem vi ringer.',C.text);fNavn.focus();return;}
+    if(tlf.replace(/\D/g,'').length<8){si('Fyll inn et telefonnummer vi kan nå deg på.',C.text);fTlf.focus();return;}
+
+    var utm={};try{utm=JSON.parse(localStorage.getItem('ns_utm')||'{}');}catch(e){}
+    send.disabled=true;send.style.opacity='.6';si('Sender …');
+    try{if(window.Roverk)Roverk.track('ringmeg_klikk_skjul',{tidspunkt:valgt});}catch(e){}
+
+    fetch('/api/lead',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({
+      site:'skjul',kind:'callback',name:navn,phone:tlf,callback_time:valgt,
+      product:'Roverk Skjul',utm:utm,hp:(document.getElementById('rm-hp').value||'')
+    })})
+      .then(function(r){if(!r.ok)throw new Error('http '+r.status);return r.json();})
+      .then(function(){
+        try{if(window.RoverkMeta)RoverkMeta.contact({content_name:'ring meg opp – skjul',user:{name:navn,phone:tlf}});}catch(e){}
+        try{if(window.RoverkGoogle)RoverkGoogle.event('ring_meg_opp',{produkt:'Roverk Skjul'});}catch(e){}
+        try{if(window.Roverk)Roverk.track('ringmeg_sendt_skjul',{tidspunkt:valgt});}catch(e){}
+        rmKvittering(panel,navn,valgt);
+      })
+      .catch(function(err){
+        if(window.console)console.error('ring-meg-opp-feil',err);
+        try{if(window.Roverk)Roverk.track('ringmeg_feil_skjul',{tidspunkt:valgt});}catch(e){}
+        send.disabled=false;send.style.opacity='';
+        si('Det gikk ikke akkurat nå. Ring oss gjerne direkte på 901 86 693.','#A8422C');
+      });
+  });
+}
+function rmKvittering(panel,navn,tid){
+  var fornavn=esc((navn.split(/\s+/)[0]||navn));
+  panel.innerHTML=
+    '<div style="width:46px;height:46px;border-radius:14px;background:'+C.amberSoft+';display:flex;align-items:center;justify-content:center;margin-bottom:14px"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="'+C.green+'" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg></div>'+
+    '<h3 style="font-family:\'Archivo\';font-size:21px;font-weight:900;letter-spacing:-.015em;margin:0 0 8px">Takk, '+fornavn+' — vi ringer deg.</h3>'+
+    '<p style="font-size:15px;color:'+C.muted+';margin:0 0 18px">Vi tar kontakt <strong style="color:'+C.text+';font-weight:700">'+RM_TEKST[tid]+'</strong>, og ringer fra 901 86 693. Det tar to minutter.</p>'+
+    '<div style="border-top:1px solid '+C.line+';padding-top:16px">'+
+      '<div style="font-size:13.5px;color:'+C.muted+';margin-bottom:12px">Vil du se på størrelsene mens du venter?</div>'+
+      '<a href="#storrelser" class="hover-dim" style="display:block;text-align:center;color:'+C.text+';border:1.5px solid '+C.line+';border-radius:12px;padding:13px;text-decoration:none;font-size:15px;font-weight:600">Se størrelser og priser</a>'+
+    '</div>';
+  panel.setAttribute('tabindex','-1');try{panel.focus();}catch(e){}
+}
+
+/* ============================================================
+   «Få oversikten på e-post» — ett felt, etter FAQ.
+   Tallene sendes med fra siden (samme GRUNN/DIMS/MONT som kortene rendres
+   fra), så e-posten ikke kan drive fra det kunden nettopp så. Går på den
+   eksisterende myke lead-veien, ikke på ordre-hendelsene.
+   ============================================================ */
+function skjulOversikt(){
+  return {
+    intro_aktiv:introAktiv(),
+    intro_til:INTRO_DATO,
+    storrelser:[2,3,4].map(function(n){
+      var d=DIMS[n].Standard,x=DIMS[n].XL;
+      return {dunker:n,mal:d[0]+'×'+d[1]+'×'+d[2],mal_xl:x[0]+'×'+x[1]+'×'+x[2],
+              levert:GRUNN[n].Standard.ubeh,montert:GRUNN[n].Standard.ubeh+MONT[n]};
+    })
+  };
+}
+function initEpostOversikt(){
+  var send=document.getElementById('eo-send');if(!send)return;
+  var felt=document.getElementById('eo-epost'),status=document.getElementById('eo-status');
+
+  function si(tekst,farge){status.textContent=tekst;status.style.color=farge||'rgba(255,255,255,.8)';}
+
+  send.addEventListener('click',function(){
+    var epost=(felt.value||'').trim();
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(epost)){si('Skriv inn en gyldig e-postadresse.','#fff');felt.focus();return;}
+
+    var mctx=(window.RoverkMeta&&RoverkMeta.orderCtx)?RoverkMeta.orderCtx():{};
+    var utm={};try{utm=JSON.parse(localStorage.getItem('ns_utm')||'{}');}catch(e){}
+    var samtykke=!!(document.getElementById('eo-samtykke')||{}).checked;
+    send.disabled=true;send.style.opacity='.6';si('Sender …');
+
+    fetch('/api/lead',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({
+      site:'skjul',email:epost,product:'Roverk Skjul',config:skjulOversikt(),
+      share_url:location.origin+'/skjul#storrelser',consent:samtykke,utm:utm,
+      hp:(document.getElementById('eo-hp').value||''),
+      event_id:mctx.event_id,fbp:mctx.fbp,fbc:mctx.fbc,meta_consent:mctx.consent,event_source_url:mctx.event_source_url
+    })})
+      .then(function(r){if(!r.ok)throw new Error('http '+r.status);return r.json();})
+      .then(function(){
+        try{if(window.RoverkMeta)RoverkMeta.completeRegistration({content_name:'oversikt på e-post – skjul',eventId:mctx.event_id,user:{email:epost}});}catch(e){}
+        try{if(window.RoverkGoogle)RoverkGoogle.event('oversikt_epost',{produkt:'Roverk Skjul'});}catch(e){}
+        try{if(window.Roverk)Roverk.track('oversikt_epost_skjul',{samtykke:samtykke});}catch(e){}
+        felt.value='';si('Sendt. Sjekk innboksen — den ligger der om et øyeblikk.','#fff');
+        send.textContent='Sendt';
+      })
+      .catch(function(err){
+        if(window.console)console.error('oversikt-epost-feil',err);
+        send.disabled=false;send.style.opacity='';
+        si('Det gikk ikke akkurat nå. Ring oss gjerne på 901 86 693.','#fff');
+      });
+  });
+}
+
+try{renderSizes();renderFAQ();applyIntro();initRingMeg();initEpostOversikt();initReveal();initHeader();initNav();document.addEventListener('keydown',function(e){if(e.key==='Escape'&&document.getElementById('mback'))closeOrder();});window.__init=true;}catch(err){document.querySelectorAll('[data-reveal]').forEach(function(e){e.classList.add('in');});if(window.console)console.error('init-feil',err);}
 </script>
 </body>
 </html>
