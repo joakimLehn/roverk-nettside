@@ -1,6 +1,9 @@
 const SITES = new Set(['orden', 'orden-v2', 'skjul', 'ved']);
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const ISO_DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
+// Når kunden vil bli ringt. Holdes som korte koder så teksten kan endres på
+// nettsiden uten at lagrede leads blir uleselige.
+const CALLBACK_TIMES = new Set(['nar', 'dag', 'kveld']);
 
 function str(v) { return typeof v === 'string' ? v.trim() : ''; }
 function obj(v) { return v && typeof v === 'object' && !Array.isArray(v) ? v : {}; }
@@ -60,8 +63,12 @@ export function validateOrder(input) {
   };
 }
 
-// Myk lead: bruker vil ha konfigurasjonen sin på e-post (og evt. bli kontaktet).
-// Kun e-post er påkrevd — resten er valgfri kontekst.
+// Myke leads — to slag, samme tabell og samme endepunkt:
+//
+//   config_share  bruker vil ha konfigurasjonen sin på e-post. E-post påkrevd,
+//                 resten er valgfri kontekst, og `consent` styrer oppfølging.
+//   callback      bruker vil bli ringt opp. Navn + telefon påkrevd, e-post
+//                 valgfri. Ingen konfigurasjon å sende, så ingen kunde-e-post.
 export function validateLead(input) {
   const b = input && typeof input === 'object' ? input : {};
 
@@ -70,6 +77,8 @@ export function validateLead(input) {
 
   const site = str(b.site);
   if (!SITES.has(site)) return { ok: false, error: 'ugyldig site' };
+
+  if (str(b.kind) === 'callback') return validateCallback(b, site);
 
   const email = str(b.email);
   if (!email || !EMAIL_RE.test(email)) return { ok: false, error: 'gyldig e-post påkrevd' };
@@ -84,12 +93,46 @@ export function validateLead(input) {
     data: {
       site,
       kind: 'config_share',
+      name: null,
+      phone: null,
       email,
+      callback_time: null,
       config: obj(b.config),
       product: str(b.product) || null,
       price_nok,
       share_url: share_url || null,
       consent: b.consent === true,
+      utm: obj(b.utm)
+    }
+  };
+}
+
+function validateCallback(b, site) {
+  const name = str(b.name);
+  if (!name) return { ok: false, error: 'navn påkrevd' };
+
+  const phone = str(b.phone);
+  if (phone.replace(/\D/g, '').length < 8) return { ok: false, error: 'gyldig telefonnummer påkrevd' };
+
+  // E-post er hyggelig å ha, men aldri et krav — hele poenget er ett felt mindre.
+  const email = str(b.email);
+
+  return {
+    ok: true,
+    data: {
+      site,
+      kind: 'callback',
+      name,
+      phone,
+      email: email && EMAIL_RE.test(email) ? email : null,
+      callback_time: CALLBACK_TIMES.has(str(b.callback_time)) ? str(b.callback_time) : 'nar',
+      config: obj(b.config),
+      product: str(b.product) || null,
+      price_nok: null,
+      share_url: null,
+      // Forespørselen ER samtykket: de har selv bedt om å bli ringt. Feltet styrer
+      // om leadet lagres og varsles, og for en callback må begge deler skje.
+      consent: true,
       utm: obj(b.utm)
     }
   };

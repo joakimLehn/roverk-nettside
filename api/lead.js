@@ -26,6 +26,14 @@ export default async function handler(req, res) {
   try {
     await handleLead(v.data, { sendLeadEmail, insertLead, postLeadSlack });
 
+    // «Ring meg opp» speiles ikke server-side. Pixelen sender Contact, og det er
+    // med vilje et svakt signal: en telefonforespørsel skal ikke kunne forveksles
+    // med en bestilling i tallene kampanjene optimaliserer mot.
+    if (v.data.kind === 'callback') {
+      res.status(200).json({ ok: true });
+      return;
+    }
+
     // Conversions API. NB: `consent` i payloaden er samtykke til markedsførings-
     // oppfølging, ikke til sporing – tracking-samtykket kommer separat som
     // `meta_consent` fra RoverkMeta.orderCtx(). Ikke bland dem.
@@ -45,8 +53,11 @@ export default async function handler(req, res) {
 
     res.status(200).json({ ok: true });
   } catch (e) {
-    console.error('lead-feil (e-post):', e);
-    res.status(500).json({ ok: false, error: 'kunne ikke sende e-post' });
+    console.error('lead-feil (' + v.data.kind + '):', e);
+    res.status(500).json({
+      ok: false,
+      error: v.data.kind === 'callback' ? 'kunne ikke registrere forespørselen' : 'kunne ikke sende e-post'
+    });
   }
 }
 

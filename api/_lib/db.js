@@ -24,8 +24,9 @@ export async function updateNotify(id, notify) {
 
 export async function insertLead(l) {
   const rows = await sql`
-    insert into leads (site, kind, email, config, product, price_nok, share_url, consent, utm)
-    values (${l.site}, ${l.kind}, ${l.email}, ${JSON.stringify(l.config)}, ${l.product},
+    insert into leads (site, kind, name, phone, email, callback_time, config, product, price_nok, share_url, consent, utm)
+    values (${l.site}, ${l.kind}, ${l.name ?? null}, ${l.phone ?? null}, ${l.email},
+            ${l.callback_time ?? null}, ${JSON.stringify(l.config)}, ${l.product},
             ${l.price_nok}, ${l.share_url}, ${l.consent}, ${JSON.stringify(l.utm)})
     returning id`;
   return rows[0].id;
