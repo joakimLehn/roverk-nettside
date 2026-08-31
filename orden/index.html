@@ -150,6 +150,10 @@ window.addEventListener('DOMContentLoaded',function(){
 });
 </script>
   <!-- Vercel Web Analytics (cookieless, ingen PII) -->
+  <!-- Siste-klikk-kilde. Skrives ved landing, leses ved bestilling. gclid er med
+       fordi Google Ads auto-tagger med den og ikke med utm_*; uten den ville et
+       Google-klikk latt en eldre Meta-verdi bli stående og få æren. -->
+  <script>try{var qs=new URLSearchParams(location.search),u={};['utm_source','utm_medium','utm_campaign','utm_content','utm_term','fbclid','gclid'].forEach(function(k){if(qs.get(k))u[k]=qs.get(k)});if(Object.keys(u).length){if(!u.fbclid){try{var _f=(JSON.parse(localStorage.getItem('ns_utm')||'{}')||{}).fbclid;if(_f)u.fbclid=_f;}catch(e){}}u.ts=new Date().toISOString();localStorage.setItem('ns_utm',JSON.stringify(u));}}catch(e){}</script>
   <script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments);};</script>
   <script defer src="/_vercel/insights/script.js"></script>
   <!-- Meta Pixel + samtykke (laster ingenting fra Meta før «Godta») -->
