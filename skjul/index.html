@@ -68,6 +68,7 @@ button,input{font-family:inherit}button{cursor:pointer}img{max-width:100%}
   [data-r=ringmeg]{grid-template-columns:1fr!important;padding:26px!important;gap:26px!important}
   [data-r=epost]{grid-template-columns:1fr!important;padding:24px!important;gap:20px!important}
   [data-r=sitater]{grid-template-columns:1fr!important}
+  [data-r=kledninger]{grid-template-columns:1fr!important}
 }
 </style>
 <script>
@@ -98,7 +99,8 @@ try{var qs=new URLSearchParams(location.search),u={};['utm_source','utm_medium',
           "https://www.roverk.no/skjul/assets/referanse-1.jpg",
           "https://www.roverk.no/skjul/assets/referanse-2.jpg",
           "https://www.roverk.no/skjul/assets/referanse-3.jpg",
-          "https://www.roverk.no/skjul/assets/referanse-5.jpg"
+          "https://www.roverk.no/skjul/assets/referanse-5.jpg",
+          "https://www.roverk.no/skjul/assets/referanse-6.jpg"
         ],
         "description": "Søppelkasseskjul i ekte tre med åpen, luftet front. Plass til 2–4 dunker. Levert og ferdig montert i Trondheimsområdet. Ikke søknadspliktig.",
         "category": "Oppbevaringsløsninger",
@@ -315,17 +317,23 @@ try{var qs=new URLSearchParams(location.search),u={};['utm_source','utm_medium',
 <section id="galleri" style="scroll-margin-top:76px;max-width:1160px;margin:0 auto;padding:60px 22px 6px">
   <div data-reveal style="text-align:center;max-width:660px;margin:0 auto 30px">
     <div style="display:inline-flex;align-items:center;gap:8px;font-size:12.5px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--amber);margin-bottom:12px"><span style="width:7px;height:7px;border-radius:50%;background:var(--amber)"></span>Levert og montert</div>
-    <h2 style="font-size:clamp(26px,3.8vw,40px);font-weight:900;letter-spacing:-.02em;margin-bottom:10px">De tre første skurene står ute nå</h2>
-    <p style="color:var(--muted);font-size:17px;margin:0">Ekte bilder fra våre egne leveranser — ikke illustrasjoner. Alle tre er bygget i royalimpregnert furu med åpen front og luftet spilekledning. Tonen i treverket varierer med lyset i bildet, ikke med materialet.</p>
+    <h2 style="font-size:clamp(26px,3.8vw,40px);font-weight:900;letter-spacing:-.02em;margin-bottom:10px">Vi har levert våre første skur</h2>
+    <p style="color:var(--muted);font-size:17px;margin:0">Ekte bilder fra våre egne leveranser — ikke illustrasjoner. Her ser du begge kledningene: royalimpregnert furu i mørk, varm tone, og impregnert treverk i lys og naturlig. Det er valget du tar i bestillingen — alt annet er likt.</p>
   </div>
 
-  <figure data-reveal style="margin:0 0 16px">
-    <picture style="display:block;width:100%"><source srcset="/skjul/assets/referanse-1.avif" type="image/avif"><source srcset="/skjul/assets/referanse-1.webp" type="image/webp"><img src="/skjul/assets/referanse-1.jpg" loading="lazy" alt="Roverk Skjul med fire søppeldunker, ferdig montert på steinbelegg foran et brunt trehus" style="width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:16px;display:block"></picture>
-    <figcaption style="color:var(--muted);font-size:13.5px;line-height:1.45;margin:10px 2px 0;text-align:center;max-width:720px;margin-left:auto;margin-right:auto">
-      <strong style="color:var(--text);font-family:'Archivo';font-weight:800">Skur nr. 2 — fire dunker, ferdig montert hjemme hos kunde.</strong>
-      Alle fire dunkene står inne med god plass til å åpne lokket, og fronten er helt åpen så de rulles rett inn og ut.
-    </figcaption>
-  </figure>
+  <!-- Toppen er et par: de to kledningene ved siden av hverandre. Skur nr. 4 er den
+       første leveransen i impregnert treverk, så dette er eneste stedet en kunde
+       faktisk ser forskjellen før de velger. -->
+  <div data-reveal data-r="kledninger" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin:0 0 16px">
+    <figure style="margin:0">
+      <picture style="display:block;width:100%"><source srcset="/skjul/assets/referanse-1.avif" type="image/avif"><source srcset="/skjul/assets/referanse-1.webp" type="image/webp"><img src="/skjul/assets/referanse-1.jpg" loading="lazy" alt="Roverk Skjul i royalimpregnert furu med fire søppeldunker, ferdig montert på steinbelegg" style="width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:16px;display:block"></picture>
+      <figcaption style="color:var(--muted);font-size:13.5px;line-height:1.45;margin:10px 2px 0"><strong style="color:var(--text);font-family:'Archivo';font-weight:800">Royalimpregnert — skur nr. 2.</strong> Mørk, varm tone som holder seg uten beising. Fire dunker inne med god plass til å åpne lokket.</figcaption>
+    </figure>
+    <figure style="margin:0">
+      <picture style="display:block;width:100%"><source srcset="/skjul/assets/referanse-6.avif" type="image/avif"><source srcset="/skjul/assets/referanse-6.webp" type="image/webp"><img src="/skjul/assets/referanse-6.jpg" loading="lazy" alt="Roverk Skjul i lyst impregnert treverk, ferdig montert ved en garasje" style="width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:16px;display:block"></picture>
+      <figcaption style="color:var(--muted);font-size:13.5px;line-height:1.45;margin:10px 2px 0"><strong style="color:var(--text);font-family:'Archivo';font-weight:800">Impregnert treverk — skur nr. 4.</strong> Lys, naturlig tone rett fra leveranse. Kan males eller beises når treverket har tørket ut.</figcaption>
+    </figure>
+  </div>
 
   <div data-reveal-group style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px">
     <figure style="margin:0">
