@@ -27,3 +27,6 @@ yarn-error.log*
 *.tmp
 .env
 .env*
+
+# Fonter som annonser/lag-4x5.py laster ned ved behov
+annonser/.fonter/
