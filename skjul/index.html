@@ -56,6 +56,17 @@ button,input{font-family:inherit}button{cursor:pointer}img{max-width:100%}
 .mobile-cta{display:none}
 .faq-a{max-height:0;overflow:hidden;transition:max-height .32s ease}.faq-item.open .faq-a{max-height:460px}
 .faq-icon{font-family:'Archivo';font-weight:400;font-size:26px;color:var(--amber);line-height:1;transition:transform .25s ease}.faq-item.open .faq-icon{transform:rotate(45deg)}
+.sk-dim{position:absolute;color:var(--amber);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+.sk-dim-x{top:8px;left:30px;right:0;height:14px;border-left:1.5px solid var(--amber);border-right:1.5px solid var(--amber)}
+.sk-dim-x::before{content:"";position:absolute;left:0;right:0;top:50%;border-top:1.5px dashed var(--amber)}
+.sk-dim-x span{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);background:var(--heroBg);padding:0 10px;white-space:nowrap}
+.sk-dim-y{left:8px;top:30px;bottom:0;width:14px;border-top:1.5px solid var(--amber);border-bottom:1.5px solid var(--amber)}
+.sk-dim-y::before{content:"";position:absolute;top:0;bottom:0;left:50%;border-left:1.5px dashed var(--amber)}
+.sk-dim-y span{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) rotate(-90deg);background:var(--heroBg);padding:0 10px;white-space:nowrap}
+.anim .sk-feat .sk-dim-x{transform:scaleX(.2);opacity:0;transition:transform 1.1s cubic-bezier(.2,.7,.2,1) .25s,opacity .6s ease .25s;transform-origin:left}
+.anim .sk-feat .sk-dim-y{transform:scaleY(.2);opacity:0;transition:transform 1.1s cubic-bezier(.2,.7,.2,1) .45s,opacity .6s ease .45s;transform-origin:bottom}
+.anim .sk-feat.in .sk-dim-x,.anim .sk-feat.in .sk-dim-y{transform:none;opacity:1}
+@media(prefers-reduced-motion:reduce){.anim .sk-feat .sk-dim-x,.anim .sk-feat .sk-dim-y{transform:none;opacity:1;transition:none}}
 @media(max-width:860px){
   [data-r=hero]{grid-template-columns:1fr!important}
   [data-r=hero-art]{order:-1;max-width:470px;margin:0 auto 6px}
@@ -69,6 +80,7 @@ button,input{font-family:inherit}button{cursor:pointer}img{max-width:100%}
   [data-r=epost]{grid-template-columns:1fr!important;padding:24px!important;gap:20px!important}
   [data-r=sitater]{grid-template-columns:1fr!important}
   [data-r=kledninger]{grid-template-columns:1fr!important}
+  [data-r=skredder]{grid-template-columns:1fr!important;gap:34px!important}
 }
 </style>
 <script>
@@ -251,6 +263,7 @@ try{var qs=new URLSearchParams(location.search),u={};['utm_source','utm_medium',
     <nav class="mainnav" id="mainnav" style="display:flex;gap:22px;align-items:center">
       <a href="#galleri" class="lnk">Se skuret</a>
       <a href="#storrelser" class="lnk">Størrelser</a>
+      <a href="#skreddersom" class="lnk">Skreddersøm</a>
       <a href="#slik" class="lnk">Slik funker det</a>
       <a href="#faq" class="lnk">Spørsmål</a>
       <a href="/skjul/blogg" class="lnk">Tips</a>
@@ -404,6 +417,59 @@ try{var qs=new URLSearchParams(location.search),u={};['utm_source','utm_medium',
     </div>
     <div id="size-grid" data-reveal-group style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;align-items:stretch"></div>
     <p data-reveal style="text-align:center;color:var(--muted);font-size:13.5px;margin:22px 0 0">Standard passer 140 L og 240 L dunker · XL tar opptil 370 L · velg kledning i bestillingen</p>
+  </div>
+</section>
+
+<!-- Skreddersøm. Egen seksjon for spesialbygde skur (her: fire dunker + låsbar bod).
+     Ligger mellom størrelseskortene og «ring meg opp» med vilje: den fanger dem som ikke
+     fant sin størrelse, og ringmeg-skjemaet rett under er neste steg. Bildene er ekte,
+     fra 02-Marked/Roverk Skjul/skreddersom Bjorn (IMG_8978/8970/8982/8971). -->
+<section id="skreddersom" style="scroll-margin-top:76px;background:var(--heroBg);color:#fff;position:relative;overflow:hidden">
+  <div aria-hidden="true" style="position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:44px 44px;mask-image:radial-gradient(ellipse at 70% 30%,#000 10%,transparent 75%);-webkit-mask-image:radial-gradient(ellipse at 70% 30%,#000 10%,transparent 75%)"></div>
+  <div style="position:relative;max-width:1160px;margin:0 auto;padding:68px 22px 64px">
+    <div data-r="skredder" style="display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:52px;align-items:center">
+
+      <figure data-reveal class="sk-feat" style="margin:0;position:relative;padding:30px 0 0 30px">
+        <!-- Målelinjer: poenget med seksjonen er «bygd på dine mål». -->
+        <div aria-hidden="true" class="sk-dim sk-dim-x"><span>din bredde</span></div>
+        <div aria-hidden="true" class="sk-dim sk-dim-y"><span>din høyde</span></div>
+        <picture style="display:block;width:100%"><source srcset="/skjul/assets/skreddersom-1.avif" type="image/avif"><source srcset="/skjul/assets/skreddersom-1.webp" type="image/webp"><img src="/skjul/assets/skreddersom-1.jpg" loading="lazy" alt="Spesialbygd Roverk Skjul med plass til fire søppeldunker og en egen bod bak låsbar spiledør" style="width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:16px;display:block;box-shadow:0 26px 60px rgba(0,0,0,.45)"></picture>
+        <figcaption style="position:absolute;left:46px;bottom:16px;background:rgba(14,13,11,.78);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.14);border-radius:999px;padding:7px 14px;font-size:12.5px;font-weight:600;color:#fff">Fire dunker + låsbar bod · bygd på mål</figcaption>
+      </figure>
+
+      <div data-reveal>
+        <div style="display:inline-flex;align-items:center;gap:8px;font-size:12.5px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--amber);margin-bottom:14px"><span style="width:7px;height:7px;border-radius:50%;background:var(--amber);flex:none"></span>Skreddersøm</div>
+        <h2 style="font-size:clamp(28px,3.8vw,42px);font-weight:900;letter-spacing:-.02em;margin-bottom:14px;color:#fff;text-wrap:balance">Passer ingen av størrelsene? Vi bygger det på mål.</h2>
+        <p style="color:rgba(255,255,255,.72);font-size:17px;margin:0 0 26px;max-width:46ch">Standardskurene dekker de fleste. Men noen trenger plass til hageredskap, en annen bredde eller en dør som kan låses. Da tegner vi skuret etter plassen og behovet ditt — i samme tre og med samme håndverk.</p>
+
+        <div style="display:flex;flex-direction:column;gap:0;border-top:1px solid rgba(255,255,255,.14);margin-bottom:28px">
+          <div style="display:flex;gap:16px;align-items:baseline;padding:14px 0;border-bottom:1px solid rgba(255,255,255,.14)"><span style="font-family:'Archivo';font-weight:900;color:var(--amber);font-size:14px;flex:none;width:22px">01</span><div><strong style="font-family:'Archivo';font-weight:800;font-size:16px">Bod eller ekstra rom</strong><span style="color:rgba(255,255,255,.62);font-size:14.5px"> — til hageredskap, sykkelutstyr eller ved.</span></div></div>
+          <div style="display:flex;gap:16px;align-items:baseline;padding:14px 0;border-bottom:1px solid rgba(255,255,255,.14)"><span style="font-family:'Archivo';font-weight:900;color:var(--amber);font-size:14px;flex:none;width:22px">02</span><div><strong style="font-family:'Archivo';font-weight:800;font-size:16px">Dine mål</strong><span style="color:rgba(255,255,255,.62);font-size:14.5px"> — bredde, dybde og høyde tilpasset plassen du har.</span></div></div>
+          <div style="display:flex;gap:16px;align-items:baseline;padding:14px 0;border-bottom:1px solid rgba(255,255,255,.14)"><span style="font-family:'Archivo';font-weight:900;color:var(--amber);font-size:14px;flex:none;width:22px">03</span><div><strong style="font-family:'Archivo';font-weight:800;font-size:16px">Dør med lås</strong><span style="color:rgba(255,255,255,.62);font-size:14.5px"> — spiledør i samme kledning, så alt ser ut som ett skur.</span></div></div>
+        </div>
+
+        <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center">
+          <a href="#ringmeg" class="hover-dim" style="background:var(--amber);color:var(--heroBg);padding:15px 26px;border-radius:999px;text-decoration:none;font-size:16px;font-weight:700">Fortell oss hva du trenger <span class="arw">→</span></a>
+          <a href="tel:+4790186693" class="hover-dim" style="color:#fff;border:1.5px solid rgba(255,255,255,.35);padding:15px 22px;border-radius:999px;text-decoration:none;font-size:16px;font-weight:600">Ring 901 86 693</a>
+        </div>
+        <p style="color:rgba(255,255,255,.5);font-size:13px;margin:14px 0 0">Du får pris før vi begynner å bygge — og betaler først når det står ferdig.</p>
+      </div>
+    </div>
+
+    <div data-reveal-group style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-top:52px">
+      <figure style="margin:0">
+        <picture style="display:block;width:100%"><source srcset="/skjul/assets/skreddersom-2.avif" type="image/avif"><source srcset="/skjul/assets/skreddersom-2.webp" type="image/webp"><img src="/skjul/assets/skreddersom-2.jpg" loading="lazy" alt="Nærbilde av låsbar spiledør til boden i et spesialbygd Roverk Skjul" style="width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:14px;display:block"></picture>
+        <figcaption style="color:rgba(255,255,255,.6);font-size:13.5px;line-height:1.45;margin:10px 2px 0"><strong style="color:#fff;font-family:'Archivo';font-weight:800">Låsbar bod.</strong> Spiledøra glir inn i fasaden, så boden ikke skiller seg ut fra resten av skuret.</figcaption>
+      </figure>
+      <figure style="margin:0">
+        <picture style="display:block;width:100%"><source srcset="/skjul/assets/skreddersom-3.avif" type="image/avif"><source srcset="/skjul/assets/skreddersom-3.webp" type="image/webp"><img src="/skjul/assets/skreddersom-3.jpg" loading="lazy" alt="Spesialbygd Roverk Skjul med boddøra åpen og fire dunker inne" style="width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:14px;display:block"></picture>
+        <figcaption style="color:rgba(255,255,255,.6);font-size:13.5px;line-height:1.45;margin:10px 2px 0"><strong style="color:#fff;font-family:'Archivo';font-weight:800">Døra åpen.</strong> Dunkene har åpen front som før — boden ved siden av har sitt eget rom.</figcaption>
+      </figure>
+      <figure style="margin:0">
+        <picture style="display:block;width:100%"><source srcset="/skjul/assets/skreddersom-4.avif" type="image/avif"><source srcset="/skjul/assets/skreddersom-4.webp" type="image/webp"><img src="/skjul/assets/skreddersom-4.jpg" loading="lazy" alt="Gulv og terskel i et spesialbygd Roverk Skjul, sett skrått forfra" style="width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:14px;display:block"></picture>
+        <figcaption style="color:rgba(255,255,255,.6);font-size:13.5px;line-height:1.45;margin:10px 2px 0"><strong style="color:#fff;font-family:'Archivo';font-weight:800">Samme håndverk.</strong> Tregulv, terskel og bæring bygges likt standardskurene.</figcaption>
+      </figure>
+    </div>
   </div>
 </section>
 
